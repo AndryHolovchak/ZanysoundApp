@@ -1,0 +1,122 @@
+{
+  "playlists": {
+    "uk": "Плейлисти",
+    "ru": "Плейлисты",
+    "en": "Playlists"
+  },
+  "search": {
+    "uk": "Пошук",
+    "ru": "Поиск",
+    "en": "Search"
+  },
+  "favorites": {
+    "uk": "Вподобані",
+    "ru": "Любимые",
+    "en": "Favorites"
+  },
+  "recommended": {
+    "uk": "Рекомендації",
+    "ru": "Рекомендации",
+    "en": "Recommended"
+  },
+  "profile": {
+    "uk": "Профіль",
+    "ru": "Профиль",
+    "en": "Profile"
+  },
+  "create playlist": {
+    "uk": "Створити плейлист",
+    "ru": "Создать плейлист",
+    "en": "Create playlist"
+  },
+  "new playlist": {
+    "uk": "Новий плейлист",
+    "ru": "Новый плейлист",
+    "en": "New playlist"
+  },
+  "title": {
+    "uk": "Назва",
+    "ru": "Название",
+    "en": "Title"
+  },
+  "create": {
+    "uk": "Створити",
+    "ru": "Создать",
+    "en": "Create"
+  },
+  "no results": {
+    "uk": "Немає результатів",
+    "ru": "Нет результатов",
+    "en": "No results"
+  },
+  "add to playlist": {
+    "uk": "Додати до плейлисту",
+    "ru": "Добавить в плейлист",
+    "en": "Add to playlist"
+  },
+  "remove from playlist": {
+    "uk": "Видалити з плейлисту",
+    "ru": "Удалить из плейлиста",
+    "en": "Remove from playlist"
+  },
+  "the song is already in this playlist": {
+    "uk": "Пісня вже знаходиться в цьому плейлисті",
+    "ru": "Песня уже находится в этом плейлисте",
+    "en": "The song is already in this playlist"
+  },
+  "added": {
+    "uk": "Додано",
+    "ru": "Добавлено",
+    "en": "Added"
+  },
+  "removed": {
+    "uk": "Видалено",
+    "ru": "Удалено",
+    "en": "Removed"
+  },
+  "exit": {
+    "uk": "Вихід",
+    "ru": "Выход",
+    "en": "Exit"
+  },
+  "yes": {
+    "uk": "Так",
+    "ru": "Да",
+    "en": "Yes"
+  },
+  "no": {
+    "uk": "Ні",
+    "ru": "Нет",
+    "en": "No"
+  },
+  "remove": {
+    "uk": "Видалити",
+    "ru": "Удалить",
+    "en": "Remove"
+  },
+  "are you sure": {
+    "uk": "Ви впевнені",
+    "ru": "Вы уверены",
+    "en": "are you sure"
+  },
+  "the list is empty": {
+    "uk": "Список порожній",
+    "ru": "Список пуст",
+    "en": "the list is empty"
+  },
+  "log in using deezer": {
+    "uk": "Увійти за допомогою Deezer",
+    "ru": "Войти с помощью deezer",
+    "en": "Log in using Deezer"
+  },
+  "it's for free": {
+    "uk": "Це безкоштовно",
+    "ru": "Это бесплатно",
+    "en": "It's for free"
+  },
+  "not enough free space": {
+    "uk": "Недостатньо вільного місця",
+    "ru": "Недостаточно свободного места",
+    "en": "Not enough free space"
+  }
+}
