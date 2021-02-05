@@ -1,13 +1,12 @@
-import React from "react";
+import React from 'react';
 //import audioPlayer from "../../misc/Player";
-import { getPixelsToEndScrollingY } from "../../utils/scrollUtils";
-import Song from "../Song";
-import PropTypes from "prop-types";
-import dataContainer from "../../misc/DataContainer";
-import PlayerPlaylistContainerBG from "./PlayerPlaylistContainerBG";
+import {getPixelsToEndScrollingY} from '../../utils/scrollUtils';
+import Song from '../Song';
+import PropTypes from 'prop-types';
+import dataContainer from '../../misc/DataContainer';
+import PlayerPlaylistContainerBG from './PlayerPlaylistContainerBG';
 
 const SONG_HEIGHT = 65; //
-const MAX_NUMBER_OF_RENDERED_SONGS = 60; //
 
 class PlayerPlaylistContainer extends React.Component {
   static propTypes = {
@@ -22,8 +21,8 @@ class PlayerPlaylistContainer extends React.Component {
 
   static defaultProps = {
     songs: [],
-    className: "",
-    placeholder: "",
+    className: '',
+    placeholder: '',
     onAllSongsLoaded: () => {},
   };
   static renderedSongsMinCount = 20;
@@ -132,7 +131,7 @@ class PlayerPlaylistContainer extends React.Component {
   getInvisibleSongsBelove() {
     let node = this.nodeRef.current;
     let invisibleSongs = Math.floor(
-      (node.scrollHeight - node.scrollTop - node.clientHeight) / SONG_HEIGHT
+      (node.scrollHeight - node.scrollTop - node.clientHeight) / SONG_HEIGHT,
     );
     return Math.max(0, invisibleSongs);
   }
@@ -140,69 +139,66 @@ class PlayerPlaylistContainer extends React.Component {
   render() {
     return <PlayerPlaylistContainerBG />;
 
-    let songsToRender = [];
-    let numberOfSongsToRender;
+    // let songsToRender = [];
+    // let numberOfSongsToRender;
 
-    if (this.props.id === audioPlayer.getPlaylistId()) {
-      audioPlayer.syncCurrentPlaylist(this.props.songs);
-    }
+    // if (this.props.id === audioPlayer.getPlaylistId()) {
+    //   audioPlayer.syncCurrentPlaylist(this.props.songs);
+    // }
 
-    let lastIndexOfRenderedSong = this.getLastIndexOfRenderedSongIn(
-      this.props.songs
-    );
+    // let lastIndexOfRenderedSong = this.getLastIndexOfRenderedSongIn(
+    //   this.props.songs,
+    // );
 
-    numberOfSongsToRender = Math.max(
-      this.renderedSongsCount,
-      lastIndexOfRenderedSong + 1
-    );
+    // numberOfSongsToRender = Math.max(
+    //   this.renderedSongsCount,
+    //   lastIndexOfRenderedSong + 1,
+    // );
 
-    numberOfSongsToRender = Math.min(
-      this.props.songs.length,
-      numberOfSongsToRender
-    );
+    // numberOfSongsToRender = Math.min(
+    //   this.props.songs.length,
+    //   numberOfSongsToRender,
+    // );
 
-    // this check is required so that the onAllSongsLoaded is not called
-    // on each render if all the songs are loaded but only the first time
-    if (
-      numberOfSongsToRender > lastIndexOfRenderedSong + 1 &&
-      numberOfSongsToRender === this.props.songs.length
-    ) {
-      this.props.onAllSongsLoaded();
-    }
+    // // this check is required so that the onAllSongsLoaded is not called
+    // // on each render if all the songs are loaded but only the first time
+    // if (
+    //   numberOfSongsToRender > lastIndexOfRenderedSong + 1 &&
+    //   numberOfSongsToRender === this.props.songs.length
+    // ) {
+    //   this.props.onAllSongsLoaded();
+    // }
 
-    songsToRender = this.props.songs.slice(0, numberOfSongsToRender);
-    this.renderedSongs = songsToRender;
-    this.renderedSongsCount = numberOfSongsToRender;
+    // songsToRender = this.props.songs.slice(0, numberOfSongsToRender);
+    // this.renderedSongs = songsToRender;
+    // this.renderedSongsCount = numberOfSongsToRender;
 
-    return (
-      <div
-        className={"player-playlist-container " + this.props.className}
-        ref={this.nodeRef}
-      >
-        <PlayerPlaylistContainerBG id={this.props.id} />
-        <div
-          ref={this.songsNodeRef}
-          onScroll={this.updateSongsCount}
-          className="player-playlist-container__songs"
-        >
-          <div className="player-playlist-container__songs-inner">
-            {songsToRender.map((song) => (
-              <Song
-                parentPlaylistUuid={this.props.parentPlaylistUuid}
-                key={song.id}
-                info={song}
-                playerPlaylistCreator={() =>
-                  audioPlayer.createNewPlaylist(this.props.songs, this.props.id)
-                }
-              ></Song>
-            ))}
-          </div>
-          {numberOfSongsToRender == this.props.songs.length
-            ? this.props.children
-            : null}
-        </div>
-      </div>
-    );
+    // return (
+    //   <div
+    //     className={'player-playlist-container ' + this.props.className}
+    //     ref={this.nodeRef}>
+    //     <PlayerPlaylistContainerBG id={this.props.id} />
+    //     <div
+    //       ref={this.songsNodeRef}
+    //       onScroll={this.updateSongsCount}
+    //       className="player-playlist-container__songs">
+    //       <div className="player-playlist-container__songs-inner">
+    //         {songsToRender.map((song) => (
+    //           <Song
+    //             parentPlaylistUuid={this.props.parentPlaylistUuid}
+    //             key={song.id}
+    //             info={song}
+    //             playerPlaylistCreator={() =>
+    //               audioPlayer.createNewPlaylist(this.props.songs, this.props.id)
+    //             }></Song>
+    //         ))}
+    //       </div>
+    //       {numberOfSongsToRender == this.props.songs.length
+    //         ? this.props.children
+    //         : null}
+    //     </div>
+    //   </div>
+    // );
   }
 }
 

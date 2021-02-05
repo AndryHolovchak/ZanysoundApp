@@ -1,12 +1,13 @@
-import React from "react";
-import { favoritesScreenSnapshotId } from "../../misc/snapshotIds";
-import favoriteSongsHelper from "../../helpers/FavoriteSongsHelper";
-import { generateId } from "../../utils/idUtils";
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
+import {favoritesScreenSnapshotId} from '../../misc/snapshotIds';
+import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
+import {generateId} from '../../utils/idUtils';
 //const PlayerPlaylistContainer = require("../PlayerPlaylistContainer/PlayerPlaylistContainer.jsx");
 //const WindowPlaceholder = require("../WindowPlaceholder/WindowPlaceholder.jsx");
-import DataContainer from "../../misc/DataContainer";
-import PlayerPlaylistContainer from "../PlayerPlaylistContainer";
-import { View } from "react-native";
+import DataContainer from '../../misc/DataContainer';
+import PlayerPlaylistContainer from '../PlayerPlaylistContainer';
+import {View} from 'react-native';
 //const LoadingScreen = require("../LoadingScreen");
 //import { i18n } from "../../i18n";
 
@@ -43,7 +44,7 @@ class FavoritesScreen extends React.Component {
 
   componentWillUnmount() {
     favoriteSongsHelper.stopListeningFavoriteStatus(
-      this.favoriteStatusListener
+      this.favoriteStatusListener,
     );
     this.saveSnapshot();
   }
@@ -51,7 +52,7 @@ class FavoritesScreen extends React.Component {
   render() {
     let songs = favoriteSongsHelper.getFavorite();
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <PlayerPlaylistContainer />
       </View>
       // <div className="loved-window">

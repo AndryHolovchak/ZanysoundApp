@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import favoriteSongsHelper from "../../helpers/FavoriteSongsHelper";
+import React, {useState, useEffect, useRef, useContext} from 'react';
+import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 //import player from "../../misc/Player";
 ///import playerPlaybackListener from "../../misc/PlayerPlaybackListener";
-import useForceUpdate from "../../hooks/useForceUpdate";
+import useForceUpdate from '../../hooks/useForceUpdate';
 //  const { useHistory } = require("react-router");
 // const CachingButton = require("./CachingButton/CachingButton.jsx");
 //const { CACHE_AVAILABLE } = require("../../js/helpers/TrackCacheHelper");
@@ -12,11 +12,11 @@ import useForceUpdate from "../../hooks/useForceUpdate";
 // const { ModalWindowSystemContext } = require("../ModalWindowSystemProvider");
 //const SongOptionModal = require("../modals/SongOptionModal");
 // const { goToSearchRoute, ROUTE_METHOD } = require("../../js/utils/routeUtils");
-import { Icon, ICON_FAMILIES } from "../Icon";
+import {Icon, ICON_FAMILIES} from '../Icon';
 // const AuthorizedOnlyActionModal = require("../modals/AuthorizedOnlyActionModal");
-import deezerAuth from "../../auth/DeezerAuth";
+import deezerAuth from '../../auth/DeezerAuth';
 // const SoundWaves = require("../SoundWaves");
-import { DefaultCoverUrl } from "../../consts/URLConsts";
+import {DefaultCoverUrl} from '../../consts/URLConsts';
 
 const Song = (props) => {
   //const modalWindowSystem = useContext(ModalWindowSystemContext);
@@ -84,7 +84,7 @@ const Song = (props) => {
       <SongOptionModal
         parentPlaylistUuid={props.parentPlaylistUuid}
         targetSong={props.info}
-      />
+      />,
     );
   };
 
@@ -99,7 +99,7 @@ const Song = (props) => {
 
     playerPlaybackListener.addListenerForSong(
       props.info.instanceId,
-      forceUpdate
+      forceUpdate,
     );
 
     setInstanceId(props.info.instanceId);
@@ -112,36 +112,36 @@ const Song = (props) => {
     handleInstanceIdChange();
   }
 
-  let songClassName = ["song"];
+  let songClassName = ['song'];
   let isLiked = favoriteSongsHelper.isLoved(id);
   isActive;
 
   if (isHover) {
-    songClassName.push("song--hover");
+    songClassName.push('song--hover');
   }
 
   if (isActive) {
-    songClassName.push("song--active");
+    songClassName.push('song--active');
   }
 
   if (isLiked) {
-    songClassName.push("song--liked");
+    songClassName.push('song--liked');
   }
 
   let showSoundWaves = false;
   let soundWavesIsPaused = false;
 
   if (player.isCurrentSong(props.info)) {
-    songClassName.push("song--playing");
+    songClassName.push('song--playing');
     showSoundWaves = true;
 
     if (!player.isPlaying()) {
-      songClassName.push("song--paused");
+      songClassName.push('song--paused');
       soundWavesIsPaused = true;
     }
   }
 
-  songClassName = songClassName.join(" ");
+  songClassName = songClassName.join(' ');
   return (
     <div ref={songRef} className={songClassName} onClick={handleClick}>
       <Icon
@@ -175,8 +175,7 @@ const Song = (props) => {
           <span
             className="song__artist"
             onClick={handleArtistClick}
-            ref={artistRef}
-          >
+            ref={artistRef}>
             {props.info.artist.name}
           </span>
         </div>

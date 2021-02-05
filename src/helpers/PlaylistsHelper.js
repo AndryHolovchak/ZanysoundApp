@@ -1,13 +1,13 @@
-import PlaylistShortInfo from "../models/PlaylistShortInfo";
-import { removeElement, removeByElemProperty } from "../utils/arrayUtils";
-import SongModel from "../models/SongModel";
-import ExtendedEvent from "../misc/ExtendedEvent";
-import { removeSongFromArray } from "../utils/songUtils";
-import { removeExtraSpaces } from "../utils/stringUtils";
-import ActionResult from "../models/ActionResult";
-import deezerApi from "./../api/DeezerApi";
-import userHelper from "./UserHelper";
-import deezerAuth from "../auth/DeezerAuth";
+import PlaylistShortInfo from '../models/PlaylistShortInfo';
+import {removeElement, removeByElemProperty} from '../utils/arrayUtils';
+import SongModel from '../models/SongModel';
+import ExtendedEvent from '../misc/ExtendedEvent';
+import {removeSongFromArray} from '../utils/songUtils';
+import {removeExtraSpaces} from '../utils/stringUtils';
+import ActionResult from '../models/ActionResult';
+import deezerApi from './../api/DeezerApi';
+import userHelper from './UserHelper';
+import deezerAuth from '../auth/DeezerAuth';
 
 class PlaylistsHelper {
   constructor() {
@@ -44,7 +44,7 @@ class PlaylistsHelper {
     for (let i = 0; i < playlists.length; i++) {
       if (deezerApi.isLovedTracksPlaylist(playlists[i])) {
         this._lovedPlaylistShortInfo = new PlaylistShortInfo.fromDeezer(
-          playlists.splice(i, 1)[0]
+          playlists.splice(i, 1)[0],
         );
         break;
       }
@@ -97,7 +97,7 @@ class PlaylistsHelper {
     let playlistInfo = await deezerApi.getPlaylist(response.id);
 
     this._platlistsShortInfo.unshift(
-      PlaylistShortInfo.fromDeezer(playlistInfo)
+      PlaylistShortInfo.fromDeezer(playlistInfo),
     );
     this._onPlaylistCreateEvent.trigger();
   };
@@ -109,7 +109,7 @@ class PlaylistsHelper {
       deezerApi.removePlaylistFromFavorite(id);
     }
 
-    removeByElemProperty("id", id, this._platlistsShortInfo);
+    removeByElemProperty('id', id, this._platlistsShortInfo);
     delete this._playlistsSongs[id];
     this._onPlaylistDeleteEvent.trigger();
   };
@@ -120,13 +120,13 @@ class PlaylistsHelper {
     if (response === true) {
       if (this._playlistsSongs[playlistId] != null) {
         this._playlistsSongs[playlistId].unshift(
-          SongModel.fromAnotherInstance(songInfo)
+          SongModel.fromAnotherInstance(songInfo),
         );
       }
       this._onPlaylistSongsChangeEvent.trigger(playlistId);
       return new ActionResult(true);
     } else {
-      return new ActionResult(false, "Пісня вже знаходиться в цьому плейлисті");
+      return new ActionResult(false, 'Пісня вже знаходиться в цьому плейлисті');
     }
   };
 

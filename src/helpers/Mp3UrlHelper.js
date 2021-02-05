@@ -1,5 +1,5 @@
-import TrackUrl from "../models/TrackUrl";
-import { getUrlToMp3 } from "../utils/urlUtils";
+import TrackUrl from '../models/TrackUrl';
+import {getUrlToMp3} from '../utils/urlUtils';
 //import { cacheHelper, trackCacheStateEnum } from "./TrackCacheHelper";
 
 class Mp3UrlHelper {
@@ -36,7 +36,7 @@ class Mp3UrlHelper {
   };
 
   generateUrlToMp3 = async (id, artist, title) => {
-    return "";
+    return '';
     if (this._urlsToCachedMp3[id]) {
       return this._urlsToCachedMp3[id];
     }

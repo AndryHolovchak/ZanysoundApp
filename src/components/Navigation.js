@@ -1,20 +1,20 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Icon, ICON_FAMILIES } from "./Icon";
-import { color } from "../styles";
-import Color from "color";
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {Icon, ICON_FAMILIES} from './Icon';
+import {color} from '../styles';
+import Color from 'color';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
 const SCREEN_ICONS = {
-  collection: "album-collection",
-  search: "search",
-  favorites: "heart",
-  recommended: "fire",
-  profile: "user",
+  collection: 'album-collection',
+  search: 'search',
+  favorites: 'heart',
+  recommended: 'fire',
+  profile: 'user',
 };
 
 const tabBarOptions = {
@@ -28,26 +28,25 @@ const tabBarOptions = {
   },
 };
 
-const screenOptions = ({ route }) => ({
-  tabBarIcon: ({ focused, color, size }) => {
+const screenOptions = ({route}) => ({
+  tabBarIcon: ({focused, color, size}) => {
     return (
       <Icon
         name={SCREEN_ICONS[route.name]}
         family={focused ? ICON_FAMILIES.solid : ICON_FAMILIES.light}
-        style={{ color, fontSize: 22 }}
+        style={{color, fontSize: 22}}
       />
     );
   },
 });
 
-const Navigation = ({ screens, initSceneName }) => {
+const Navigation = ({screens, initSceneName}) => {
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={screenOptions}
         tabBarOptions={tabBarOptions}
-        initialRouteName={initSceneName}
-      >
+        initialRouteName={initSceneName}>
         {Object.keys(screens).map((name) => (
           <Tab.Screen key={name} name={name} component={screens[name]} />
         ))}

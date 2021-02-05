@@ -1,9 +1,9 @@
-import EventSystem from "../misc/EventSystem";
-import SongModel from "../models/SongModel";
-import * as arrayUtils from "../utils/arrayUtils";
-import playlistsHelper from "./PlaylistsHelper";
-import deezerApi from "../api/DeezerApi";
-import deezerAuth from "../auth/DeezerAuth";
+import EventSystem from '../misc/EventSystem';
+import SongModel from '../models/SongModel';
+import * as arrayUtils from '../utils/arrayUtils';
+import playlistsHelper from './PlaylistsHelper';
+import deezerApi from '../api/DeezerApi';
+import deezerAuth from '../auth/DeezerAuth';
 
 class FavoriteSongsHelper {
   _isInitialized = false;
@@ -144,7 +144,7 @@ class FavoriteSongsHelper {
 
   _initialize = async () => {
     let lovedPlaylist = await deezerApi.getPlaylist(
-      playlistsHelper.lovedPlaylistShortInfo.id
+      playlistsHelper.lovedPlaylistShortInfo.id,
     );
 
     let lovedSongs = lovedPlaylist.tracks.data.reverse();
