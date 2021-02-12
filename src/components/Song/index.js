@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
 import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
-//import player from "../../misc/Player";
-///import playerPlaybackListener from "../../misc/PlayerPlaybackListener";
+import player from '../../misc/Player';
+import playerPlaybackListener from '../../misc/PlayerPlaybackListener';
 import useForceUpdate from '../../hooks/useForceUpdate';
 //  const { useHistory } = require("react-router");
 // const CachingButton = require("./CachingButton/CachingButton.jsx");
@@ -17,40 +17,33 @@ import {Icon, ICON_FAMILIES} from '../Icon';
 import deezerAuth from '../../auth/DeezerAuth';
 // const SoundWaves = require("../SoundWaves");
 import {DefaultCoverUrl} from '../../consts/URLConsts';
+import {Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {color, size} from '../../styles';
+import Color from 'color';
+import CustomText from '../CustomText';
+import {TouchableWithoutFeedback} from 'react-native';
 
 const Song = (props) => {
   //const modalWindowSystem = useContext(ModalWindowSystemContext);
   const [instanceId, setInstanceId] = useState(props.info.instanceId);
   const [id, setId] = useState(props.info.id);
   const forceUpdate = useForceUpdate();
-  //   const history = useHistory();
   const songRef = useRef(null);
   const artistRef = useRef(null);
-  //const [isActive] = useActive(songRef);
-  //const [isHover] = useHover(songRef);
-
-  //useStopPropagation("mousedown", artistRef);
 
   useEffect(() => {
-    favoriteSongsHelper.listenLovedStatus(forceUpdate, id);
-    //playerPlaybackListener.addListenerForSong(instanceId, forceUpdate);
-    //  UserInfo.listenInitComplete(forceUpdate);
+    favoriteSongsHelper.listenFavoriteStatus(forceUpdate, id);
+    playerPlaybackListener.addListenerForSong(instanceId, forceUpdate);
 
     return () => {
-      favoriteSongsHelper.stopListeningLovedStatus(forceUpdate, id);
-
-      /// playerPlaybackListener.removeListenerForSong(instanceId, forceUpdate);
+      favoriteSongsHelper.stopListeningFavoriteStatus(forceUpdate, id);
+      playerPlaybackListener.removeListenerForSong(instanceId, forceUpdate);
     };
-  }, []);
-
-  //const [a] = useStopPropagation("mousedown", artistRef);
-  // const [b] = useStopPropagation("mousedown", likeRef);
-  // const [c] = useStopPropagation("mousedown", cacheButtonRef);
-  //const [d] = useStopPropagation("mousedown", addToPlaylistRef);
-  // useStopPropagation("click", addToPlaylistRef);
+  }, [forceUpdate, id, instanceId]);
 
   const handleClick = (e) => {
     if (player.isCurrentSong(props.info)) {
+      console.log('Is current song');
       player.togglePlay();
     } else if (player.isInPlaylist(props.info)) {
       player.playFromPlaylist(props.info);
@@ -70,13 +63,7 @@ const Song = (props) => {
   const handleLikeButtonClick = async (e) => {
     e.stopPropagation();
 
-    if (!deezerConfig.isInitialized) {
-      return;
-    }
-
-    if (deezerAuth.isSuccess) {
-      favoriteSongsHelper.toggleSong(props.info);
-    }
+    favoriteSongsHelper.toggleSong(props.info);
   };
 
   const handleOptionButtonClick = () => {
@@ -113,26 +100,40 @@ const Song = (props) => {
   }
 
   let songClassName = ['song'];
-  let isLiked = favoriteSongsHelper.isLoved(id);
-  isActive;
+  let isFavorite = favoriteSongsHelper.isFavorite(id);
+  //isActive;
 
-  if (isHover) {
-    songClassName.push('song--hover');
-  }
+  // if (isHover) {
+  //   songClassName.push('song--hover');
+  // }
 
-  if (isActive) {
-    songClassName.push('song--active');
-  }
+  // if (isActive) {
+  //   songClassName.push('song--active');
+  // }
 
-  if (isLiked) {
+  if (isFavorite) {
     songClassName.push('song--liked');
   }
 
   let showSoundWaves = false;
   let soundWavesIsPaused = false;
 
-  if (player.isCurrentSong(props.info)) {
+  let songStyle = [styles.song];
+  let isCurrentSong = player.isCurrentSong(props.info);
+  let titleFinalStyle = [styles.title];
+  let artistFinalStyle = [styles.artist];
+
+  if (isCurrentSong) {
+    titleFinalStyle.push(styles.playingSongText);
+    artistFinalStyle.push(styles.playingSongText);
+  }
+
+  titleFinalStyle = StyleSheet.flatten(titleFinalStyle);
+  artistFinalStyle = StyleSheet.flatten(artistFinalStyle);
+
+  if (isCurrentSong) {
     songClassName.push('song--playing');
+    songStyle.push(styles.playingSong);
     showSoundWaves = true;
 
     if (!player.isPlaying()) {
@@ -143,54 +144,104 @@ const Song = (props) => {
 
   songClassName = songClassName.join(' ');
   return (
-    <div ref={songRef} className={songClassName} onClick={handleClick}>
-      <Icon
-        name="heart"
-        type={isLiked ? ICON_FAMILIES.solid : ICON_FAMILIES.light}
-        className="song__like-button"
-        onClick={handleLikeButtonClick}
-      />
-      <div className="song__info">
-        <div className="song__cover-container">
-          {/* {showSoundWaves ? (
-            <SoundWaves
-              className="song__sound-waves"
-              isPaused={soundWavesIsPaused}
-            />
-          ) : null} */}
-          <img
-            src={
-              props.info.album.coverSmall ||
-              props.info.album.coverMedium ||
-              DefaultCoverUrl
-            }
-            loading="lazy"
-            alt=""
-            className="song__cover"
-          />
-        </div>
-
-        <div className="song__main-info">
-          <span className="song__title">{props.info.title}</span>
-          <span
-            className="song__artist"
-            onClick={handleArtistClick}
-            ref={artistRef}>
-            {props.info.artist.name}
-          </span>
-        </div>
-      </div>
-      {/* {CACHE_AVAILABLE ? <CachingButton targetTrack={props.info} /> : null} */}
-      {deezerAuth.isSignIn ? (
+    <TouchableWithoutFeedback onPress={handleClick}>
+      <View style={styles.song}>
         <Icon
-          name="ellipsis-v"
-          className="song__option-button"
-          type={ICON_FAMILIES.solid}
-          onClick={handleOptionButtonClick}
+          onPress={handleLikeButtonClick}
+          style={styles.heart}
+          name="heart"
+          family={isFavorite ? ICON_FAMILIES.solid : ICON_FAMILIES.light}
         />
-      ) : null}
-    </div>
+        <View style={styles.info}>
+          <View style={styles.coverContainer}>
+            <Image
+              style={styles.cover}
+              source={{
+                uri:
+                  props.info.album.coverMedium ||
+                  props.info.album.coverBig ||
+                  DefaultCoverUrl,
+              }}
+            />
+          </View>
+          <View style={styles.mainInfo}>
+            <CustomText
+              style={titleFinalStyle}
+              weight={isCurrentSong ? 600 : 500}
+              value={props.info.title}
+            />
+            <CustomText
+              style={artistFinalStyle}
+              weight={isCurrentSong ? 500 : 400}
+              value={props.info.artist.name}
+            />
+          </View>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
+
+const styles = StyleSheet.create({
+  song: {
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: size.songMaxWidth,
+    marginVertical: 0,
+    marginHorizontal: 'auto',
+    paddingVertical: 9,
+    paddingRight: 10,
+    paddingLeft: 8,
+
+    borderLeftWidth: 1,
+    borderStyle: 'solid',
+    borderLeftColor: color.primary,
+    backgroundColor: color.song,
+  },
+  playingSongText: {
+    color: color.primary,
+  },
+  heart: {
+    paddingRight: 12,
+    paddingVertical: 9,
+    fontSize: 19,
+    color: color.primary,
+  },
+  info: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '65%',
+    maxWidth: 400,
+  },
+  coverContainer: {
+    position: 'relative',
+  },
+  cover: {
+    height: 53,
+    width: 53,
+    borderRadius: 4,
+  },
+  mainInfo: {
+    alignItems: 'center',
+    width: '100%',
+    marginLeft: 10,
+    fontWeight: '500',
+    overflow: 'hidden',
+  },
+  title: {
+    width: '100%',
+    marginBottom: 2,
+    fontSize: 13,
+    color: color.primaryText,
+    overflow: 'hidden',
+  },
+  artist: {
+    width: '100%',
+    fontSize: 12,
+    color: new Color(color.secondaryText).alpha(0.9).string(),
+  },
+});
 
 export default Song;

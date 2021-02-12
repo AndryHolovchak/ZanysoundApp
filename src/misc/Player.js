@@ -1,6 +1,8 @@
-import PlayerPlaylist from "./PlayerPlaylist";
-import ExtendedEvent from "./ExtendedEvent";
-import mp3UrlHelper from "../helpers/Mp3UrlHelper";
+/* eslint-disable no-undef */
+import PlayerPlaylist from './PlayerPlaylist';
+import ExtendedEvent from './ExtendedEvent';
+import mp3UrlHelper from '../helpers/Mp3UrlHelper';
+import TrackPlayer from 'react-native-track-player';
 
 class Player {
   _isRepeatOneModeOn = false;
@@ -24,56 +26,112 @@ class Player {
     return this._isMetadataLoaded;
   }
 
-  get playbackRate() {
-    return this.isPlaying() ? this._htmlAudio.playbackRate : 0;
-  }
-
-  get duration() {
-    return this._currentSong && this._isMetadataLoaded
-      ? this._htmlAudio.duration
-      : 0;
-  }
-
-  get progress() {
-    let duration = this.duration;
-    return duration && this.currentTime / duration;
-  }
-
-  get muted() {
-    return this._htmlAudio.muted;
-  }
-
-  set progress(percent) {
-    if (this._isMetadataLoaded) {
-      this._htmlAudio.currentTime =
-        this._htmlAudio.duration * Math.max(0, Math.min(percent, 100));
+  getDuration = async () => {
+    if (!this.currentSong || !this._isMetadataLoaded) {
+      return 0;
     }
-  }
-
-  rewind = (sec) => {
-    this.progress = this.progress + sec / this.duration;
+    return TrackPlayer.getDuration();
   };
 
-  get currentTime() {
-    return this._htmlAudio.currentTime;
-  }
+  getVolume = async () => {
+    return TrackPlayer.getVolume();
+  };
+
+  seekTo = async (percent) => {
+    if (this._isMetadataLoaded) {
+      let duration = await this.getDuration();
+      TrackPlayer.seekTo(duration * Math.max(0, Math.min(percent, 100)));
+    }
+  };
+
+  rewind = async (sec) => {
+    let progress = await this.getCurrentTime();
+    let duration = await this.getDuration();
+    this.seekTo(progress + sec / duration);
+  };
+
+  getCurrentTime = async () => {
+    return TrackPlayer.getPosition();
+  };
 
   constructor(props) {
     this._playlist = new PlayerPlaylist();
-    this._htmlAudio = new Audio();
-
     this._onSongChange = new ExtendedEvent();
     this._onTogglePlay = new ExtendedEvent();
-
-    this._htmlAudio.addEventListener("pause", this._handleHtmlAudioPause);
-    this._htmlAudio.addEventListener("play", this._handleHtmlAudioPlay);
-    this._htmlAudio.addEventListener("ended", this._handleHtmlAudioEnded);
-    this._htmlAudio.addEventListener(
-      "loadedmetadata",
-      this._handleLoadedMetadata
-    );
-    // this.htmlAudio.addEventListener("emptied", this._handleHtmlAudioEmptied);
+    this._trackPlayerListeners = [];
   }
+
+  setEventListeners = () => {
+    for (let listener of this._trackPlayerListeners) {
+      listener.remove();
+    }
+
+    this._trackPlayerListeners = [];
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('remote-play', () => {
+        this._setHtmlAudioPlay(true);
+      }),
+    );
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('remote-pause', () => {
+        this._setHtmlAudioPlay(false);
+      }),
+    );
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('remote-next', () => {
+        this.playNext();
+      }),
+    );
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('remote-previous', () => {
+        this.playPrevious();
+      }),
+    );
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('remote-stop', async () => {
+        TrackPlayer.destroy();
+        this._currentSong = null;
+        this._onSongChange.trigger(null, this._currentSong);
+      }),
+    );
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('playback-track-changed', (e) => {
+        if (!e.nextTrack && e.track) {
+          this._handleHtmlAudioEnded();
+        } else {
+          this._trackChanged = false;
+        }
+      }),
+    );
+  };
+
+  _init = async () => {
+    await TrackPlayer.setupPlayer({});
+    TrackPlayer.updateOptions({
+      capabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_STOP,
+        TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+        TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+      ],
+      compactCapabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+        TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+      ],
+    });
+    this.setEventListeners();
+    this._isInitialized = true;
+    console.log('Player initialized');
+  };
 
   addOnSongChangeListener = (callback) => {
     this._onSongChange.addListener(callback);
@@ -100,14 +158,14 @@ class Player {
   };
 
   toggleMuted = () => {
-    this._htmlAudio.muted = !this._htmlAudio.muted;
+    this._sound.muted = !this._sound.muted;
   };
 
   isCurrentSong = (song) => {
     return !!(
       this._currentSong &&
       song &&
-      this._currentSong.instanceId == song.instanceId
+      this._currentSong.instanceId === song.instanceId
     );
   };
 
@@ -115,18 +173,19 @@ class Player {
     return song && !!this._playlist.getSong(song.instanceId);
   };
 
-  togglePlay = () => {
-    this._setHtmlAudioPlay(!this.isPlaying());
+  togglePlay = async () => {
+    let isPlaying = await this.isPlaying();
+    this._setHtmlAudioPlay(!isPlaying);
   };
 
   toggleRepeatOneMode = () => {
     this._isRepeatOneModeOn = !this._isRepeatOneModeOn;
   };
 
-  playPrevious = () => {
-    if (this.currentTime >= 5) {
-      //this._playSong(this.currentSong);
-      this._htmlAudio.currentTime = 0;
+  playPrevious = async () => {
+    let currentTime = await this.getCurrentTime();
+    if (currentTime >= 5) {
+      TrackPlayer.seekTo(0);
     } else {
       this._playSong(this._playlist.previous());
     }
@@ -160,9 +219,13 @@ class Player {
     this._playSong(this._playlist.goToSong(song.instanceId));
   };
 
-  isPlaying() {
-    return !!(this._currentSong && !this._htmlAudio.paused);
-  }
+  isPlaying = async () => {
+    if (!this._currentSong) {
+      return false;
+    }
+    let playbackState = await TrackPlayer.getState();
+    return playbackState === TrackPlayer.STATE_PLAYING;
+  };
 
   _playSong = async (song) => {
     this._currentSong = song;
@@ -171,38 +234,64 @@ class Player {
       this._isMetadataLoaded = false;
 
       this._onSongChange.trigger(null, this._currentSong);
-      this._htmlAudio.src = "";
 
       let trackUrl = await mp3UrlHelper.generateUrlToMp3(
         this._currentSong.id,
         this._currentSong.artist.name,
-        this._currentSong.title
+        this._currentSong.title,
       );
 
-      if (this._currentSong != song) {
+      if (this._currentSong !== song) {
         return;
       }
 
-      this._htmlAudio.src = trackUrl.url;
-
+      await this._releaseSound();
+      await TrackPlayer.add([{id: song.id, url: trackUrl.url, title: 'Title'}]);
+      await this._updateTrackPlayerOptions();
+      this._isMetadataLoaded = true;
+      try {
+        await TrackPlayer.skip(song.id.toString());
+      } catch {}
       this._setHtmlAudioPlay(true);
     } else {
       this._isMetadataLoaded = true;
-      this._htmlAudio.src = "";
+      await this._releaseSound();
       this._setHtmlAudioPlay(false);
     }
   };
 
-  _setHtmlAudioPlay = async (isPlaying) => {
-    // in the future you should add onTogglePlay trigger call
+  _updateTrackPlayerOptions = async () => {
+    let track = this._currentSong;
 
-    !!(this._currentSong && isPlaying)
-      ? // catching
-        //"The play()request was interrupted by a (call to pause())/(new load reques)" Error
-        this._htmlAudio.play().catch(() => {})
-      : this._htmlAudio.pause();
+    if (track) {
+      let metadata = null;
+      let duration = await this.getDuration();
+
+      metadata = {
+        duration,
+        title: track.title,
+        artist: track.artist.name,
+        artwork: track.album.coverMedium,
+      };
+
+      TrackPlayer.updateMetadataForTrack(track.id.toString(), metadata);
+    }
   };
 
+  _releaseSound = async () => {
+    let currentTrack = await TrackPlayer.getCurrentTrack();
+    if (currentTrack) {
+      await TrackPlayer.remove([currentTrack]);
+    }
+  };
+
+  _setHtmlAudioPlay = async (isPlaying) => {
+    if (this._currentSong && isPlaying) {
+      await TrackPlayer.play();
+    } else {
+      await TrackPlayer.pause();
+    }
+  };
   _handleLoadedMetadata = () => {
     this._isMetadataLoaded = true;
   };
@@ -227,5 +316,4 @@ class Player {
     this._onSongChange(null);
   };
 }
-
 export default new Player();

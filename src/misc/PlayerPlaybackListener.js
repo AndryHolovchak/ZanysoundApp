@@ -1,5 +1,5 @@
-//import player from "./Player";
-import ExtendedEvent from "./ExtendedEvent";
+import player from './Player';
+import ExtendedEvent from './ExtendedEvent';
 
 class PlayerPlaybackListener {
   _event = null;
@@ -7,11 +7,9 @@ class PlayerPlaybackListener {
 
   constructor() {
     this._event = new ExtendedEvent();
-    this._handlePlayerSongChange = this._handlePlayerSongChange.bind(this);
-    this._handlePlayerTogglePlay = this._handlePlayerTogglePlay.bind(this);
 
-    // player.addOnSongChangeListener(this._handlePlayerSongChange);
-    // player.addOnTogglePlayListener(this._handlePlayerTogglePlay);
+    player.addOnSongChangeListener(this._handlePlayerSongChange);
+    player.addOnTogglePlayListener(this._handlePlayerTogglePlay);
   }
 
   _handlePlayerSongChange = (newSong) => {

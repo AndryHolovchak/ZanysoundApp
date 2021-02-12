@@ -1,10 +1,12 @@
 import React from 'react';
-//import audioPlayer from "../../misc/Player";
+import audioPlayer from '../../misc/Player';
 import {getPixelsToEndScrollingY} from '../../utils/scrollUtils';
 import Song from '../Song';
 import PropTypes from 'prop-types';
 import dataContainer from '../../misc/DataContainer';
 import PlayerPlaylistContainerBG from './PlayerPlaylistContainerBG';
+import {FlatList, View} from 'react-native';
+import {BlurView} from '@react-native-community/blur';
 
 const SONG_HEIGHT = 65; //
 
@@ -137,69 +139,49 @@ class PlayerPlaylistContainer extends React.Component {
   }
 
   render() {
-    return <PlayerPlaylistContainerBG />;
+    if (!this.props.songs || !this.props.songs.length) {
+      return <></>;
+    }
 
-    // let songsToRender = [];
-    // let numberOfSongsToRender;
-
-    // if (this.props.id === audioPlayer.getPlaylistId()) {
-    //   audioPlayer.syncCurrentPlaylist(this.props.songs);
-    // }
-
-    // let lastIndexOfRenderedSong = this.getLastIndexOfRenderedSongIn(
-    //   this.props.songs,
-    // );
-
-    // numberOfSongsToRender = Math.max(
-    //   this.renderedSongsCount,
-    //   lastIndexOfRenderedSong + 1,
-    // );
-
-    // numberOfSongsToRender = Math.min(
-    //   this.props.songs.length,
-    //   numberOfSongsToRender,
-    // );
-
-    // // this check is required so that the onAllSongsLoaded is not called
-    // // on each render if all the songs are loaded but only the first time
-    // if (
-    //   numberOfSongsToRender > lastIndexOfRenderedSong + 1 &&
-    //   numberOfSongsToRender === this.props.songs.length
-    // ) {
-    //   this.props.onAllSongsLoaded();
-    // }
-
-    // songsToRender = this.props.songs.slice(0, numberOfSongsToRender);
-    // this.renderedSongs = songsToRender;
-    // this.renderedSongsCount = numberOfSongsToRender;
-
-    // return (
-    //   <div
-    //     className={'player-playlist-container ' + this.props.className}
-    //     ref={this.nodeRef}>
-    //     <PlayerPlaylistContainerBG id={this.props.id} />
-    //     <div
-    //       ref={this.songsNodeRef}
-    //       onScroll={this.updateSongsCount}
-    //       className="player-playlist-container__songs">
-    //       <div className="player-playlist-container__songs-inner">
-    //         {songsToRender.map((song) => (
-    //           <Song
-    //             parentPlaylistUuid={this.props.parentPlaylistUuid}
-    //             key={song.id}
-    //             info={song}
-    //             playerPlaylistCreator={() =>
-    //               audioPlayer.createNewPlaylist(this.props.songs, this.props.id)
-    //             }></Song>
-    //         ))}
-    //       </div>
-    //       {numberOfSongsToRender == this.props.songs.length
-    //         ? this.props.children
-    //         : null}
-    //     </div>
-    //   </div>
-    // );
+    return (
+      <View
+        style={{
+          flex: 1,
+          position: 'relative',
+        }}>
+        <PlayerPlaylistContainerBG />
+        <FlatList
+          style={{flex: 1}}
+          data={this.props.songs}
+          keyExtractor={(item, index) => item.id.toString()}
+          renderItem={(e) => {
+            return (
+              <Song
+                parentPlaylistUuid={this.props.parentPlaylistUuid}
+                info={e.item}
+                playerPlaylistCreator={() =>
+                  audioPlayer.createNewPlaylist(this.props.songs, this.props.id)
+                }
+              />
+            );
+          }}
+        />
+      </View>
+    );
   }
 }
+
+/* <BlurView
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            top: 0,
+            left: 0,
+          }}
+          blurType="light"
+          blurAmount={5}
+          reducedTransparencyFallbackColor="white"
+        /> */
 
 export default PlayerPlaylistContainer;

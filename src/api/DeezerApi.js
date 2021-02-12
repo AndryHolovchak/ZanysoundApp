@@ -1,10 +1,10 @@
-import { object2queryParams } from "../utils/urlUtils";
+import {object2queryParams} from '../utils/urlUtils';
 
-const API_URL = "https://api.deezer.com";
+const API_URL = 'https://api.deezer.com';
 const METHODS = {
-  get: "GET",
-  post: "POST",
-  delete: "DELETE",
+  get: 'GET',
+  post: 'POST',
+  delete: 'DELETE',
 };
 
 class DeezerApi {
@@ -20,24 +20,23 @@ class DeezerApi {
     path,
     queryParams = {},
     method = METHODS.get,
-    body = undefined
+    body = undefined,
   ) => {
     let params = object2queryParams(
-      Object.assign(queryParams, { access_token: this._token })
+      Object.assign(queryParams, {access_token: this._token}),
     );
     let url = API_URL + path + params;
-    console.log(url);
-    let response = await fetch(url, { method, body });
+    let response = await fetch(url, {method, body});
     let json = await response.json();
     return json;
   };
 
   getUserInfo = async () => {
-    return this._deezerRequest("/user/me");
+    return this._deezerRequest('/user/me');
   };
 
   getUserPlaylists = async () => {
-    let response = await this._deezerRequest("/user/me/playlists");
+    let response = await this._deezerRequest('/user/me/playlists');
     return response.data;
   };
 
@@ -53,7 +52,7 @@ class DeezerApi {
   searchTrack = async (query, index = 0) => {
     let encodedQueyr = encodeURIComponent(query);
     let response = await this._deezerRequest(
-      `/search?q=${encodedQueyr}&strict=off&order=RANKING&index=${index}`
+      `/search?q=${encodedQueyr}&strict=off&order=RANKING&index=${index}`,
     );
     return response.data;
   };
@@ -65,13 +64,15 @@ class DeezerApi {
   };
 
   removeFromLoved = async (id) => {
-    await this._deezerRequest(`/user/me/tracks`, {}, METHODS.delete, {
-      track_id: id,
-    });
+    await this._deezerRequest(
+      `/user/me/tracks`,
+      {track_id: id},
+      METHODS.delete,
+    );
   };
 
   createPlaylist = async (title) => {
-    return this._deezerRequest("/user/me/playlists", {}, METHODS.post, {
+    return this._deezerRequest('/user/me/playlists', {}, METHODS.post, {
       title,
     });
   };
@@ -89,16 +90,16 @@ class DeezerApi {
   addToPlaylist = async (playlistId, songId) => {
     return this._deezerRequest(
       `/playlist/${playlistId}/tracks`,
-      { songs: songId },
-      METHODS.post
+      {songs: songId},
+      METHODS.post,
     );
   };
 
   removeFromPlaylist = async (playlistId, songId) => {
     await this._deezerRequest(
       `/playlist/${playlistId}/tracks`,
-      { songs: songId },
-      METHODS.delete
+      {songs: songId},
+      METHODS.delete,
     );
   };
 
@@ -107,7 +108,7 @@ class DeezerApi {
   };
 
   getRecommendedTracks = async () => {
-    let response = await this._deezerRequest("/user/me/recommendations/tracks");
+    let response = await this._deezerRequest('/user/me/recommendations/tracks');
     return response.data;
   };
 }

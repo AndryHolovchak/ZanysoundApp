@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 // import * as Font from 'expo-font';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
 
 const ICON_FAMILIES = {
   solid: 0,
@@ -50,25 +50,22 @@ const ICONS = {
 //   fas: require('../../assets/fonts/fontawesome/webfonts/fa-solid-900.ttf'),
 // });
 
-const Icon = ({name, family = ICON_FAMILIES.regular, style = {}}) => {
-  // const [fontLoaded, setFontLoaded] = useState(false);
-
-  // useEffect(() => {
-  //   fontLoading.then(() => setFontLoaded(true));
-  // }, []);
-
+const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {
   let targetIcon = ICONS[name];
-
-  // if (!fontLoaded || !targetIcon) {
-  //   return <></>;
-  // }
-
   let finalStyle = StyleSheet.flatten([
     defaultStyle.text,
     FAMILIES_STYLE[family],
     defaultStyle.text,
     StyleSheet.create({userStyle: style}).userStyle,
   ]);
+
+  if (onPress) {
+    return (
+      <TouchableWithoutFeedback onPress={onPress}>
+        <Text style={finalStyle}>{targetIcon.unicode}</Text>
+      </TouchableWithoutFeedback>
+    );
+  }
 
   return <Text style={finalStyle}>{targetIcon.unicode}</Text>;
 };
@@ -77,6 +74,7 @@ const defaultStyle = StyleSheet.create({
   text: {
     fontSize: 20,
     color: '#000',
+    padding: 2,
   },
 });
 

@@ -51,28 +51,35 @@ class FavoritesScreen extends React.Component {
 
   render() {
     let songs = favoriteSongsHelper.getFavorite();
-    return (
-      <View style={{flex: 1}}>
-        <PlayerPlaylistContainer />
+
+    return favoriteSongsHelper.isInitialized && songs.length ? (
+      <View style={{flex: 1, height: '100%'}}>
+        <PlayerPlaylistContainer
+          id={this.state.playlistContainerId}
+          songs={songs}
+        />
       </View>
-      // <div className="loved-window">
-      //   {!lovedSongsHelper.isInitialized ? (
-      //     <>
-      //       <WindowPlaceholder text={i18n("favorites")}></WindowPlaceholder>
-      //       <LoadingScreen />
-      //     </>
-      //   ) : songs.length ? (
-      //     <PlayerPlaylistContainer
-      //       id={this.state.playlistContainerId}
-      //       songs={songs}
-      //     />
-      //   ) : (
-      //     <WindowPlaceholder
-      //       text={i18n("the list is empty")}
-      //     ></WindowPlaceholder>
-      //   )}
-      // </div>
+    ) : (
+      <></>
     );
+
+    // <div className="loved-window">
+    //   {!lovedSongsHelper.isInitialized ? (
+    //     <>
+    //       <WindowPlaceholder text={i18n("favorites")}></WindowPlaceholder>
+    //       <LoadingScreen />
+    //     </>
+    //   ) : songs.length ? (
+    //     <PlayerPlaylistContainer
+    //       id={this.state.playlistContainerId}
+    //       songs={songs}
+    //     />
+    //   ) : (
+    //     <WindowPlaceholder
+    //       text={i18n("the list is empty")}
+    //     ></WindowPlaceholder>
+    //   )}
+    // </div>
   }
 }
 

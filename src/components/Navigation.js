@@ -5,6 +5,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {Icon, ICON_FAMILIES} from './Icon';
 import {color} from '../styles';
 import Color from 'color';
+import {View} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -23,7 +24,7 @@ const tabBarOptions = {
   inactiveTintColor: Color(color.secondaryText).fade(0.2).rgb().string(),
   style: {
     backgroundColor: Color(color.bg).lighten(0.04).string(),
-    height: 50,
+    height: 40,
     borderTopWidth: 0,
   },
 };

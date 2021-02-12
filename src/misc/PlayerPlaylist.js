@@ -1,5 +1,5 @@
-import arrayUtils from "../utils/arrayUtils";
-import { generateId } from "../utils/idUtils";
+import arrayUtils from '../utils/arrayUtils';
+import {generateId} from '../utils/idUtils';
 
 class PlayerPlaylist {
   id;
@@ -53,14 +53,14 @@ class PlayerPlaylist {
         let newSongsCopy = songs.slice();
         let playedSlice = this._currentOrder.slice(
           0,
-          this._currentSongIndex + 1
+          this._currentSongIndex + 1,
         );
 
         for (let i = 0; i < playedSlice.length; i++) {
           let playedSong = playedSlice[i];
           let playedSongIndexInNewSongs = this._getSongIndexIn(
             newSongsCopy,
-            playedSong.instanceId
+            playedSong.instanceId,
           );
 
           // if song is not included in new songs then
@@ -119,7 +119,7 @@ class PlayerPlaylist {
     } else if (this._currentOrder.length > 0) {
       this._currentSongIndex = Math.max(
         0,
-        (this._currentSongIndex + 1) % this._currentOrder.length
+        (this._currentSongIndex + 1) % this._currentOrder.length,
       );
     }
 

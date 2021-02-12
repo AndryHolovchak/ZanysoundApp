@@ -1,3 +1,4 @@
-import * as color from "./color";
+import * as color from './color';
+import * as size from './size';
 
-export { color };
+export {color, size};

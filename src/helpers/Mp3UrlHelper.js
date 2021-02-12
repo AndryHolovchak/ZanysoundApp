@@ -36,14 +36,13 @@ class Mp3UrlHelper {
   };
 
   generateUrlToMp3 = async (id, artist, title) => {
-    return '';
-    if (this._urlsToCachedMp3[id]) {
-      return this._urlsToCachedMp3[id];
-    }
+    // if (this._urlsToCachedMp3[id]) {
+    //   return this._urlsToCachedMp3[id];
+    // }
 
-    if (!this._urlsToMp3[id] || this._urlsToMp3[id].isExpired()) {
-      this._urlsToMp3[id] = await getUrlToMp3(id, artist, title);
-    }
+    //if (!this._urlsToMp3[id] || this._urlsToMp3[id].isExpired()) {
+    this._urlsToMp3[id] = await getUrlToMp3(id, artist, title);
+    //  }
     return this._urlsToMp3[id];
   };
 }
