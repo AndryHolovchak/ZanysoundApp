@@ -7,7 +7,8 @@ const primaryText = '#e6e6e6';
 const secondaryText = Color(primaryText).darken(0.2).string();
 const icon = secondaryText;
 const deezerIcon = 'rgb(211, 52, 86)';
-const song = '#0e0e0ec0';
+const song = '#0d0d0dc0';
+const playerBg = Color(bg).lighten(0.2).string();
 
 export {
   bg,
@@ -18,6 +19,7 @@ export {
   icon,
   deezerIcon,
   song,
+  playerBg,
 };
 
 //pallet

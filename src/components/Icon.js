@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 // import * as Font from 'expo-font';
 import {StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
+import {color} from '../styles';
 
 const ICON_FAMILIES = {
   solid: 0,
@@ -40,6 +41,12 @@ const ICONS = {
   'album-collection': {unicode: '\uf8a0'},
   fire: {unicode: '\uf06d'},
   user: {unicode: '\uf007'},
+  random: {unicode: '\uf074'},
+  repeat: {unicode: '\uf363'},
+  'step-backward': {unicode: '\uf048'},
+  'step-forward': {unicode: '\uf051'},
+  'pause-circle': {unicode: '\uf28b'},
+  'play-circle': {unicode: '\uf144'},
 };
 
 // let fontLoading = Font.loadAsync({
@@ -73,7 +80,7 @@ const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {
 const defaultStyle = StyleSheet.create({
   text: {
     fontSize: 20,
-    color: '#000',
+    color: color.secondaryText,
     padding: 2,
   },
 });

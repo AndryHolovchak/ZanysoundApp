@@ -100,7 +100,7 @@ class PlayerPlaylistContainer extends React.Component {
 
   getSnapshot = () => {
     let snapshotId = this.props.snapshotId;
-    if (snapshotId == undefined || !dataContainer.has(snapshotId)) {
+    if (snapshotId === undefined || !dataContainer.has(snapshotId)) {
       return null;
     }
 
@@ -124,20 +124,6 @@ class PlayerPlaylistContainer extends React.Component {
     //   this.updateSongsCount();
   }
 
-  getInvisibleSongsAbove() {
-    let node = this.nodeRef.current;
-    let invisibleSongs = Math.floor(node.scrollTop / SONG_HEIGHT);
-    return Math.max(0, invisibleSongs);
-  }
-
-  getInvisibleSongsBelove() {
-    let node = this.nodeRef.current;
-    let invisibleSongs = Math.floor(
-      (node.scrollHeight - node.scrollTop - node.clientHeight) / SONG_HEIGHT,
-    );
-    return Math.max(0, invisibleSongs);
-  }
-
   render() {
     if (!this.props.songs || !this.props.songs.length) {
       return <></>;
@@ -149,7 +135,7 @@ class PlayerPlaylistContainer extends React.Component {
           flex: 1,
           position: 'relative',
         }}>
-        <PlayerPlaylistContainerBG />
+        <PlayerPlaylistContainerBG id={this.props.id} />
         <FlatList
           style={{flex: 1}}
           data={this.props.songs}
@@ -170,18 +156,5 @@ class PlayerPlaylistContainer extends React.Component {
     );
   }
 }
-
-/* <BlurView
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            top: 0,
-            left: 0,
-          }}
-          blurType="light"
-          blurAmount={5}
-          reducedTransparencyFallbackColor="white"
-        /> */
 
 export default PlayerPlaylistContainer;

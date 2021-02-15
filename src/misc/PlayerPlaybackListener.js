@@ -25,7 +25,7 @@ class PlayerPlaybackListener {
   };
 
   _handlePlayerTogglePlay = () => {
-    this._event.trigger(this._currentSong.instanceId);
+    this._event.trigger(this._currentSong && this._currentSong.instanceId);
   };
 
   addListenerForSong = (songInstanceId, callback) => {

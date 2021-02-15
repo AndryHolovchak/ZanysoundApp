@@ -1,22 +1,21 @@
-import ytdl from "../lib/ytdl";
+import ytdl from '../lib/ytdl/index';
+import {getAudioUrl} from '../lib/ytdl/lib/info';
 
 const getFirstId = (page) => {
   // let match = page.match(/(?<="url":"\/watch\?v\==?).*?(?=")/);
   let match = page.match(/watch\?v=([^";]+)/);
 
-  if (match && match["0"]) {
-    return match["0"].split("=")[1];
+  if (match && match['0']) {
+    return match['0'].split('=')[1];
   }
   return null;
 
   //   return (match && match["0"]) || null;
 };
 
-const getAudioUrl = async (videoId) => {
-  let response = await ytdl("https://youtube.com/watch?v=" + videoId, {
-    filter: (format) => format.itag === 140,
-  });
-  return response[0].url;
+const getMp3Url = async (videoId) => {
+  let url = await getAudioUrl(videoId);
+  return url;
 };
 
 const getFirstSearchResultId = async (query) => {
@@ -27,4 +26,4 @@ const getFirstSearchResultId = async (query) => {
   return getFirstId(text);
 };
 
-export { getAudioUrl, getFirstSearchResultId };
+export {getMp3Url, getFirstSearchResultId};

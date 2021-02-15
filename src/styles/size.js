@@ -1,6 +1,6 @@
 const playerHeight = 120;
 const songMaxWidth = 700;
-const navigationHeight = 45;
+const navigationHeight = 40;
 const searchInputHeight = 35;
 const windowTopBarHeight = 40;
 

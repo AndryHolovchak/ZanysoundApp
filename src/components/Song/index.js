@@ -22,6 +22,7 @@ import {color, size} from '../../styles';
 import Color from 'color';
 import CustomText from '../CustomText';
 import {TouchableWithoutFeedback} from 'react-native';
+import {useCallback} from 'react';
 
 const Song = (props) => {
   //const modalWindowSystem = useContext(ModalWindowSystemContext);
@@ -39,7 +40,7 @@ const Song = (props) => {
       favoriteSongsHelper.stopListeningFavoriteStatus(forceUpdate, id);
       playerPlaybackListener.removeListenerForSong(instanceId, forceUpdate);
     };
-  }, [forceUpdate, id, instanceId]);
+  }, [id, instanceId]);
 
   const handleClick = (e) => {
     if (player.isCurrentSong(props.info)) {
@@ -76,8 +77,8 @@ const Song = (props) => {
   };
 
   const handleSongUuidChange = () => {
-    favoriteSongsHelper.stopListeningLovedStatus(forceUpdate, id);
-    favoriteSongsHelper.listenLovedStatus(forceUpdate, props.info.id);
+    favoriteSongsHelper.stopListeningFavoriteStatus(forceUpdate, id);
+    favoriteSongsHelper.listenFavoriteStatus(forceUpdate, props.info.id);
     setId(props.info.id);
   };
 
@@ -136,7 +137,7 @@ const Song = (props) => {
     songStyle.push(styles.playingSong);
     showSoundWaves = true;
 
-    if (!player.isPlaying()) {
+    if (!player.isPlaying) {
       songClassName.push('song--paused');
       soundWavesIsPaused = true;
     }
@@ -145,17 +146,17 @@ const Song = (props) => {
   songClassName = songClassName.join(' ');
   return (
     <TouchableWithoutFeedback onPress={handleClick}>
-      <View style={styles.song}>
+      <View style={[styles.song, props.style]}>
         <Icon
           onPress={handleLikeButtonClick}
-          style={styles.heart}
+          style={StyleSheet.flatten([styles.heart, props.favoriteIconStyle])}
           name="heart"
           family={isFavorite ? ICON_FAMILIES.solid : ICON_FAMILIES.light}
         />
         <View style={styles.info}>
           <View style={styles.coverContainer}>
             <Image
-              style={styles.cover}
+              style={[styles.cover, props.coverStyle]}
               source={{
                 uri:
                   props.info.album.coverMedium ||
@@ -166,12 +167,12 @@ const Song = (props) => {
           </View>
           <View style={styles.mainInfo}>
             <CustomText
-              style={titleFinalStyle}
+              style={StyleSheet.flatten([titleFinalStyle, props.titleStyle])}
               weight={isCurrentSong ? 600 : 500}
               value={props.info.title}
             />
             <CustomText
-              style={artistFinalStyle}
+              style={StyleSheet.flatten([artistFinalStyle, props.artistStyle])}
               weight={isCurrentSong ? 500 : 400}
               value={props.info.artist.name}
             />
@@ -180,6 +181,14 @@ const Song = (props) => {
       </View>
     </TouchableWithoutFeedback>
   );
+};
+
+Song.defaultProps = {
+  style: {},
+  coverStyle: {},
+  favoriteIconStyle: {},
+  titleStyle: {},
+  artistStyle: {},
 };
 
 const styles = StyleSheet.create({
@@ -201,7 +210,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.song,
   },
   playingSongText: {
-    color: color.primary,
+    color: Color(color.primary).lighten(0.2).string(),
   },
   heart: {
     paddingRight: 12,

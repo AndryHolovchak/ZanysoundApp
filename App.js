@@ -8,6 +8,12 @@ import SearchScreen from './src/components/screens/SearchScreen';
 import FavoritesScreen from './src/components/screens/FavoritesScreen';
 import RecommendedScreen from './src/components/screens/RecommendedScreen';
 import ProfileScreen from './src/components/screens/ProfileScreen';
+import {PlayerUI} from './src/components/PlayerUI';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {color} from './src/styles';
+import {MiniPlayer} from './src/components/MiniPlayer';
+import {ExpandedPlayer} from './src/components/ExpandedPlayer';
+import {Player} from './src/components/Player';
 
 export default function App() {
   const forceUpdate = useForceUpdate();
@@ -31,15 +37,20 @@ export default function App() {
   }
 
   return (
-    <Navigation
-      screens={{
-        collection: CollectionScreen,
-        search: SearchScreen,
-        favorites: FavoritesScreen,
-        recommended: RecommendedScreen,
-        profile: ProfileScreen,
-      }}
-      initSceneName="favorites"
-    />
+    <SafeAreaProvider>
+      <Navigation
+        screens={{
+          collection: CollectionScreen,
+          search: SearchScreen,
+          favorites: FavoritesScreen,
+          recommended: RecommendedScreen,
+          profile: ProfileScreen,
+        }}
+        initSceneName="favorites">
+        {/* <PlayerUI /> */}
+        {/* <MiniPlayer /> */}
+        <Player />
+      </Navigation>
+    </SafeAreaProvider>
   );
 }

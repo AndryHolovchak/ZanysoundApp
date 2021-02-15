@@ -2,12 +2,19 @@
 import PlayerPlaylist from './PlayerPlaylist';
 import ExtendedEvent from './ExtendedEvent';
 import mp3UrlHelper from '../helpers/Mp3UrlHelper';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {
+  STATE_BUFFERING,
+  STATE_PLAYING,
+  STATE_READY,
+  STATE_CONNECTING,
+} from 'react-native-track-player';
 
 class Player {
   _isRepeatOneModeOn = false;
   _isShuffleModeOn = false;
   _isMetadataLoaded = false;
+  _isPlaying = false;
+  _trackIsChanging = false;
   _currentSong = null;
 
   get currentSong() {
@@ -24,6 +31,10 @@ class Player {
 
   get isMetadataLoaded() {
     return this._isMetadataLoaded;
+  }
+
+  get trackIsChanging() {
+    return this._trackIsChanging;
   }
 
   getDuration = async () => {
@@ -109,10 +120,31 @@ class Player {
         }
       }),
     );
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('playback-state', ({state}) => {
+        if (state === STATE_PLAYING && this._trackIsChanging) {
+          this._trackIsChanging = false;
+        }
+
+        if (this._isPlaying ^ (state === STATE_PLAYING)) {
+          this._isPlaying = !this._isPlaying;
+
+          this._isPlaying
+            ? this._handleHtmlAudioPlay()
+            : this._handleHtmlAudioPause();
+        }
+      }),
+    );
   };
 
   _init = async () => {
-    await TrackPlayer.setupPlayer({});
+    await TrackPlayer.setupPlayer({
+      playBuffer: 0.5,
+      backBuffer: 0,
+      minBuffer: 5,
+      maxBuffer: 7,
+    });
     TrackPlayer.updateOptions({
       capabilities: [
         TrackPlayer.CAPABILITY_PLAY,
@@ -120,12 +152,14 @@ class Player {
         TrackPlayer.CAPABILITY_STOP,
         TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
         TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+        TrackPlayer.CAPABILITY_SEEK_TO,
       ],
       compactCapabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
         TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
         TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+        TrackPlayer.CAPABILITY_SEEK_TO,
       ],
     });
     this.setEventListeners();
@@ -173,9 +207,10 @@ class Player {
     return song && !!this._playlist.getSong(song.instanceId);
   };
 
-  togglePlay = async () => {
-    let isPlaying = await this.isPlaying();
-    this._setHtmlAudioPlay(!isPlaying);
+  togglePlay = () => {
+    if (!this._trackIsChanging) {
+      this._setHtmlAudioPlay(!this._isPlaying);
+    }
   };
 
   toggleRepeatOneMode = () => {
@@ -219,21 +254,42 @@ class Player {
     this._playSong(this._playlist.goToSong(song.instanceId));
   };
 
-  isPlaying = async () => {
+  get isPlaying() {
     if (!this._currentSong) {
       return false;
     }
-    let playbackState = await TrackPlayer.getState();
-    return playbackState === TrackPlayer.STATE_PLAYING;
-  };
+    return this._isPlaying;
+  }
 
   _playSong = async (song) => {
+    let prevSong = this._currentSong;
     this._currentSong = song;
 
     if (this._currentSong) {
+      this._trackIsChanging = true;
       this._isMetadataLoaded = false;
 
       this._onSongChange.trigger(null, this._currentSong);
+      try {
+        await this._setHtmlAudioPlay(false);
+      } catch {}
+
+      if (this._currentSong !== song) {
+        return;
+      }
+
+      if (prevSong) {
+        try {
+          await this._updateTrackPlayerOptions(
+            this._currentSong,
+            prevSong.id.toString(),
+          );
+        } catch {}
+      }
+
+      if (this._currentSong !== song) {
+        return;
+      }
 
       let trackUrl = await mp3UrlHelper.generateUrlToMp3(
         this._currentSong.id,
@@ -245,13 +301,34 @@ class Player {
         return;
       }
 
-      await this._releaseSound();
-      await TrackPlayer.add([{id: song.id, url: trackUrl.url, title: 'Title'}]);
-      await this._updateTrackPlayerOptions();
+      try {
+        this._releaseSound(); //await
+      } catch {}
+
+      await TrackPlayer.add([
+        {
+          id: song.id,
+          url: trackUrl.url,
+          title: 'Title',
+          pitchAlgorithm: TrackPlayer.PITCH_ALGORITHM_MUSIC,
+        },
+      ]);
+
+      if (this._currentSong !== song) {
+        return;
+      }
+
+      await this._updateTrackPlayerOptions(this._currentSong);
       this._isMetadataLoaded = true;
+
+      if (this._currentSong !== song) {
+        return;
+      }
+
       try {
         await TrackPlayer.skip(song.id.toString());
       } catch {}
+
       this._setHtmlAudioPlay(true);
     } else {
       this._isMetadataLoaded = true;
@@ -260,9 +337,7 @@ class Player {
     }
   };
 
-  _updateTrackPlayerOptions = async () => {
-    let track = this._currentSong;
-
+  _updateTrackPlayerOptions = async (track, targetId = track.id.toString()) => {
     if (track) {
       let metadata = null;
       let duration = await this.getDuration();
@@ -274,7 +349,7 @@ class Player {
         artwork: track.album.coverMedium,
       };
 
-      TrackPlayer.updateMetadataForTrack(track.id.toString(), metadata);
+      await TrackPlayer.updateMetadataForTrack(targetId, metadata);
     }
   };
 

@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {Icon, ICON_FAMILIES} from './Icon';
-import {color} from '../styles';
+import {color, size} from '../styles';
 import Color from 'color';
 import {View} from 'react-native';
 
@@ -23,8 +23,8 @@ const tabBarOptions = {
   activeTintColor: color.primary,
   inactiveTintColor: Color(color.secondaryText).fade(0.2).rgb().string(),
   style: {
-    backgroundColor: Color(color.bg).lighten(0.04).string(),
-    height: 40,
+    backgroundColor: Color(color.bg).lighten(0.8).string(),
+    height: size.navigationHeight,
     borderTopWidth: 0,
   },
 };
@@ -41,9 +41,14 @@ const screenOptions = ({route}) => ({
   },
 });
 
-const Navigation = ({screens, initSceneName}) => {
+const Navigation = ({screens, initSceneName, children}) => {
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={{
+        colors: {
+          background: color.bg,
+        },
+      }}>
       <Tab.Navigator
         screenOptions={screenOptions}
         tabBarOptions={tabBarOptions}
@@ -52,6 +57,7 @@ const Navigation = ({screens, initSceneName}) => {
           <Tab.Screen key={name} name={name} component={screens[name]} />
         ))}
       </Tab.Navigator>
+      {children}
     </NavigationContainer>
   );
 };

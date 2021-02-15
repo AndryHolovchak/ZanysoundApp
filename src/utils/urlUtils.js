@@ -1,5 +1,7 @@
 import {CDNUrl} from '../consts/URLConsts';
+import ytdl from '../lib/ytdl';
 import TrackUrl from '../models/TrackUrl';
+import {getMp3Url, getFirstSearchResultId} from './youtubeUtils';
 
 const getPlaylistCover = (coverId, size = 68) => {
   return `${CDNUrl}covers/playlist/${size}/${coverId}.jpg`;
@@ -21,20 +23,9 @@ const getDefaultAlbumCoverUrl = (size = 68) => {
  */
 //If you want get url to cahced mp3 you shoul use Mp3UrlHelper.js
 const getUrlToMp3 = async (id, artist, title) => {
-  // let url = `/url/mp3?deezerId=${id}&artist=${encodeURIComponent(
-  //   artist
-  // )}&title=${encodeURIComponent(title)}`;
-  let urlBase = 'https://zanysound.com';
-
-  let url =
-    urlBase +
-    `/mp3/slow?deezerId=${id}&artist=${encodeURIComponent(
-      artist,
-    )}&title=${encodeURIComponent(title)}`;
+  let videoId = await getFirstSearchResultId(`${artist} - ${title} Audio`);
+  let url = await getMp3Url(videoId);
   return new TrackUrl(url, false);
-
-  //let response = await fetch(url);
-  //let trackUrl = await response.json();
 
   //return new TrackUrl(trackUrl, true, response.headers.get("Expires"));
 };
