@@ -23,9 +23,13 @@ const tabBarOptions = {
   activeTintColor: color.primary,
   inactiveTintColor: Color(color.secondaryText).fade(0.2).rgb().string(),
   style: {
-    backgroundColor: Color(color.bg).lighten(0.8).string(),
+    backgroundColor: Color(color.bg).lighten(0.3).string(),
     height: size.navigationHeight,
-    borderTopWidth: 0,
+    // borderTopWidth: 0,
+    position: 'relative',
+    zIndex: 10, // Do not change. Otherwise Navigation will be inactive
+    borderTopWidth: 1,
+    borderTopColor: '#ffffff11',
   },
 };
 
@@ -39,6 +43,7 @@ const screenOptions = ({route}) => ({
       />
     );
   },
+  style: {position: 'relative'}, // Do not change. Otherwise Navigation will be inactive
 });
 
 const Navigation = ({screens, initSceneName, children}) => {
