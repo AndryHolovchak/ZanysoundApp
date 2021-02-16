@@ -3,7 +3,7 @@ import {Dimensions, StyleSheet, View} from 'react-native';
 import {color, size, zIndexes} from '../../styles';
 import player from '../../misc/Player';
 import {Icon, ICON_FAMILIES} from '../Icon';
-import {PlayerProgressBar} from './PlayerProgressBar';
+import {PlayerProgressBar} from '../Player/PlayerProgressBar';
 import Song from '../Song';
 import Color from 'color';
 

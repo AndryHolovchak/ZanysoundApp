@@ -129,6 +129,10 @@ class PlayerPlaylistContainer extends React.Component {
       return <></>;
     }
 
+    if (this.props.id === audioPlayer.getPlaylistId()) {
+      audioPlayer.syncCurrentPlaylist(this.props.songs);
+    }
+
     return (
       <View
         style={{

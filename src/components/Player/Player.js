@@ -13,7 +13,9 @@ import {color, size} from '../../styles';
 import {Icon, ICON_FAMILIES} from '../Icon';
 import Color from 'color';
 import player from '../../misc/Player';
-import SmallPlayer from './SmallPlayer';
+import MiniPlayer from './MiniPlayer';
+import FullScreenPlayer from './FullScreenPlayer';
+import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 
 const MIN_HEIGHT = 55;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -23,9 +25,16 @@ class Player extends Component {
     super(props);
     this.distanceToTop = WINDOW_HEIGHT - MIN_HEIGHT - size.navigationHeight;
     this.expand = new Animated.Value(0);
+    this.currentGestureId;
 
     this.panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (_, gesture) => {
+        return true;
+      },
+
+      onPanResponderTerminate: (_, gesture) => {
+        this.handlePanRelease(gesture);
+      },
 
       onPanResponderMove: (_, gesture) => {
         let newValue = -(gesture.dy / this.distanceToTop);
@@ -37,64 +46,84 @@ class Player extends Component {
       },
 
       onPanResponderRelease: (_, gesture) => {
-        this.expand.setOffset(this.expand._value + this.expand._offset);
-        this.expand.setValue(0);
-
-        if (this.expand._offset !== 1 && (gesture.vy || gesture.dy) < 0) {
-          Animated.timing(this.expand, {
-            toValue: 1 - this.expand._offset,
-            duration: 300,
-            easing: Easing.easeOutQuint,
-            useNativeDriver: true,
-          }).start(() => {
-            this.expand.setOffset(1);
-            this.expand.setValue(0);
-          });
-        } else if (
-          this.expand._offset !== 0 &&
-          (gesture.vy || gesture.dy) > 0
-        ) {
-          Animated.timing(this.expand, {
-            toValue: 0 - this.expand._offset,
-            duration: 300,
-            easing: Easing.easeOutQuint,
-            useNativeDriver: true,
-          }).start(() => {
-            this.expand.setOffset(0);
-            this.expand.setValue(0);
-          });
-        }
-        //gesture.dy: To top = < 0 | to bottom = >0
-        //_value will be equal to 0
+        this.handlePanRelease(gesture);
       },
     });
 
     player.addOnSongChangeListener(this.handlePlayerSongChange);
     player.addOnTogglePlayListener(this.handlePlayerTogglePlay);
+    favoriteSongsHelper.listenFavoriteStatus(this.handleFavoriteStatusChange);
   }
+
+  handlePanRelease = (gesture) => {
+    this.expand.setOffset(this.expand._value + this.expand._offset);
+    this.expand.setValue(0);
+    // console.log(gesture.vy || gesture.dy);
+
+    if (this.expand._offset !== 1 && (gesture.vy || gesture.dy) < 0) {
+      this.startExpanding();
+    } else if (this.expand._offset !== 0 && (gesture.vy || gesture.dy) > 0) {
+      Animated.timing(this.expand, {
+        toValue: 0 - this.expand._offset,
+        duration: 300,
+        easing: Easing.easeOutQuint,
+        useNativeDriver: true,
+      }).start(() => {
+        this.expand.setOffset(0);
+        this.expand.setValue(0);
+      });
+    }
+    //gesture.dy: To top = < 0 | to bottom = >0
+    //_value will be equal to 0
+  };
 
   handlePlayerSongChange = () => this.forceUpdate();
 
   handlePlayerTogglePlay = () => this.forceUpdate();
 
-  handleSuffleButtonClick = () => {
-    player.toggleShuffleMode();
-    this.forceUpdate();
+  handleFavoriteStatusChange = (info) => {
+    let currentSong = player.currentSong;
+    if (currentSong && currentSong.id === info.id) {
+      this.forceUpdate();
+    }
   };
 
-  handleRepeatButtonClick = () => {
-    player.toggleRepeatOneMode();
-    this.forceUpdate();
+  startExpanding = () => {
+    this.isExpanding = true;
+
+    Animated.timing(this.expand, {
+      toValue: 1 - this.expand._offset,
+      duration: 300,
+      easing: Easing.easeOutQuint,
+      useNativeDriver: true,
+    }).start(() => {
+      this.expand.setOffset(1);
+      this.expand.setValue(0);
+      this.isExpanding = false;
+    });
+  };
+
+  handleMiniPlayerPress = () => {
+    if (!this.isExpanding) {
+      this.startExpanding();
+    }
   };
 
   componentWillUnmount() {
     player.removeOnSongChangeListener(this.handlePlayerSongChange);
     player.removeOnTogglePlayListener(this.handlePlayerTogglePlay);
+    favoriteSongsHelper.stopListeningFavoriteStatus(
+      this.handleFavoriteStatusChange,
+    );
   }
 
   render() {
-    let song = player.currentSong;
-    console.log(song && song.title);
+    let track = player.currentSong;
+
+    if (!track) {
+      return null;
+    }
+
     return (
       <View style={styles.player}>
         <Animated.View
@@ -112,8 +141,31 @@ class Player extends Component {
             },
           ]}
           {...this.panResponder.panHandlers}>
-          <SmallPlayer style={styles.smallPlayer} />
-          <View style={styles.largePlayer}></View>
+          <MiniPlayer
+            onPress={this.handleMiniPlayerPress}
+            style={StyleSheet.flatten([
+              styles.miniPlayer,
+              {
+                opacity: Animated.subtract(1, this.expand),
+                transform: [
+                  {
+                    translateY: Animated.multiply(
+                      this.distanceToTop + MIN_HEIGHT,
+                      this.expand,
+                    ),
+                  },
+                ],
+              },
+            ])}
+          />
+          <FullScreenPlayer
+            style={[
+              styles.largePlayer,
+              {
+                opacity: this.expand,
+              },
+            ]}
+          />
         </Animated.View>
       </View>
     );
@@ -136,13 +188,15 @@ const styles = StyleSheet.create({
     // backgroundColor: '#202020',
     backgroundColor: 'transparent',
   },
-  smallPlayer: {
+  miniPlayer: {
+    position: 'absolute',
     width: '100%',
+    zIndex: 4,
     height: MIN_HEIGHT,
   },
   largePlayer: {
     flex: 1,
-    backgroundColor: '#4e6fb5',
+    backgroundColor: Color(color.bg).lighten(0.5).string(),
   },
 });
 

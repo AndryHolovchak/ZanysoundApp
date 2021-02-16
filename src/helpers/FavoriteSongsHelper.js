@@ -70,15 +70,15 @@ class FavoriteSongsHelper {
 
   async addSong(songInfo) {
     if (!this.isFavorite(songInfo.id)) {
-      await deezerApi.addToLoved(songInfo.id);
       this.updateSong(songInfo, true);
+      deezerApi.addToLoved(songInfo.id);
     }
   }
 
   async removeSong(songInfo) {
     if (this.isFavorite(songInfo.id)) {
-      await deezerApi.removeFromLoved(songInfo.id);
       this.updateSong(songInfo, false);
+      deezerApi.removeFromLoved(songInfo.id);
     }
   }
 

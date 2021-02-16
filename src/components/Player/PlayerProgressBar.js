@@ -12,29 +12,23 @@ import TrackPlayer, {
   useTrackPlayerProgress,
 } from 'react-native-track-player';
 import {Slider} from 'react-native-elements';
-import {color} from '../../../styles';
+import {color} from '../../styles';
 import Color from 'color';
-import player from '../../../misc/Player';
+import player from '../../misc/Player';
 import {useEffect} from 'react';
 import {useCallback} from 'react';
-import usesForceUpdate from '../../../hooks/useForceUpdate';
-
-const states = {
-  0: 'none',
-  1: 'stopped',
-  2: 'ready or paused',
-  3: 'playing',
-  6: 'buffering',
-  8: 'connecting',
-};
+import CustomText from '../CustomText';
+import {secToMSS} from '../../utils/timeUtils';
+import useForceUpdate from '../../hooks/useForceUpdate';
 
 let tmpValue = 0;
 let isSliding = false;
 let useTmpValue = false;
 let buffered = 0;
 
-const PlayerProgressBar = () => {
+const PlayerProgressBar = ({style}) => {
   const {position, bufferedPosition, duration} = useTrackPlayerProgress();
+  const forceUpdate = useForceUpdate();
 
   const handleTrackChange = useCallback(() => {
     tmpValue = 0;
@@ -56,8 +50,17 @@ const PlayerProgressBar = () => {
     buffered = b;
   }, 0);
 
+  let positionToShow =
+    player.trackIsChanging || !buffered
+      ? 0
+      : (useTmpValue ? tmpValue : position / duration) || 0;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
+      <CustomText
+        value={secToMSS(duration * positionToShow)}
+        style={styles.currentTime}
+      />
       <Slider
         style={styles.slider}
         trackStyle={styles.track}
@@ -65,13 +68,10 @@ const PlayerProgressBar = () => {
         thumbStyle={styles.thumb}
         minimumTrackTintColor={Color(color.playerBg).lighten(2.5).string()}
         maximumTrackTintColor={Color(color.playerBg).lighten(1).string()}
-        value={
-          player.trackIsChanging || !buffered
-            ? 0
-            : (useTmpValue ? tmpValue : position / duration) || 0
-        }
+        value={positionToShow}
         onValueChange={(newValue) => {
           useTmpValue && (tmpValue = newValue);
+          forceUpdate();
         }}
         onSlidingStart={(newValue) => {
           tmpValue = newValue;
@@ -85,13 +85,31 @@ const PlayerProgressBar = () => {
           isSliding = false;
         }}
       />
+      <CustomText value={secToMSS(duration)} style={styles.duration} />
     </View>
   );
 };
 
+PlayerProgressBar.defaultProps = {
+  style: {},
+};
+
 const styles = {
   container: {
+    position: 'relative',
     width: '85%',
+  },
+  currentTime: {
+    position: 'absolute',
+    top: -15,
+    left: 2,
+    color: Color(color.secondaryText).fade(0.5).string(),
+  },
+  duration: {
+    position: 'absolute',
+    top: -15,
+    right: 2,
+    color: Color(color.secondaryText).fade(0.5).string(),
   },
   thumb: {
     backgroundColor: Color(color.playerBg).lighten(4).string(),
