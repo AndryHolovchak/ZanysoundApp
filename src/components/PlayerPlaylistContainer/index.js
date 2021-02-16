@@ -1,12 +1,12 @@
 import React from 'react';
-import audioPlayer from '../../misc/Player';
+import player from '../../misc/Player';
 import {getPixelsToEndScrollingY} from '../../utils/scrollUtils';
 import Song from '../Song';
 import PropTypes from 'prop-types';
 import dataContainer from '../../misc/DataContainer';
 import PlayerPlaylistContainerBG from './PlayerPlaylistContainerBG';
-import {FlatList, View} from 'react-native';
-import {BlurView} from '@react-native-community/blur';
+import {FlatList, VirtualizedList, View} from 'react-native';
+import {color, size} from '../../styles';
 
 const SONG_HEIGHT = 65; //
 
@@ -129,19 +129,18 @@ class PlayerPlaylistContainer extends React.Component {
       return <></>;
     }
 
-    if (this.props.id === audioPlayer.getPlaylistId()) {
-      audioPlayer.syncCurrentPlaylist(this.props.songs);
+    if (this.props.id === player.getPlaylistId()) {
+      player.syncCurrentPlaylist(this.props.songs);
     }
 
     return (
-      <View
-        style={{
-          flex: 1,
-          position: 'relative',
-        }}>
+      <View style={styles.playerPlaylistContainer}>
         <PlayerPlaylistContainerBG id={this.props.id} />
         <FlatList
-          style={{flex: 1}}
+          // style={styles.tracksContainer}
+          contentContainerStyle={styles.tracksContainer}
+          // removeClippedSubviews={true} //lazy rendering
+          initialNumToRender={15}
           data={this.props.songs}
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={(e) => {
@@ -150,7 +149,7 @@ class PlayerPlaylistContainer extends React.Component {
                 parentPlaylistUuid={this.props.parentPlaylistUuid}
                 info={e.item}
                 playerPlaylistCreator={() =>
-                  audioPlayer.createNewPlaylist(this.props.songs, this.props.id)
+                  player.createNewPlaylist(this.props.songs, this.props.id)
                 }
               />
             );
@@ -160,5 +159,15 @@ class PlayerPlaylistContainer extends React.Component {
     );
   }
 }
+
+const styles = {
+  playerPlaylistContainer: {
+    position: 'relative',
+  },
+  tracksContainer: {
+    backgroundColor: '#0d0d0dc0',
+    paddingBottom: size.miniPlayerHeight,
+  },
+};
 
 export default PlayerPlaylistContainer;

@@ -37,7 +37,7 @@ class FullScreenPlayer extends Component {
             />
           </View>
           <CustomText
-            weight={500}
+            weight={600}
             value={track.album.title}
             style={styles.albumTitle}
           />
@@ -117,7 +117,7 @@ const styles = {
   albumTitle: {
     marginTop: 10,
     color: Color(color.primaryText).darken(0.1).string(),
-    fontSize: 13,
+    fontSize: 15,
   },
   track: {
     flexDirection: 'row',
@@ -153,11 +153,10 @@ const styles = {
     //shadow end
   },
   cover: {
-    width: WINDOW_WIDTH * 0.9,
-    height: WINDOW_WIDTH * 0.9,
+    width: WINDOW_WIDTH * 0.95,
+    height: WINDOW_WIDTH * 0.95,
     borderRadius: 8,
   },
-  progressBar: {},
   controls: {
     alignItems: 'center',
     width: '100%',

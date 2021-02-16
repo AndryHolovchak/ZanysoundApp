@@ -17,7 +17,7 @@ import MiniPlayer from './MiniPlayer';
 import FullScreenPlayer from './FullScreenPlayer';
 import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 
-const MIN_HEIGHT = 55;
+const MIN_HEIGHT = size.miniPlayerHeight;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 class Player extends Component {
@@ -84,6 +84,7 @@ class Player extends Component {
   handleFavoriteStatusChange = (info) => {
     let currentSong = player.currentSong;
     if (currentSong && currentSong.id === info.id) {
+      // console.log('Going to update');
       this.forceUpdate();
     }
   };

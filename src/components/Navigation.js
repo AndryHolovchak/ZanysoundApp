@@ -8,7 +8,6 @@ import Color from 'color';
 import {View} from 'react-native';
 
 const Tab = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
 
 const SCREEN_ICONS = {
   collection: 'album-collection',

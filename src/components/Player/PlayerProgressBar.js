@@ -26,7 +26,16 @@ let isSliding = false;
 let useTmpValue = false;
 let buffered = 0;
 
-const PlayerProgressBar = ({style}) => {
+const PlayerProgressBar = ({
+  style,
+  sliderStyle,
+  trackStyle,
+  interactable = true,
+  showTime = true,
+  showThumb = true,
+  height,
+  maximumTrackTintColor,
+}) => {
   const {position, bufferedPosition, duration} = useTrackPlayerProgress();
   const forceUpdate = useForceUpdate();
 
@@ -57,17 +66,21 @@ const PlayerProgressBar = ({style}) => {
 
   return (
     <View style={[styles.container, style]}>
-      <CustomText
-        value={secToMSS(duration * positionToShow)}
-        style={styles.currentTime}
-      />
+      {showTime && (
+        <CustomText
+          value={secToMSS(duration * positionToShow)}
+          style={styles.currentTime}
+        />
+      )}
       <Slider
-        style={styles.slider}
-        trackStyle={styles.track}
-        allowTouchTrack
-        thumbStyle={styles.thumb}
+        style={[styles.slider, sliderStyle]}
+        trackStyle={[styles.track, trackStyle]}
+        allowTouchTrack={interactable}
+        thumbStyle={showThumb ? styles.thumb : styles.hiddenThumb}
         minimumTrackTintColor={Color(color.playerBg).lighten(2.5).string()}
-        maximumTrackTintColor={Color(color.playerBg).lighten(1).string()}
+        maximumTrackTintColor={
+          maximumTrackTintColor || Color(color.playerBg).lighten(1).string()
+        }
         value={positionToShow}
         onValueChange={(newValue) => {
           useTmpValue && (tmpValue = newValue);
@@ -85,7 +98,9 @@ const PlayerProgressBar = ({style}) => {
           isSliding = false;
         }}
       />
-      <CustomText value={secToMSS(duration)} style={styles.duration} />
+      {showTime && (
+        <CustomText value={secToMSS(duration)} style={styles.duration} />
+      )}
     </View>
   );
 };
@@ -115,6 +130,10 @@ const styles = {
     backgroundColor: Color(color.playerBg).lighten(4).string(),
     height: 13,
     width: 13,
+  },
+  hiddenThumb: {
+    height: 0,
+    width: 0,
   },
   slider: {
     height: 20,

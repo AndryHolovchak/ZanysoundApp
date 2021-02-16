@@ -1,11 +1,11 @@
-const playerHeight = 120;
+const miniPlayerHeight = 55;
 const songMaxWidth = 700;
 const navigationHeight = 40;
 const searchInputHeight = 35;
 const windowTopBarHeight = 40;
 
 export {
-  playerHeight,
+  miniPlayerHeight,
   songMaxWidth,
   navigationHeight,
   searchInputHeight,

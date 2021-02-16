@@ -11,9 +11,12 @@ import ProfileScreen from './src/components/screens/ProfileScreen';
 import {PlayerUI} from './src/components/PlayerUI';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {color} from './src/styles';
-import {MiniPlayer} from './src/components/MiniPlayer';
-import {ExpandedPlayer} from './src/components/ExpandedPlayer';
 import {Player} from './src/components/Player';
+import TrackPlayer from 'react-native-track-player';
+
+//call any method in TrackPlayer to initialize it
+//This will save time playing the first track
+TrackPlayer.getDuration();
 
 export default function App() {
   const forceUpdate = useForceUpdate();

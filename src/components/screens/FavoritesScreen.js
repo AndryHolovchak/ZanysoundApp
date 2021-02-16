@@ -8,6 +8,7 @@ import {generateId} from '../../utils/idUtils';
 import DataContainer from '../../misc/DataContainer';
 import PlayerPlaylistContainer from '../PlayerPlaylistContainer';
 import {View} from 'react-native';
+
 //const LoadingScreen = require("../LoadingScreen");
 //import { i18n } from "../../i18n";
 
@@ -53,7 +54,7 @@ class FavoritesScreen extends React.Component {
     let songs = favoriteSongsHelper.getFavorite();
 
     return favoriteSongsHelper.isInitialized && songs.length ? (
-      <View style={{flex: 1, height: '100%'}}>
+      <View style={styles.favoriteScreen}>
         <PlayerPlaylistContainer
           id={this.state.playlistContainerId}
           songs={songs}
@@ -82,5 +83,11 @@ class FavoritesScreen extends React.Component {
     // </div>
   }
 }
+const styles = {
+  favoriteScreen: {
+    flex: 1,
+    height: '100%',
+  },
+};
 
 export default FavoritesScreen;

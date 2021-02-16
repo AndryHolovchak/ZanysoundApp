@@ -7,14 +7,17 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import player from '../../misc/Player';
-import {color} from '../../styles';
+import {color, size} from '../../styles';
 import Color from 'color';
 import {Icon, ICON_FAMILIES} from '../Icon';
 import CustomText from '../CustomText';
 import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 import {BlurView} from '@react-native-community/blur';
+import AlbumCover from '../AlbumCover';
+import PlayerProgressBar from './PlayerProgressBar';
 
 class MiniPlayer extends Component {
+  static HEIGHT = 55;
   constructor(props) {
     super(props);
   }
@@ -55,15 +58,27 @@ class MiniPlayer extends Component {
             blurAmount={100}
             reducedTransparencyFallbackColor="white" //TODO: Set some pretty color
           />
+          <PlayerProgressBar
+            showTime={false}
+            showThumb={false}
+            style={styles.progressBar}
+            sliderStyle={styles.progressBarSlider}
+            trackStyle={styles.progressBarTrack}
+            interactable={false}
+          />
           <View style={styles.inner}>
-            <Icon
-              onPress={this.handleLikeButtonClick}
-              name="heart"
-              family={
-                isTrackFavorite ? ICON_FAMILIES.solid : ICON_FAMILIES.light
-              }
-              style={styles.heart}
-            />
+            <View style={styles.leftSide}>
+              <AlbumCover albumModel={track.album} style={styles.cover} />
+              <Icon
+                onPress={this.handleLikeButtonClick}
+                name="heart"
+                family={
+                  isTrackFavorite ? ICON_FAMILIES.solid : ICON_FAMILIES.light
+                }
+                style={styles.heart}
+              />
+            </View>
+
             <View style={styles.info}>
               <CustomText
                 value={track.title}
@@ -114,15 +129,34 @@ const styles = {
     position: 'relative',
     backgroundColor: 'transparent',
   },
+  progressBar: {
+    position: 'absolute',
+    width: '100%',
+    zIndex: 100,
+  },
+  progressBarSlider: {
+    height: 1,
+  },
+  progressBarTrack: {
+    height: 1,
+  },
   inner: {
     position: 'relative',
     zIndex: 3,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 12,
-    paddingRight: 12,
     justifyContent: 'space-between',
+  },
+  leftSide: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cover: {
+    height: size.miniPlayerHeight,
+    width: size.miniPlayerHeight,
+    marginRight: 5,
+    borderRadius: 0,
   },
   heart: {
     color: color.primary,
@@ -133,11 +167,11 @@ const styles = {
   },
   title: {
     color: color.primaryText,
-    fontSize: 12,
+    fontSize: 14,
   },
   artist: {
     color: color.secondaryText,
-    fontSize: 11,
+    fontSize: 12,
   },
   controls: {
     flex: 0,
@@ -145,12 +179,13 @@ const styles = {
     alignItems: 'center',
   },
   togglePlayButton: {
-    fontSize: 50,
+    fontSize: 53,
     padding: 0,
-    marginRight: 10,
+    marginRight: 2,
   },
   nextButton: {
-    fontSize: 17,
+    fontSize: 20,
+    marginRight: 18,
   },
 };
 
