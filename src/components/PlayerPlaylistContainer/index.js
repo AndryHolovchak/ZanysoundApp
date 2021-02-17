@@ -7,8 +7,7 @@ import dataContainer from '../../misc/DataContainer';
 import PlayerPlaylistContainerBG from './PlayerPlaylistContainerBG';
 import {FlatList, VirtualizedList, View} from 'react-native';
 import {color, size} from '../../styles';
-
-const SONG_HEIGHT = 65; //
+import Color from 'color';
 
 class PlayerPlaylistContainer extends React.Component {
   static propTypes = {
@@ -135,22 +134,26 @@ class PlayerPlaylistContainer extends React.Component {
 
     return (
       <View style={styles.playerPlaylistContainer}>
-        <PlayerPlaylistContainerBG id={this.props.id} />
+        {/* <PlayerPlaylistContainerBG id={this.props.id} /> */}
         <FlatList
+          onEndReached={this.props.onAllSongsLoaded}
+          onEndReachedThreshold={0.7}
           // style={styles.tracksContainer}
           contentContainerStyle={styles.tracksContainer}
-          // removeClippedSubviews={true} //lazy rendering
+          overScrollMode="always"
+          removeClippedSubviews={true} //lazy rendering
           initialNumToRender={15}
           data={this.props.songs}
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={(e) => {
             return (
               <Song
-                parentPlaylistUuid={this.props.parentPlaylistUuid}
+                // parentPlaylistUuid={this.props.parentPlaylistUuid}
+                parentPlaylistUuid={this.props.id}
                 info={e.item}
-                playerPlaylistCreator={() =>
-                  player.createNewPlaylist(this.props.songs, this.props.id)
-                }
+                playerPlaylistCreator={() => {
+                  player.createNewPlaylist(this.props.songs, this.props.id);
+                }}
               />
             );
           }}
@@ -165,7 +168,7 @@ const styles = {
     position: 'relative',
   },
   tracksContainer: {
-    backgroundColor: '#0d0d0dc0',
+    backgroundColor: Color(color.bg).darken(0.2).string(), //'#0d0d0dc0',
     paddingBottom: size.miniPlayerHeight,
   },
 };

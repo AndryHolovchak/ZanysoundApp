@@ -118,12 +118,14 @@ const styles = {
     position: 'absolute',
     top: -15,
     left: 2,
+    fontSize: 12,
     color: Color(color.secondaryText).fade(0.5).string(),
   },
   duration: {
     position: 'absolute',
     top: -15,
     right: 2,
+    fontSize: 12,
     color: Color(color.secondaryText).fade(0.5).string(),
   },
   thumb: {

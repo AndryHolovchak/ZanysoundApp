@@ -18,7 +18,7 @@ class FavoritesScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = DataContainer.get(favoritesScreenSnapshotId) || {
+    this.state = {
       playlistContainerId: generateId(),
     };
 

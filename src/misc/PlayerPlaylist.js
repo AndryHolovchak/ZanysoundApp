@@ -129,8 +129,8 @@ class PlayerPlaylist {
   goToSong = (instasnceId) => {
     let songIndex = this._getSongIndexIn(this._currentOrder, instasnceId);
 
-    if (songIndex == -1) {
-      throw new UnknownSongError();
+    if (songIndex === -1) {
+      throw new Error('Unknown song');
     }
 
     this._currentSongIsInitialized = true;

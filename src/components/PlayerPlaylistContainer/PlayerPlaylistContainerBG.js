@@ -30,7 +30,7 @@ const PlayerPlaylistContainerBG = ({id}) => {
           uri: playingSong.album.coverBig || playingSong.album.coverXl,
         }}
         style={styles.img}
-        blurRadius={5}
+        blurRadius={50}
       />
     );
   }

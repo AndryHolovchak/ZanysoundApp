@@ -58,9 +58,11 @@ class DeezerApi {
   };
 
   addToLoved = async (id) => {
-    await this._deezerRequest(`/user/me/tracks`, {}, METHODS.post, {
-      track_id: id,
-    });
+    let response = await this._deezerRequest(
+      `/user/me/tracks`,
+      {track_id: id},
+      METHODS.post,
+    );
   };
 
   removeFromLoved = async (id) => {

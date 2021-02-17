@@ -1,11 +1,9 @@
-const songRequestsApi = require("./api/SRHApiUtils");
+const songRequestsApi = require('./api/SRHApiUtils');
 
 const listenSongRequest = async (request, onRequestComplete) => {
   let handlingTimeSec = await songRequestsApi.getRequestHandlingTimeSec(
-    request
+    request,
   );
-
-  console.log(`${request} handle time = ${handlingTimeSec}`);
 
   if (handlingTimeSec === null) {
     return;
@@ -16,7 +14,7 @@ const listenSongRequest = async (request, onRequestComplete) => {
   } else {
     setTimeout(
       listenSongRequest.bind(this, request, onRequestComplete),
-      handlingTimeSec * 1000
+      handlingTimeSec * 1000,
     );
   }
 };

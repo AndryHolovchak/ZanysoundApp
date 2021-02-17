@@ -113,6 +113,7 @@ class Player {
 
     this._trackPlayerListeners.push(
       TrackPlayer.addEventListener('playback-track-changed', (e) => {
+        console.log(e);
         if (!e.nextTrack && e.track) {
           this._handleHtmlAudioEnded();
         } else {
@@ -139,6 +140,10 @@ class Player {
   };
 
   _init = async () => {
+    try {
+      let state = await TrackPlayer.getState();
+    } catch {}
+
     await TrackPlayer.setupPlayer({
       playBuffer: 0.5,
       backBuffer: 0,
@@ -164,7 +169,6 @@ class Player {
     });
     this.setEventListeners();
     this._isInitialized = true;
-    console.log('Player initialized');
   };
 
   addOnSongChangeListener = (callback) => {
@@ -301,18 +305,20 @@ class Player {
         return;
       }
 
-      try {
-        this._releaseSound(); //await
-      } catch {}
+      await TrackPlayer.add({
+        id: song.id,
+        url: trackUrl.url,
+        title: 'Title',
+        pitchAlgorithm: TrackPlayer.PITCH_ALGORITHM_MUSIC,
+      });
 
-      await TrackPlayer.add([
-        {
-          id: song.id,
-          url: trackUrl.url,
-          title: 'Title',
-          pitchAlgorithm: TrackPlayer.PITCH_ALGORITHM_MUSIC,
-        },
-      ]);
+      if (this._currentSong !== song) {
+        return;
+      }
+
+      try {
+        await this._releaseSound();
+      } catch {}
 
       if (this._currentSong !== song) {
         return;
@@ -326,7 +332,7 @@ class Player {
       }
 
       try {
-        await TrackPlayer.skip(song.id.toString());
+        await TrackPlayer.skipToNext(); //song.id.toString()
       } catch {}
 
       this._setHtmlAudioPlay(true);
@@ -356,7 +362,7 @@ class Player {
   _releaseSound = async () => {
     let currentTrack = await TrackPlayer.getCurrentTrack();
     if (currentTrack) {
-      await TrackPlayer.remove([currentTrack]);
+      await TrackPlayer.remove(currentTrack);
     }
   };
 

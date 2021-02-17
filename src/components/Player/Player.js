@@ -25,7 +25,6 @@ class Player extends Component {
     super(props);
     this.distanceToTop = WINDOW_HEIGHT - MIN_HEIGHT - size.navigationHeight;
     this.expand = new Animated.Value(0);
-    this.currentGestureId;
 
     this.panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (_, gesture) => {

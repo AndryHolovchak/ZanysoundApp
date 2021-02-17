@@ -152,11 +152,12 @@ class Song extends React.Component {
 
   handleClick = (e) => {
     if (player.isCurrentSong(this.props.info)) {
-      console.log('Is current song');
       player.togglePlay();
     } else if (player.isInPlaylist(this.props.info)) {
+      console.log('This song is in playlist');
       player.playFromPlaylist(this.props.info);
     } else {
+      console.log('Going to create new playlist');
       this.props.playerPlaylistCreator
         ? this.props.playerPlaylistCreator()
         : player.createNewPlaylist([this.props.info]);

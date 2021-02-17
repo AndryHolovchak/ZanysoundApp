@@ -39,7 +39,7 @@ class DeezerAuth {
     let urlParams = getUrlParams(e.url);
 
     if (!urlParams['isAuthRedir']) {
-      console.log('is ont auth redir');
+      console.log('is not the auth redir');
       return;
     }
 
