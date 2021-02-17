@@ -3,7 +3,6 @@ import {getUrlParams, object2queryParams} from '../utils/urlUtils';
 import deezerApi from '../api/DeezerApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Linking} from 'react-native';
-import RNRestart from 'react-native-restart';
 
 class DeezerAuth {
   _TOKEN_STORAGE_KEY = 'dz';
