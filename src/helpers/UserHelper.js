@@ -1,8 +1,8 @@
-import deezerApi from "../api/DeezerApi";
-import { getRandomInt } from "../utils/numberUtils";
-import EventSystem from "../misc/EventSystem";
-import deezerAuth from "../auth/DeezerAuth";
-import UserModel from "../models/UserModel";
+import deezerApi from '../api/DeezerApi';
+import {getRandomInt} from '../utils/numberUtils';
+import EventSystem from '../misc/EventSystem';
+import deezerAuth from '../auth/DeezerAuth';
+import UserModel from '../models/UserModel';
 
 const DINO_ICON_COUNT = 50;
 
@@ -22,15 +22,20 @@ class UserHelper {
   }
   get avatarUrl() {
     return (
-      "/public/icons/Dino/numbered/" +
+      '/public/icons/Dino/numbered/' +
       getRandomInt(0, DINO_ICON_COUNT - 1) +
-      ".svg"
+      '.svg'
     );
   }
 
   constructor() {
     this._onInitialized = new EventSystem();
-    deezerAuth.onSignIn = this._initialize;
+
+    if (deezerAuth.isSignIn) {
+      this._initialize();
+    } else {
+      deezerAuth.onSignIn = this._initialize;
+    }
   }
 
   _initialize = async () => {

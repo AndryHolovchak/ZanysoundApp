@@ -26,7 +26,6 @@ class RecommendedScreen extends React.Component {
   }
 
   handleRecommendedSongsInit = () => {
-    console.log('Inited');
     this.forceUpdate();
   };
 

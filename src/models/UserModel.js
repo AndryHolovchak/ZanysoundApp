@@ -1,12 +1,13 @@
 class UserModel {
   static fromDeezer = (json) => {
-    return new UserModel(json.id, json.name, json.picture_big);
+    return new UserModel(json.id, json.name, json.picture_big, json.email);
   };
 
-  constructor(id, name, pictureBig) {
+  constructor(id, name, pictureBig, email) {
     this._id = id;
     this._name = name;
     this._pictureBig = pictureBig;
+    this._email = email;
   }
 
   get id() {
@@ -17,6 +18,9 @@ class UserModel {
   }
   get pictureBig() {
     return this._pictureBig;
+  }
+  get email() {
+    return this._email;
   }
 }
 

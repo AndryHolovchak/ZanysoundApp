@@ -86,7 +86,7 @@ class DeezerApi {
   };
 
   deletePlaylist = async (id) => {
-    await this._deezerRequest(`/playlist/${id}`, {}, tMETHODS.delete);
+    await this._deezerRequest(`/playlist/${id}`, {}, METHODS.delete);
   };
 
   addToPlaylist = async (playlistId, songId) => {

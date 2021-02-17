@@ -22,6 +22,7 @@
     "react-native-gesture-handler": "^1.9.0",
     "react-native-reanimated": "^1.13.2",
     "react-native-redash": "^8.0.0",
+    "react-native-restart": "0.0.20",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.17.1",
     "react-native-swift": "^1.2.3",

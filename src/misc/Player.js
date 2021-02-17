@@ -113,7 +113,6 @@ class Player {
 
     this._trackPlayerListeners.push(
       TrackPlayer.addEventListener('playback-track-changed', (e) => {
-        console.log(e);
         if (!e.nextTrack && e.track) {
           this._handleHtmlAudioEnded();
         } else {

@@ -1,27 +1,88 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {View, Image} from 'react-native';
+import userHelper from '../../helpers/UserHelper';
+import deezerAuth from '../../auth/DeezerAuth';
+import CustomText from '../CustomText';
+import {color} from '../../styles';
+import Button from '../Button';
+import Color from 'color';
+// const { i18n } = require("../../js/i18n");
 
-const ProfileScreen = () => {
-  return (
-    <View style={style.container}>
-      <Text style={style.text}>Profile</Text>
-    </View>
-  );
-};
+class ProfileScreen extends React.Component {
+  constructor(props) {
+    super(props);
 
-const style = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#171717',
+    userHelper.onInitialized = () => this.forceUpdate();
+
+    if (!userHelper.isInitialized) {
+      // userHelper._initialize();
+    }
+  }
+
+  handleExitButtonClick = () => {
+    deezerAuth.signOut();
+  };
+
+  render() {
+    if (!userHelper.isInitialized) {
+      return null;
+    }
+
+    let user = userHelper.info;
+
+    return (
+      <View style={styles.profileScreen}>
+        <View style={styles.userInfo}>
+          <Image
+            style={styles.avatar}
+            source={{
+              uri: user.pictureBig,
+            }}
+          />
+          <CustomText value={user.name} weight={700} style={styles.name} />
+          <CustomText value={user.email} style={styles.email} />
+        </View>
+
+        <Button
+          title="Exit"
+          buttonStyle={styles.exitButton}
+          onPress={this.handleExitButtonClick}
+        />
+      </View>
+    );
+  }
+}
+
+const styles = {
+  profileScreen: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  text: {
-    color: '#ebebeb',
-    fontSize: 30,
-    fontWeight: '600',
-    letterSpacing: 3,
-    alignSelf: 'center',
+  userInfo: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 30,
+    borderRadius: 5,
+    backgroundColor: Color(color.bg).lighten(0.6).string(),
+    marginBottom: 40,
   },
-});
+  avatar: {
+    width: 96,
+    height: 96,
+    borderRadius: 2,
+  },
+  name: {
+    fontSize: 25,
+  },
+  email: {
+    fontSize: 13,
+    color: color.secondaryText,
+    marginBottom: 50,
+  },
+  exitButton: {
+    minWidth: 250,
+  },
+};
 
 export default ProfileScreen;

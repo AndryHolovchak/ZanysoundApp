@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text} from 'react-native';
+import {color} from '../styles';
 
 const WEIGHT_PREFIX = {
   100: 'Thin',
@@ -17,7 +18,13 @@ const CustomText = ({value, weight = 400, numberOfLines = 1, style = {}}) => {
   return (
     <Text
       numberOfLines={numberOfLines}
-      style={[{fontFamily: `Montserrat-${WEIGHT_PREFIX[weight]}`}, style]}>
+      style={[
+        {
+          fontFamily: `Montserrat-${WEIGHT_PREFIX[weight]}`,
+          color: color.primaryText,
+        },
+        style,
+      ]}>
       {value}
     </Text>
   );
