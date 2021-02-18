@@ -43,6 +43,7 @@ const ICONS = {
   user: {unicode: '\uf007'},
   random: {unicode: '\uf074'},
   repeat: {unicode: '\uf363'},
+  time: {unicode: '\uf00d'},
   'step-backward': {unicode: '\uf048'},
   'step-forward': {unicode: '\uf051'},
   'pause-circle': {unicode: '\uf28b'},

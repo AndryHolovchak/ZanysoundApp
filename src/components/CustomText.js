@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, TouchableWithoutFeedback} from 'react-native';
 import {color} from '../styles';
 
 const WEIGHT_PREFIX = {
@@ -14,7 +14,31 @@ const WEIGHT_PREFIX = {
   900: 'Black',
 };
 
-const CustomText = ({value, weight = 400, numberOfLines = 1, style = {}}) => {
+const CustomText = ({
+  value,
+  weight = 400,
+  numberOfLines = 1,
+  style = {},
+  onPress,
+}) => {
+  if (onPress) {
+    return (
+      <TouchableWithoutFeedback onPress={onPress}>
+        <Text
+          numberOfLines={numberOfLines}
+          style={[
+            {
+              fontFamily: `Montserrat-${WEIGHT_PREFIX[weight]}`,
+              color: color.primaryText,
+            },
+            style,
+          ]}>
+          {value}
+        </Text>
+      </TouchableWithoutFeedback>
+    );
+  }
+
   return (
     <Text
       numberOfLines={numberOfLines}

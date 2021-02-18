@@ -8,6 +8,7 @@ import PlayerPlaylistContainerBG from './PlayerPlaylistContainerBG';
 import {FlatList, VirtualizedList, View} from 'react-native';
 import {color, size} from '../../styles';
 import Color from 'color';
+import SongWithNavigation from '../SongWithNavigation';
 
 class PlayerPlaylistContainer extends React.Component {
   static propTypes = {
@@ -139,7 +140,10 @@ class PlayerPlaylistContainer extends React.Component {
           onEndReached={this.props.onAllSongsLoaded}
           onEndReachedThreshold={0.7}
           // style={styles.tracksContainer}
-          contentContainerStyle={styles.tracksContainer}
+          contentContainerStyle={[
+            styles.tracksContainer,
+            this.props.tracksContainerStyle,
+          ]}
           overScrollMode="always"
           removeClippedSubviews={true} //lazy rendering
           initialNumToRender={15}
@@ -147,7 +151,7 @@ class PlayerPlaylistContainer extends React.Component {
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={(e) => {
             return (
-              <Song
+              <SongWithNavigation
                 // parentPlaylistUuid={this.props.parentPlaylistUuid}
                 parentPlaylistUuid={this.props.id}
                 info={e.item}

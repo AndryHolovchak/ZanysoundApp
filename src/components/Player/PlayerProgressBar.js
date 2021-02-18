@@ -87,15 +87,20 @@ const PlayerProgressBar = ({
           forceUpdate();
         }}
         onSlidingStart={(newValue) => {
-          tmpValue = newValue;
-          useTmpValue = true;
-          isSliding = true;
+          if (interactable) {
+            tmpValue = newValue;
+            useTmpValue = true;
+            isSliding = true;
+          } else {
+          }
         }}
         onSlidingComplete={async (newValue) => {
-          player.seekTo(newValue);
-          tmpValue = newValue;
-          useTmpValue = true;
-          isSliding = false;
+          if (interactable) {
+            player.seekTo(newValue);
+            tmpValue = newValue;
+            useTmpValue = true;
+            isSliding = false;
+          }
         }}
       />
       {showTime && (

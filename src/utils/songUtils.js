@@ -12,4 +12,4 @@ const concatWithoutSongDuplicates = (array1, array2) => {
   return array1.concat(array2.filter((s) => array1Ids.indexOf(s.id) === -1));
 };
 
-module.exports = { removeSongFromArray, concatWithoutSongDuplicates };
+export {removeSongFromArray, concatWithoutSongDuplicates};

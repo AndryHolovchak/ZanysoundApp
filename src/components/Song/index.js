@@ -3,19 +3,8 @@ import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 import player from '../../misc/Player';
 import playerPlaybackListener from '../../misc/PlayerPlaybackListener';
 import useForceUpdate from '../../hooks/useForceUpdate';
-//  const { useHistory } = require("react-router");
-// const CachingButton = require("./CachingButton/CachingButton.jsx");
-//const { CACHE_AVAILABLE } = require("../../js/helpers/TrackCacheHelper");
-// const useHover = require("../../js/hooks/useHover");
-// const useActive = require("../../js/hooks/useActive");
-// const useStopPropagation = require("../../js/hooks/useStopPropagation");
-// const { ModalWindowSystemContext } = require("../ModalWindowSystemProvider");
-//const SongOptionModal = require("../modals/SongOptionModal");
-// const { goToSearchRoute, ROUTE_METHOD } = require("../../js/utils/routeUtils");
 import {Icon, ICON_FAMILIES} from '../Icon';
-// const AuthorizedOnlyActionModal = require("../modals/AuthorizedOnlyActionModal");
 import deezerAuth from '../../auth/DeezerAuth';
-// const SoundWaves = require("../SoundWaves");
 import {DefaultCoverUrl} from '../../consts/URLConsts';
 import {Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {color, size} from '../../styles';
@@ -25,6 +14,7 @@ import {TouchableWithoutFeedback} from 'react-native';
 import {useCallback} from 'react';
 import LikeButton from '../LikeButton';
 import AlbumCover from '../AlbumCover';
+import {navigateToSearchRoute} from '../../utils/navigationUtils';
 
 class Song extends React.Component {
   static defaultProps = {
@@ -113,6 +103,7 @@ class Song extends React.Component {
                 style={[artistFinalStyle, this.props.artistStyle]}
                 weight={isCurrentSong ? 500 : 400}
                 value={this.props.info.artist.name}
+                // onPress={this.handleArtistPress}
               />
             </View>
           </View>
@@ -168,6 +159,12 @@ class Song extends React.Component {
     favoriteSongsHelper.toggleSong(this.props.info);
   };
 
+  handleArtistPress = () => {
+    navigateToSearchRoute(this.props.navigation, {
+      q: this.props.info.artist.name,
+    });
+  };
+
   handleTrackIdChange = () => {
     favoriteSongsHelper.stopListeningFavoriteStatus(
       this.handleFavoriteStatusChange,
@@ -194,146 +191,6 @@ class Song extends React.Component {
     this.setState({instanceId: this.props.info.instanceId});
   };
 }
-
-// const Song = (props) => {
-//   const [instanceId, setInstanceId] = useState(props.info.instanceId);
-//   const [id, setId] = useState(props.info.id);
-//   const forceUpdate = useForceUpdate();
-
-//   useEffect(() => {
-//     favoriteSongsHelper.listenFavoriteStatus(forceUpdate, id);
-//     playerPlaybackListener.addListenerForSong(instanceId, forceUpdate);
-//     return () => {
-//       favoriteSongsHelper.stopListeningFavoriteStatus(forceUpdate, id);
-//       playerPlaybackListener.removeListenerForSong(instanceId, forceUpdate);
-//     };
-//   }, [id, instanceId]);
-
-//   const handleClick = (e) => {
-//     if (player.isCurrentSong(props.info)) {
-//       console.log('Is current song');
-//       player.togglePlay();
-//     } else if (player.isInPlaylist(props.info)) {
-//       player.playFromPlaylist(props.info);
-//     } else {
-//       props.playerPlaylistCreator
-//         ? props.playerPlaylistCreator()
-//         : player.createNewPlaylist([props.info]);
-//       player.playFromPlaylist(props.info);
-//     }
-//   };
-
-//   const handleArtistClick = (e) => {
-//     e.stopPropagation();
-//     goToSearchRoute(history, props.info.artist.name, ROUTE_METHOD.push);
-//   };
-
-//   const handleLikeButtonClick = async (e) => {
-//     e.stopPropagation();
-//     favoriteSongsHelper.toggleSong(props.info);
-//   };
-
-//   const handleOptionButtonClick = () => {
-//     modalWindowSystem.add(
-//       <SongOptionModal
-//         parentPlaylistUuid={props.parentPlaylistUuid}
-//         targetSong={props.info}
-//       />,
-//     );
-//   };
-
-//   const handleSongUuidChange = () => {
-//     favoriteSongsHelper.stopListeningFavoriteStatus(forceUpdate, id);
-//     favoriteSongsHelper.listenFavoriteStatus(forceUpdate, props.info.id);
-//     setId(props.info.id);
-//   };
-
-//   const handleInstanceIdChange = () => {
-//     playerPlaybackListener.removeListenerForSong(instanceId, forceUpdate);
-
-//     playerPlaybackListener.addListenerForSong(
-//       props.info.instanceId,
-//       forceUpdate,
-//     );
-
-//     setInstanceId(props.info.instanceId);
-//   };
-//   if (id != props.info.id) {
-//     handleSongUuidChange();
-//   }
-
-//   if (instanceId != props.info.instanceId) {
-//     handleInstanceIdChange();
-//   }
-
-//   let isFavorite = favoriteSongsHelper.isFavorite(id);
-
-//   //let showSoundWaves = false;
-//   //let soundWavesIsPaused = false;
-
-//   //let songStyle = [styles.song];
-//   let isCurrentSong = player.isCurrentSong(props.info);
-//   let titleFinalStyle = [styles.title];
-//   let artistFinalStyle = [styles.artist];
-
-//   if (isCurrentSong) {
-//     titleFinalStyle.push(styles.playingSongText);
-//     artistFinalStyle.push(styles.playingSongText);
-//   }
-
-//   titleFinalStyle = StyleSheet.flatten(titleFinalStyle);
-//   artistFinalStyle = StyleSheet.flatten(artistFinalStyle);
-
-//   // if (isCurrentSong) {
-//   //   songClassName.push('song--playing');
-//   //   songStyle.push(styles.playingSong);
-//   //   showSoundWaves = true;
-
-//   //   if (!player.isPlaying) {
-//   //     songClassName.push('song--paused');
-//   //     soundWavesIsPaused = true;
-//   //   }
-//   // }
-
-//   // songClassName = songClassName.join(' ');
-//   return (
-//     <TouchableWithoutFeedback onPress={handleClick}>
-//       <View style={[styles.song, props.style]}>
-//         <Icon
-//           onPress={handleLikeButtonClick}
-//           style={StyleSheet.flatten([styles.heart, props.favoriteIconStyle])}
-//           name="heart"
-//           family={isFavorite ? ICON_FAMILIES.solid : ICON_FAMILIES.light}
-//         />
-//         <View style={styles.info}>
-//           <View style={styles.coverContainer}>
-//             <Image
-//               style={[styles.cover, props.coverStyle]}
-//               source={{
-//                 uri:
-//                   props.info.album.coverMedium ||
-//                   props.info.album.coverBig ||
-//                   DefaultCoverUrl,
-//               }}
-//             />
-//           </View>
-//           <View style={styles.mainInfo}>
-//             <CustomText
-//               style={StyleSheet.flatten([titleFinalStyle, props.titleStyle])}
-//               weight={isCurrentSong ? 600 : 500}
-//               value={props.info.title}
-//             />
-//             <CustomText
-//               style={StyleSheet.flatten([artistFinalStyle, props.artistStyle])}
-//               weight={isCurrentSong ? 500 : 400}
-//               value={props.info.artist.name}
-//             />
-//           </View>
-//         </View>
-//       </View>
-//     </TouchableWithoutFeedback>
-//   );
-// };
 
 Song.defaultProps = {
   style: {},

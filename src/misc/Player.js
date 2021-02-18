@@ -8,6 +8,7 @@ import TrackPlayer, {
   STATE_READY,
   STATE_CONNECTING,
 } from 'react-native-track-player';
+import {generateId} from '../utils/idUtils';
 
 class Player {
   _isRepeatOneModeOn = false;
@@ -16,6 +17,7 @@ class Player {
   _isPlaying = false;
   _trackIsChanging = false;
   _currentSong = null;
+  trackCanBeChanged = true;
 
   get currentSong() {
     return this._currentSong;
@@ -112,11 +114,20 @@ class Player {
     );
 
     this._trackPlayerListeners.push(
-      TrackPlayer.addEventListener('playback-track-changed', (e) => {
-        if (!e.nextTrack && e.track) {
+      TrackPlayer.addEventListener('remote-seek', ({position}) => {
+        TrackPlayer.seekTo(position);
+      }),
+    );
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('playback-track-changed', async (e) => {
+        if (e.nextTrack === '1') {
+          await TrackPlayer.skip('-1');
+          await TrackPlayer.play();
+        }
+
+        if (e.nextTrack === '1' && e.track !== '-1') {
           this._handleHtmlAudioEnded();
-        } else {
-          this._trackChanged = false;
         }
       }),
     );
@@ -124,12 +135,13 @@ class Player {
     this._trackPlayerListeners.push(
       TrackPlayer.addEventListener('playback-state', ({state}) => {
         if (state === STATE_PLAYING && this._trackIsChanging) {
-          this._trackIsChanging = false;
+          // this._trackIsChanging = false;
         }
 
         if (this._isPlaying ^ (state === STATE_PLAYING)) {
           this._isPlaying = !this._isPlaying;
-
+          if (!this._isPlaying) {
+          }
           this._isPlaying
             ? this._handleHtmlAudioPlay()
             : this._handleHtmlAudioPause();
@@ -264,105 +276,88 @@ class Player {
     return this._isPlaying;
   }
 
+  //This method is just a shit :)
   _playSong = async (song) => {
-    let prevSong = this._currentSong;
-    this._currentSong = song;
+    if (!this.trackCanBeChanged) {
+      return;
+    }
 
-    if (this._currentSong) {
-      this._trackIsChanging = true;
-      this._isMetadataLoaded = false;
+    let prevTrack = this._currentSong;
+    let currentTrack = song;
+    this._currentSong = currentTrack;
+    this._trackIsChanging = true;
+    this._isMetadataLoaded = false;
+    this._onSongChange.trigger(null, currentTrack);
 
-      this._onSongChange.trigger(null, this._currentSong);
-      try {
-        await this._setHtmlAudioPlay(false);
-      } catch {}
-
-      if (this._currentSong !== song) {
-        return;
-      }
-
-      if (prevSong) {
-        try {
-          await this._updateTrackPlayerOptions(
-            this._currentSong,
-            prevSong.id.toString(),
-          );
-        } catch {}
-      }
-
-      if (this._currentSong !== song) {
-        return;
-      }
-
-      let trackUrl = await mp3UrlHelper.generateUrlToMp3(
-        this._currentSong.id,
-        this._currentSong.artist.name,
-        this._currentSong.title,
-      );
-
-      if (this._currentSong !== song) {
-        return;
-      }
-
+    //add placeholder
+    if (!prevTrack) {
       await TrackPlayer.add({
-        id: song.id,
-        url: trackUrl.url,
-        title: 'Title',
-        pitchAlgorithm: TrackPlayer.PITCH_ALGORITHM_MUSIC,
+        id: '-1',
+        url: require('../../assets/silence.mp3'),
+        title: currentTrack.title,
+        artist: currentTrack.artist.name,
+        artwork: currentTrack.album.coverMedium,
+      });
+      await TrackPlayer.add({
+        id: '1',
+        url: require('../../assets/silence.mp3'),
+        title: currentTrack.title,
+        artist: currentTrack.artist.name,
+        artwork: currentTrack.album.coverMedium,
+      });
+    }
+    //use placeholder
+    else {
+      TrackPlayer.skip('-1'); //await
+      TrackPlayer.play(); //await
+      let firstPlaceholderPromise = TrackPlayer.updateMetadataForTrack('-1', {
+        duration: 100,
+        title: currentTrack.title,
+        artist: currentTrack.artist.name,
+        artwork: currentTrack.album.coverMedium,
+      });
+      let secondPlaceholderPromise = TrackPlayer.updateMetadataForTrack('1', {
+        duration: 100,
+        title: currentTrack.title,
+        artist: currentTrack.artist.name,
+        artwork: currentTrack.album.coverMedium,
       });
 
-      if (this._currentSong !== song) {
-        return;
-      }
-
       try {
-        await this._releaseSound();
+        await TrackPlayer.remove(prevTrack.id.toString());
       } catch {}
-
-      if (this._currentSong !== song) {
-        return;
-      }
-
-      await this._updateTrackPlayerOptions(this._currentSong);
-      this._isMetadataLoaded = true;
-
-      if (this._currentSong !== song) {
-        return;
-      }
-
-      try {
-        await TrackPlayer.skipToNext(); //song.id.toString()
-      } catch {}
-
-      this._setHtmlAudioPlay(true);
-    } else {
-      this._isMetadataLoaded = true;
-      await this._releaseSound();
-      this._setHtmlAudioPlay(false);
+      // await Promise.all([firstPlaceholderPromise, secondPlaceholderPromise]);
     }
-  };
 
-  _updateTrackPlayerOptions = async (track, targetId = track.id.toString()) => {
-    if (track) {
-      let metadata = null;
-      let duration = await this.getDuration();
+    let mp3UrlResponse = await mp3UrlHelper.generateUrlToMp3(
+      currentTrack.id,
+      currentTrack.artist.name,
+      currentTrack.title,
+    );
 
-      metadata = {
-        duration,
-        title: track.title,
-        artist: track.artist.name,
-        artwork: track.album.coverMedium,
-      };
-
-      await TrackPlayer.updateMetadataForTrack(targetId, metadata);
+    if (!this.trackCanBeChanged || this._currentSong !== currentTrack) {
+      return;
     }
-  };
 
-  _releaseSound = async () => {
-    let currentTrack = await TrackPlayer.getCurrentTrack();
-    if (currentTrack) {
-      await TrackPlayer.remove(currentTrack);
-    }
+    this.trackCanBeChanged = false;
+
+    await TrackPlayer.add(
+      {
+        id: currentTrack.id.toString(),
+        url: mp3UrlResponse.url,
+        duration: currentTrack.duration,
+        title: currentTrack.title,
+        artist: currentTrack.artist.name,
+        artwork: currentTrack.album.coverMedium,
+      },
+      '1',
+    );
+    await TrackPlayer.skip(currentTrack.id.toString());
+    await TrackPlayer.play();
+
+    this._trackIsChanging = false;
+    this._isMetadataLoaded = true;
+    this.trackCanBeChanged = true;
   };
 
   _setHtmlAudioPlay = async (isPlaying) => {

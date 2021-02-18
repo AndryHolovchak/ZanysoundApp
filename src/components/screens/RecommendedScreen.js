@@ -16,11 +16,6 @@ import {View} from 'react-native';
 class RecommendedScreen extends React.Component {
   constructor(props) {
     super(props);
-    recommendedSongsHelper.listenInitialization(
-      this.handleRecommendedSongsInit,
-    );
-
-    // let snapshot = DataContainer.get(recommendedWindowSnapshotId);
 
     this.state = {playlistContainerId: generateId()};
   }
@@ -30,6 +25,10 @@ class RecommendedScreen extends React.Component {
   };
 
   componentDidMount() {
+    recommendedSongsHelper.listenInitialization(
+      this.handleRecommendedSongsInit,
+    );
+
     if (
       !recommendedSongsHelper.isInitialized &&
       !recommendedSongsHelper.isInitializing

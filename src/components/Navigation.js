@@ -42,6 +42,7 @@ const screenOptions = ({route}) => ({
       />
     );
   },
+  // unmountOnBlur: true,
   style: {position: 'relative'}, // Do not change. Otherwise Navigation will be inactive
 });
 
