@@ -18,6 +18,7 @@ import FullScreenPlayer from './FullScreenPlayer';
 import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 import {useNavigation} from '@react-navigation/native';
 import * as RootNavigation from '../../misc/RootNavigation';
+import {State} from 'react-native-gesture-handler';
 
 const MIN_HEIGHT = size.miniPlayerHeight;
 const WINDOW_HEIGHT = Dimensions.get('window').height;

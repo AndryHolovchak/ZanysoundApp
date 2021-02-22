@@ -10,6 +10,8 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import {generateId} from '../utils/idUtils';
 
+const audioPlaceholder = require('../../assets/silence.mp3');
+
 class Player {
   _isRepeatOneModeOn = false;
   _isShuffleModeOn = false;
@@ -292,14 +294,14 @@ class Player {
     if (!prevTrack) {
       await TrackPlayer.add({
         id: '-1',
-        url: require('../../assets/silence.mp3'),
+        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3', //require('../../assets/silence.mp3'),
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
       });
       await TrackPlayer.add({
         id: '1',
-        url: require('../../assets/silence.mp3'),
+        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
