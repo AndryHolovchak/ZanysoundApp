@@ -48,15 +48,9 @@ const ICONS = {
   'step-forward': {unicode: '\uf051'},
   'pause-circle': {unicode: '\uf28b'},
   'play-circle': {unicode: '\uf144'},
+  'minus-square': {unicode: '\uf146'},
+  plus: {unicode: '\uf067'},
 };
-
-// let fontLoading = Font.loadAsync({
-//   fab: require('../../assets/fonts/fontawesome/webfonts/fa-brands-400.ttf'),
-//   fad: require('../../assets/fonts/fontawesome/webfonts/fa-duotone-900.ttf'),
-//   fal: require('../../assets/fonts/fontawesome/webfonts/fa-light-300.ttf'),
-//   far: require('../../assets/fonts/fontawesome/webfonts/fa-regular-400.ttf'),
-//   fas: require('../../assets/fonts/fontawesome/webfonts/fa-solid-900.ttf'),
-// });
 
 const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {
   let targetIcon = ICONS[name];

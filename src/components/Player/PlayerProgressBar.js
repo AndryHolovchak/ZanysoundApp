@@ -60,7 +60,7 @@ const PlayerProgressBar = ({
   }, 0);
 
   let positionToShow =
-    player.trackIsChanging || !buffered
+    player.trackIsChanging || !buffered || !duration
       ? 0
       : (useTmpValue ? tmpValue : position / duration) || 0;
 
@@ -104,7 +104,10 @@ const PlayerProgressBar = ({
         }}
       />
       {showTime && (
-        <CustomText value={secToMSS(duration)} style={styles.duration} />
+        <CustomText
+          value={secToMSS(player.trackIsChanging ? 0 : duration)}
+          style={styles.duration}
+        />
       )}
     </View>
   );

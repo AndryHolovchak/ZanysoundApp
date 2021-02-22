@@ -11,10 +11,7 @@ const LikeButton = ({targetTrack, style}) => {
     <Icon
       onPress={(e) => {
         e.stopPropagation();
-        // let t0 = performance.now();
         favoriteSongsHelper.toggleSong(targetTrack);
-        // let t1 = performance.now();
-        // console.log('Call to add to fav took ' + (t1 - t0) + ' milliseconds.');
       }}
       style={StyleSheet.flatten([styles.icon, style])}
       name="heart"

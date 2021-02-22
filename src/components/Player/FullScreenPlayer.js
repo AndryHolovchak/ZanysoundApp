@@ -9,6 +9,7 @@ import {Icon, ICON_FAMILIES} from '../Icon';
 import CustomText from '../CustomText';
 import LikeButton from '../LikeButton';
 import {navigateToSearchRoute} from '../../utils/navigationUtils';
+import AddToPlaylistButton from '../AddToPlaylistButton';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -53,7 +54,6 @@ class FullScreenPlayer extends Component {
           />
         </View>
         <View style={styles.track}>
-          <LikeButton targetTrack={track} style={styles.likeButton} />
           <View style={styles.trackInfo}>
             <CustomText weight={700} value={track.title} style={styles.title} />
             <CustomText
@@ -63,7 +63,13 @@ class FullScreenPlayer extends Component {
               style={styles.artist}
             />
           </View>
-          <LikeButton targetTrack={track} style={styles.likeButton} />
+          <View style={styles.trackAction}>
+            <LikeButton targetTrack={track} style={styles.likeButton} />
+            <AddToPlaylistButton
+              targetTrack={track}
+              style={styles.addToPlaylistButton}
+            />
+          </View>
         </View>
         <View style={styles.controls}>
           <PlayerProgressBar style={styles.progressBar} />
@@ -131,7 +137,6 @@ const styles = {
     fontSize: 15,
   },
   track: {
-    flexDirection: 'row',
     alignItems: 'center',
   },
   trackInfo: {
@@ -146,8 +151,19 @@ const styles = {
     fontSize: 13,
     color: color.secondaryText,
   },
+  trackAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   likeButton: {
     paddingHorizontal: 10,
+    fontSize: 23,
+  },
+  addToPlaylistButton: {
+    paddingHorizontal: 10,
+    fontSize: 23,
+    marginLeft: 20,
   },
   coverContainer: {
     //shadow start

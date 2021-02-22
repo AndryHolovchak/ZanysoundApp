@@ -140,8 +140,6 @@ class Player {
 
         if (this._isPlaying ^ (state === STATE_PLAYING)) {
           this._isPlaying = !this._isPlaying;
-          if (!this._isPlaying) {
-          }
           this._isPlaying
             ? this._handleHtmlAudioPlay()
             : this._handleHtmlAudioPause();
@@ -160,6 +158,7 @@ class Player {
       backBuffer: 0,
       minBuffer: 5,
       maxBuffer: 7,
+      maxCacheSize: 1024 * 30,
     });
     TrackPlayer.updateOptions({
       capabilities: [
@@ -273,7 +272,7 @@ class Player {
     if (!this._currentSong) {
       return false;
     }
-    return this._isPlaying;
+    return this._isPlaying && !this._trackIsChanging;
   }
 
   //This method is just a shit :)
@@ -311,13 +310,13 @@ class Player {
       TrackPlayer.skip('-1'); //await
       TrackPlayer.play(); //await
       let firstPlaceholderPromise = TrackPlayer.updateMetadataForTrack('-1', {
-        duration: 100,
+        //  duration: 100,
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
       });
       let secondPlaceholderPromise = TrackPlayer.updateMetadataForTrack('1', {
-        duration: 100,
+        // duration: 100,
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
@@ -345,7 +344,7 @@ class Player {
       {
         id: currentTrack.id.toString(),
         url: mp3UrlResponse.url,
-        duration: currentTrack.duration,
+        // duration: currentTrack.duration, duration from deezer and yt video is different
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,

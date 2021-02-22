@@ -1,10 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-  TransitionPresets,
-} from '@react-navigation/stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import Playlists from '../../Playlists';
 import Playlist from '../../Playlist';
 import CustomText from '../../CustomText';
@@ -18,7 +13,6 @@ const Stack = createStackNavigator();
 const screenOptions = {
   headerStyle: {
     backgroundColor: Color(color.bg).lighten(0.6).string(),
-    elevation: 50,
   },
 
   headerTintColor: color.secondaryText,
@@ -71,25 +65,9 @@ const CollectionScreen = ({navigation, route}) => {
             },
           };
         }}
-        //   options={{
-        //     ...screenOptions,
-        //     headerTitle: ({children}) => {
-        //       console.log(children);
-        //       return (
-        //         <CustomText
-        //           weight={600}
-        //           value="Playlists"
-        //           style={{fontSize: 20}}
-        //         />
-        //       );
-        //     },
-        //   }
-        // }
       />
     </Stack.Navigator>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default CollectionScreen;
