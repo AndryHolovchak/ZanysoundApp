@@ -16,6 +16,8 @@ import player from '../../misc/Player';
 import MiniPlayer from './MiniPlayer';
 import FullScreenPlayer from './FullScreenPlayer';
 import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
+import {useNavigation} from '@react-navigation/native';
+import * as RootNavigation from '../../misc/RootNavigation';
 
 const MIN_HEIGHT = size.miniPlayerHeight;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -62,15 +64,7 @@ class Player extends Component {
     if (this.expand._offset !== 1 && (gesture.vy || gesture.dy) < 0) {
       this.startExpanding();
     } else if (this.expand._offset !== 0 && (gesture.vy || gesture.dy) > 0) {
-      Animated.timing(this.expand, {
-        toValue: 0 - this.expand._offset,
-        duration: 300,
-        easing: Easing.easeOutQuint,
-        useNativeDriver: true,
-      }).start(() => {
-        this.expand.setOffset(0);
-        this.expand.setValue(0);
-      });
+      this.startFolding();
     }
     //gesture.dy: To top = < 0 | to bottom = >0
     //_value will be equal to 0
@@ -86,6 +80,18 @@ class Player extends Component {
       // console.log('Going to update');
       this.forceUpdate();
     }
+  };
+
+  startFolding = () => {
+    Animated.timing(this.expand, {
+      toValue: 0 - this.expand._offset,
+      duration: 300,
+      easing: Easing.easeOutQuint,
+      useNativeDriver: true,
+    }).start(() => {
+      this.expand.setOffset(0);
+      this.expand.setValue(0);
+    });
   };
 
   startExpanding = () => {
@@ -117,9 +123,21 @@ class Player extends Component {
     );
   }
 
+  componentDidUpdate() {
+    let navStateHistory = this.props.navState?.history;
+
+    if (navStateHistory) {
+      let lastRecord = navStateHistory[navStateHistory.length - 1];
+
+      if (lastRecord !== this.navHistoryLastRecord) {
+        this.startFolding();
+        this.navHistoryLastRecord = lastRecord;
+      }
+    }
+  }
+
   render() {
     let track = player.currentSong;
-
     if (!track) {
       return null;
     }

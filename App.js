@@ -21,10 +21,16 @@ TrackPlayer.getDuration();
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this._navState = null;
   }
 
   _handleSignIn = () => this.forceUpdate();
   _handleSignOut = () => this.forceUpdate();
+
+  _handleNavStateChange = (state) => {
+    this._navState = state;
+    this.forceUpdate();
+  };
 
   componentDidMount() {
     deezerAuth.onSignIn = this._handleSignIn;
@@ -47,6 +53,7 @@ export default class App extends React.Component {
     return (
       <SafeAreaProvider>
         <Navigation
+          onStateChange={this._handleNavStateChange}
           screens={{
             collection: CollectionScreen,
             search: SearchScreen,
@@ -55,7 +62,7 @@ export default class App extends React.Component {
             profile: ProfileScreen,
           }}
           initSceneName="favorites">
-          <Player />
+          <Player navState={this._navState} />
         </Navigation>
       </SafeAreaProvider>
     );

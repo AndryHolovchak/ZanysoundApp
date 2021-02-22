@@ -19,7 +19,6 @@ class SearchScreen extends React.Component {
   }
 
   handleSongSearch = () => {
-    console.log('End');
     this.forceUpdate();
   };
 
@@ -41,22 +40,23 @@ class SearchScreen extends React.Component {
 
   render() {
     let searchResult = searchHelper.searchResult;
-
     return (
       <View style={styles.container}>
-        <TrackSearchInput
-          style={styles.trackSearchInput}
-          navigation={this.props.navigation}
-          route={this.props.route}
+        {/* {searchResult ? ( */}
+        <PlayerPlaylistContainer
+          header={
+            <TrackSearchInput
+              style={styles.trackSearchInput}
+              navigation={this.props.navigation}
+              route={this.props.route}
+            />
+          }
+          tracksContainerStyle={styles.playlistContainer}
+          id={searchHelper.searchId}
+          songs={searchResult || []}
+          onAllSongsLoaded={this.handleAllSongsLoaded}
         />
-        {searchResult ? (
-          <PlayerPlaylistContainer
-            tracksContainerStyle={styles.playlistContainer}
-            id={searchHelper.searchId}
-            songs={searchResult}
-            onAllSongsLoaded={this.handleAllSongsLoaded}
-          />
-        ) : null}
+        {/* // ) : null} */}
       </View>
     );
   }
@@ -64,18 +64,17 @@ class SearchScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
     flex: 1,
     height: '100%',
   },
   trackSearchInput: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
     width: '100%',
   },
   playlistContainer: {
-    paddingTop: TrackSearchInput.HEIGHT,
+    // paddingTop: TrackSearchInput.HEIGHT,
   },
   text: {
     color: '#ebebeb',

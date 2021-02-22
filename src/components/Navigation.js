@@ -6,6 +6,7 @@ import {Icon, ICON_FAMILIES} from './Icon';
 import {color, size} from '../styles';
 import Color from 'color';
 import {View} from 'react-native';
+import {navigationRef} from '../misc/RootNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +27,7 @@ const tabBarOptions = {
     height: size.navigationHeight,
     // borderTopWidth: 0,
     position: 'relative',
-    zIndex: 10, // Do not change. Otherwise Navigation will be inactive
+    zIndex: 10, // 10 Do not change. Otherwise Navigation will be inactive
     borderTopWidth: 1,
     borderTopColor: '#ffffff11',
   },
@@ -46,9 +47,11 @@ const screenOptions = ({route}) => ({
   style: {position: 'relative'}, // Do not change. Otherwise Navigation will be inactive
 });
 
-const Navigation = ({screens, initSceneName, children}) => {
+const Navigation = ({screens, initSceneName, children, onStateChange}) => {
   return (
     <NavigationContainer
+      onStateChange={onStateChange}
+      ref={navigationRef}
       theme={{
         colors: {
           background: color.bg,

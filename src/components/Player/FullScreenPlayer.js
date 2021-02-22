@@ -8,6 +8,7 @@ import PlayerProgressBar from './PlayerProgressBar';
 import {Icon, ICON_FAMILIES} from '../Icon';
 import CustomText from '../CustomText';
 import LikeButton from '../LikeButton';
+import {navigateToSearchRoute} from '../../utils/navigationUtils';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -20,6 +21,14 @@ class FullScreenPlayer extends Component {
   handleRepeatButtonClick = () => {
     player.toggleRepeatOneMode();
     this.forceUpdate();
+  };
+
+  handleAlbumTitlePress = () => {
+    navigateToSearchRoute(player.currentSong.album.title);
+  };
+
+  handleArtistNamePress = () => {
+    navigateToSearchRoute(player.currentSong.artist.name);
   };
 
   render() {
@@ -37,6 +46,7 @@ class FullScreenPlayer extends Component {
             />
           </View>
           <CustomText
+            onPress={this.handleAlbumTitlePress}
             weight={600}
             value={track.album.title}
             style={styles.albumTitle}
@@ -47,6 +57,7 @@ class FullScreenPlayer extends Component {
           <View style={styles.trackInfo}>
             <CustomText weight={700} value={track.title} style={styles.title} />
             <CustomText
+              onPress={this.handleArtistNamePress}
               weight={500}
               value={track.artist.name}
               style={styles.artist}
@@ -173,13 +184,16 @@ const styles = {
   },
   prevTrackButton: {
     fontSize: 30,
+    color: color.primaryText,
   },
   togglePlayButton: {
     fontSize: 55,
     marginHorizontal: 20,
+    color: Color(color.bg).saturate(0.5).lighten(5.5).string(),
   },
   nextTrackButton: {
     fontSize: 30,
+    color: color.primaryText,
   },
   activeButton: {
     color: Color(color.bg).saturate(1).lighten(5).string(),

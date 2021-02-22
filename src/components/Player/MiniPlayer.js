@@ -162,8 +162,9 @@ const styles = {
     color: color.primary,
   },
   info: {
-    flex: 0,
+    flex: 1,
     alignItems: 'center',
+    marginHorizontal: 15,
   },
   title: {
     color: color.primaryText,

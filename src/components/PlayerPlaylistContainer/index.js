@@ -107,27 +107,25 @@ class PlayerPlaylistContainer extends React.Component {
     return dataContainer.get(snapshotId);
   };
 
-  componentDidMount() {
-    // this.nodeRef.current.addEventListener("scroll", this.updateSongsCount);
-    //  this.updateSongsCount();
-    // if (this.snapshot && !this.isScrollRestored) {
-    //   this.restoreScrollFromSnapshot();
-    // }
-  }
+  renderItem = (e) => {
+    return (
+      <SongWithNavigation
+        // parentPlaylistUuid={this.props.parentPlaylistUuid}
+        parentPlaylistUuid={this.props.id}
+        info={e.item}
+        playerPlaylistCreator={() => {
+          player.createNewPlaylist(this.props.songs, this.props.id);
+        }}
+      />
+    );
+  };
 
-  componentWillUnmount() {
-    //  this.nodeRef.current.removeEventListener("scroll", this.updateSongsCount);
-    //   this.tryToSaveSnapshot();
-  }
-
-  componentDidUpdate() {
-    //   this.updateSongsCount();
-  }
+  keyExtractor = (item, index) => item.id.toString();
 
   render() {
-    if (!this.props.songs || !this.props.songs.length) {
-      return <></>;
-    }
+    // if (!this.props.songs || !this.props.songs.length) {
+    //   return <></>;
+    // }
 
     if (this.props.id === player.getPlaylistId()) {
       player.syncCurrentPlaylist(this.props.songs);
@@ -137,6 +135,8 @@ class PlayerPlaylistContainer extends React.Component {
       <View style={styles.playerPlaylistContainer}>
         {/* <PlayerPlaylistContainerBG id={this.props.id} /> */}
         <FlatList
+          ListHeaderComponent={this.props.header}
+          stickyHeaderIndices={this.props.header ? [0] : null}
           onEndReached={this.props.onAllSongsLoaded}
           onEndReachedThreshold={0.7}
           // style={styles.tracksContainer}
@@ -148,19 +148,8 @@ class PlayerPlaylistContainer extends React.Component {
           removeClippedSubviews={true} //lazy rendering
           initialNumToRender={15}
           data={this.props.songs}
-          keyExtractor={(item, index) => item.id.toString()}
-          renderItem={(e) => {
-            return (
-              <SongWithNavigation
-                // parentPlaylistUuid={this.props.parentPlaylistUuid}
-                parentPlaylistUuid={this.props.id}
-                info={e.item}
-                playerPlaylistCreator={() => {
-                  player.createNewPlaylist(this.props.songs, this.props.id);
-                }}
-              />
-            );
-          }}
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderItem}
         />
       </View>
     );

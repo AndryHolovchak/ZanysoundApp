@@ -60,7 +60,7 @@ class SearchHelper {
     this._isSearching = true;
 
     this._onSearchStart.trigger(this._searchId, this._searchQuery);
-    let json = await deezerApi.searchTrack(query);
+    let json = await deezerApi.searchTrack(this._searchQuery);
     if (this._searchId !== currentSearchRequestId) {
       return;
     }

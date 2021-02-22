@@ -160,9 +160,7 @@ class Song extends React.Component {
   };
 
   handleArtistPress = () => {
-    navigateToSearchRoute(this.props.navigation, {
-      q: this.props.info.artist.name,
-    });
+    navigateToSearchRoute(this.props.info.artist.name);
   };
 
   handleTrackIdChange = () => {

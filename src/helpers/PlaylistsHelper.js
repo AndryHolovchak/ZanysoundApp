@@ -174,6 +174,19 @@ class PlaylistsHelper {
     return JSON.parse(JSON.stringify(this._platlistsShortInfo));
   };
 
+  getLoadedPlaylistInfo = (id) => {
+    let target = null;
+
+    for (let playlist of this._platlistsShortInfo) {
+      if (playlist.id === id) {
+        target = JSON.parse(JSON.stringify(playlist));
+        break;
+      }
+    }
+
+    return target;
+  };
+
   _isInPlaylistSongsArray = (songUuid, playlistUuid) => {
     let songs = this._playlistsSongs[playlistUuid];
 

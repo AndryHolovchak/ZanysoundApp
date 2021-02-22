@@ -8,6 +8,8 @@ import Color from 'color';
 import {color} from '../styles';
 import {View} from 'react-native';
 import PlayerPlaylistContainer from './PlayerPlaylistContainer';
+import {navigateToSearchRoute} from '../utils/navigationUtils';
+import {removeExtraSpaces} from '../utils/stringUtils';
 
 class TrackSearchInput extends React.Component {
   static HEIGHT = 40;
@@ -25,10 +27,6 @@ class TrackSearchInput extends React.Component {
     this.input = React.createRef(null);
     this.routeChanged = false;
     searchHelper.subscribeToSearchStart(this.handleSongSearch);
-
-    if (inputValue) {
-      //     this.props.navigation.navigate('search', {q: inputValue});
-    }
   }
 
   updateInputValue = (newValue) => {
@@ -36,11 +34,14 @@ class TrackSearchInput extends React.Component {
   };
 
   handleSearchIconPress = () => {
-    searchHelper.search();
+    if (removeExtraSpaces(this.state.inputValue).length) {
+      navigateToSearchRoute(this.state.inputValue);
+    }
   };
 
   handleClearIconPress = () => {
     this.input.clear();
+    this.input.focus();
   };
 
   clearInput = () => {
@@ -48,12 +49,18 @@ class TrackSearchInput extends React.Component {
   };
 
   handleSongSearch = (searchId, query) => {
+    console.log('Search handler');
     this.setState({inputValue: query});
+    navigateToSearchRoute(query);
   };
 
   componentDidMount() {
-    if (!this.state.inputValue) {
+    if (!searchHelper.searchResult?.length) {
       this.input.focus();
+    }
+
+    if (this.state.inputValue) {
+      searchHelper.search(this.state.inputValue);
     }
   }
   componentWillUnmount() {
@@ -61,17 +68,25 @@ class TrackSearchInput extends React.Component {
   }
 
   componentDidUpdate() {
-    let queryFromRoute = this.props.route.params.q;
+    let queryFromRoute = this.props.route.params?.q;
+    let searchHelperQuery = searchHelper.searchQuery;
 
-    if (queryFromRoute && queryFromRoute !== searchHelper.searchQuery) {
+    if (
+      queryFromRoute &&
+      queryFromRoute.toLowerCase() !== searchHelperQuery?.toLowerCase()
+    ) {
+      console.log('start to search');
+      // this.setState({inputValue: queryFromRoute});
       searchHelper.search(queryFromRoute);
-      this.setState({inputValue: queryFromRoute});
     }
   }
 
   render() {
     return (
       <SearchBar
+        autoFocus={searchHelper.searchResult?.length ? true : false}
+        returnKeyType="search"
+        onSubmitEditing={this.handleSearchIconPress}
         containerStyle={[styles.searchBar, this.props.style]}
         inputContainerStyle={styles.inputContainer}
         inputStyle={styles.input}
@@ -95,8 +110,8 @@ class TrackSearchInput extends React.Component {
 const styles = StyleSheet.create({
   searchBar: {
     padding: 0,
-    backgroundColor: 'transparent',
-    elevation: 30,
+    backgroundColor: null,
+    // elevation: 30,
     borderTopWidth: 0,
     borderBottomWidth: 0,
   },

@@ -5,16 +5,18 @@ class PlaylistShortInfo {
       data.title,
       data.time_add,
       data.creator.id,
-      data.picture_big
+      data.picture_big,
+      data.picture_xl,
     );
   }
 
-  constructor(id, title, creationTime, creatorId, coverBig) {
+  constructor(id, title, creationTime, creatorId, coverBig, coverXl) {
     this.id = id;
     this.title = title;
     this.creationTime = creationTime;
     this.creatorId = creatorId;
     this.coverBig = coverBig;
+    this.coverXl = coverXl;
   }
 }
 

@@ -15,8 +15,8 @@ const AlbumCover = ({albumModel, style}) => {
 
 const styles = {
   image: {
-    height: 53,
-    width: 53,
+    height: 55,
+    width: 55,
     borderRadius: 4,
   },
 };
