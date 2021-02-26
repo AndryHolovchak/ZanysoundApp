@@ -21,4 +21,8 @@ const escapeString = (s) => {
   }
 };
 
-export {removeSpaces, removeExtraSpaces, escapeString};
+const isCycillic = (str) => {
+  return /[а-яА-ЯЁё]/.test(str);
+};
+
+export {removeSpaces, removeExtraSpaces, escapeString, isCycillic};

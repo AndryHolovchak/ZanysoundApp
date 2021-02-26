@@ -8,8 +8,12 @@ import ActionResult from '../models/ActionResult';
 import deezerApi from './../api/DeezerApi';
 import userHelper from './UserHelper';
 import deezerAuth from '../auth/DeezerAuth';
+import {ForceTouchGestureHandler} from 'react-native-gesture-handler';
+import {TouchableNativeFeedbackBase} from 'react-native';
 
 class PlaylistsHelper {
+  TITLE_MAX_LENGTH = 50;
+
   constructor() {
     this._lovedPlaylistShortInfo;
     this._platlistsShortInfo = [];
@@ -91,15 +95,37 @@ class PlaylistsHelper {
     this._onPlaylistDeleteEvent.removeListener(callback);
   };
 
+  validateTitle = (title) => {
+    let formattedTitle = removeExtraSpaces(title);
+
+    if (formattedTitle.length === 0) {
+      return new ActionResult(false, 'A title can not be empty');
+    }
+
+    if (formattedTitle.length > this.TITLE_MAX_LENGTH) {
+      return new ActionResult(false, "'Max length is 50");
+    }
+
+    return new ActionResult(true);
+  };
+
   createPlaylist = async (title) => {
     let formattedTitle = removeExtraSpaces(title);
+    let validationResult = this.validateTitle(formattedTitle);
+
+    if (!validationResult.success) {
+      return validationResult;
+    }
+
     let response = await deezerApi.createPlaylist(formattedTitle);
     let playlistInfo = await deezerApi.getPlaylist(response.id);
-
+    console.log(playlistInfo);
     this._platlistsShortInfo.unshift(
       PlaylistShortInfo.fromDeezer(playlistInfo),
     );
     this._onPlaylistCreateEvent.trigger();
+
+    return new ActionResult(true);
   };
 
   deletePlaylist = async (id, creatorId) => {

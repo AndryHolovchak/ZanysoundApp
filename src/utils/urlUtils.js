@@ -1,6 +1,7 @@
 import {CDNUrl} from '../consts/URLConsts';
 import ytdl from '../lib/ytdl';
 import TrackUrl from '../models/TrackUrl';
+import {isCycillic} from './stringUtils';
 import {getMp3Url, getFirstSearchResultId} from './youtubeUtils';
 
 const getPlaylistCover = (coverId, size = 68) => {
@@ -23,7 +24,7 @@ const getDefaultAlbumCoverUrl = (size = 68) => {
  */
 //If you want get url to cahced mp3 you shoul use Mp3UrlHelper.js
 const getUrlToMp3 = async (id, artist, title) => {
-  let videoId = await getFirstSearchResultId(`${artist} - ${title} Audio`);
+  let videoId = await getFirstSearchResultId(`${artist} - ${title} Audio}`);
   let url = await getMp3Url(videoId);
   return new TrackUrl(url, false);
 

@@ -13,6 +13,9 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {color} from './src/styles';
 import {Player} from './src/components/Player';
 import TrackPlayer from 'react-native-track-player';
+import {ModalWindowSystemProvider} from './src/components/ModalWindowSystem';
+import Toast, {BaseToast} from 'react-native-toast-message';
+import CustomText from './src/components/CustomText';
 
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first track
@@ -52,19 +55,26 @@ export default class App extends React.Component {
 
     return (
       <SafeAreaProvider>
-        <Navigation
-          onStateChange={this._handleNavStateChange}
-          screens={{
-            collection: CollectionScreen,
-            search: SearchScreen,
-            favorites: FavoritesScreen,
-            recommended: RecommendedScreen,
-            profile: ProfileScreen,
-          }}
-          initSceneName="favorites">
-          <Player navState={this._navState} />
-        </Navigation>
+        <ModalWindowSystemProvider>
+          <Navigation
+            onStateChange={this._handleNavStateChange}
+            screens={{
+              collection: CollectionScreen,
+              search: SearchScreen,
+              favorites: FavoritesScreen,
+              recommended: RecommendedScreen,
+              profile: ProfileScreen,
+            }}
+            initSceneName="favorites">
+            <Player navState={this._navState} />
+          </Navigation>
+        </ModalWindowSystemProvider>
+        <Toast ref={(ref) => Toast.setRef(ref)} />
       </SafeAreaProvider>
     );
   }
 }
+
+const styles = {
+  toastContainer: {},
+};

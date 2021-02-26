@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, TouchableNativeFeedback} from 'react-native';
 import {getPlaylistCover} from '../utils/urlUtils';
 import playlistsHelper from '../helpers/PlaylistsHelper';
 import CustomText from './CustomText';
@@ -9,59 +9,64 @@ import {color} from '../styles';
 import {TouchableWithoutFeedback} from 'react-native';
 import {navigateToPlaylistRoute} from '../utils/navigationUtils';
 import {useNavigation} from '@react-navigation/native';
+import PlaylistRemoveButton from './PlaylistRemoveButton';
+import {secToDDMMYYYY} from '../utils/timeUtils';
 
 const PlaylistPreview = ({shortInfo, style}) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableWithoutFeedback
+    <TouchableNativeFeedback
       onPress={() => navigateToPlaylistRoute(shortInfo.id, navigation)}>
       <View style={[styles.playlistPreview, style]}>
         <Image style={styles.cover} source={{uri: shortInfo.coverXl}} />
-        <View style={styles.info}>
-          <View style={styles.titleContainer}>
-            <CustomText
-              weight={700}
-              value={shortInfo.title}
-              style={styles.title}
-            />
-          </View>
+        <View style={styles.playlistInfo}>
+          <CustomText
+            weight={600}
+            value={shortInfo.title}
+            style={styles.title}
+          />
+          <CustomText
+            value={secToDDMMYYYY(shortInfo.creationTime)}
+            style={styles.creationTime}
+          />
         </View>
+        <PlaylistRemoveButton target={shortInfo} style={styles.removeButton} />
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableNativeFeedback>
   );
 };
 
 const styles = {
   playlistPreview: {
     position: 'relative',
-    width: 300,
-    height: 300,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    height: 64,
+    marginLeft: 0,
     borderRadius: 1,
     overflow: 'hidden',
   },
   cover: {
+    borderRadius: 3,
+    width: 64,
+    height: 64,
+    marginRight: 10,
+  },
+  playlistInfo: {
     flex: 1,
-    borderRadius: 1,
-  },
-  info: {
-    position: 'absolute',
-    backgroundColor: Color(color.bg).darken(0.5).fade(0.9).string(),
-    width: '100%',
-    height: '100%',
-  },
-  titleContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#000',
   },
   title: {
-    fontSize: 25,
+    fontSize: 17,
+  },
+  creationTime: {
+    fontSize: 12,
+    color: color.secondaryText,
+  },
+  removeButton: {
+    color: '#e84848',
+    marginLeft: 'auto',
   },
 };
 

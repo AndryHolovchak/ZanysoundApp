@@ -10,7 +10,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import {generateId} from '../utils/idUtils';
 
-const audioPlaceholder = require('../../assets/silence.mp3');
+const silenceMp3 = require('../../assets/silence.mp3');
 
 class Player {
   _isRepeatOneModeOn = false;
@@ -294,14 +294,18 @@ class Player {
     if (!prevTrack) {
       await TrackPlayer.add({
         id: '-1',
-        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3', //require('../../assets/silence.mp3'),
+        url: silenceMp3,
+        // 'https://drive.google.com/uc?export=download&id=1Lf2Ih4FL_lbD6NFL7qUKgvrzAhwZ_z2j', // works in both cases
+        // 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',// works in both cases
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
       });
       await TrackPlayer.add({
         id: '1',
-        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',
+        url: silenceMp3,
+        // 'https://drive.google.com/uc?export=download&id=1Lf2Ih4FL_lbD6NFL7qUKgvrzAhwZ_z2j', // works in both cases
+        //  'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // works in both cases
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,

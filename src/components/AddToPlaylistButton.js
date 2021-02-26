@@ -1,28 +1,28 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Icon} from './Icon';
 import {Text, View} from 'react-native';
+import {ModalWindowSystemContext} from './ModalWindowSystem';
 import Modal from './Modal';
-import AddToPlaylistModalContent from './AddToPlaylistModalContent';
+import {generateId} from '../utils/idUtils';
+import AddToPlaylistModal from './AddToPlaylistModal';
 
 const AddToPlaylistButton = ({targetTrack, style}) => {
   const [showModal, setShowModal] = useState(false);
+  const [modalKey, setModalKey] = useState(generateId());
+  const modalWindowContext = useContext(ModalWindowSystemContext);
 
   return (
-    <>
-      <Icon
-        style={style}
-        name="plus"
-        onPress={() => {
-          console.log('press');
-          setShowModal(true);
-        }}
-      />
-      {showModal ? (
-        <Modal onHide={() => setShowModal(false)}>
-          <AddToPlaylistModalContent />
-        </Modal>
-      ) : null}
-    </>
+    <Icon
+      style={style}
+      name="plus"
+      onPress={() => {
+        console.log('press');
+        setShowModal(true);
+        modalWindowContext.add(
+          <AddToPlaylistModal key={modalKey} targetTrack={targetTrack} />,
+        );
+      }}
+    />
   );
 };
 

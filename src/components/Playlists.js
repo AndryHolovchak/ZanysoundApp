@@ -1,10 +1,26 @@
 import React from 'react';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableNativeFeedback,
+} from 'react-native';
 import PlaylistPreview from './PlaylistPreview';
 import playlistsHelper from '../helpers/PlaylistsHelper';
-import {size} from '../styles';
+import {color, size} from '../styles';
+import {ScrollView} from 'react-native';
+import Color from 'color';
+import {Icon, ICON_FAMILIES} from './Icon';
+import CustomText from './CustomText';
+import {ModalWindowSystemContext} from './ModalWindowSystem';
+import Modal from './Modal';
+import NewPlaylistModal from './NewPlaylistModal';
+import NewPlaylistButtonCover from './NewPlaylistButtonCover';
 
 class Playlists extends React.Component {
+  static contextType = ModalWindowSystemContext;
+
   constructor(props) {
     super(props);
     playlistsHelper.listenInitalization(this.handlePlaylistsHelperInit);
@@ -30,6 +46,25 @@ class Playlists extends React.Component {
     this.forceUpdate();
   };
 
+  handleCreateNewPress = () => {
+    this.context.add(<NewPlaylistModal />);
+  };
+
+  renderCreateNewButton = () => {
+    return (
+      <TouchableNativeFeedback onPress={this.handleCreateNewPress}>
+        <View style={[styles.playlistPreview, styles.createNew]}>
+          <NewPlaylistButtonCover />
+          <CustomText
+            value="Create new"
+            weight={600}
+            style={styles.createNewTitle}
+          />
+        </View>
+      </TouchableNativeFeedback>
+    );
+  };
+
   renderItem = (e) => {
     return (
       <PlaylistPreview shortInfo={e.item} style={styles.playlistPreview} />
@@ -46,10 +81,11 @@ class Playlists extends React.Component {
   }
 
   render() {
-    let playlists = playlistsHelper.getPlaylistsShortInfo();
+    let playlists = playlistsHelper.getPlaylistsShortInfo() || [];
     return (
       <View style={styles.collectionScreen}>
         <FlatList
+          ListHeaderComponent={() => this.renderCreateNewButton()}
           contentContainerStyle={styles.flatlistContainer}
           onEndReachedThreshold={0.7}
           overScrollMode="always"
@@ -66,13 +102,27 @@ class Playlists extends React.Component {
 
 const styles = StyleSheet.create({
   collectionScreen: {
-    flex: 1,
+    height: '100%',
+  },
+  createNew: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: Color(color.bg).lighten(0.2).string(),
+  },
+
+  createNewTitle: {
+    marginLeft: 10,
+    color: color.primaryText,
+    fontSize: 17,
   },
   playlistPreview: {
-    marginTop: 50,
+    height: 84,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingHorizontal: 8,
   },
   flatlistContainer: {
-    alignItems: 'center',
     paddingBottom: size.miniPlayerHeight + 30,
   },
 });

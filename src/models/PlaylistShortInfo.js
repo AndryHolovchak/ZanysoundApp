@@ -1,9 +1,11 @@
+import Moment from 'moment';
+
 class PlaylistShortInfo {
   static fromDeezer(data) {
     return new PlaylistShortInfo(
       data.id,
       data.title,
-      data.time_add,
+      Moment(data.creation_date).format('x') / 1000,
       data.creator.id,
       data.picture_big,
       data.picture_xl,

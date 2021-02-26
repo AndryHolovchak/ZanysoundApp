@@ -12,7 +12,10 @@ const Stack = createStackNavigator();
 
 const screenOptions = {
   headerStyle: {
-    backgroundColor: Color(color.bg).lighten(0.6).string(),
+    backgroundColor: Color(color.bg).lighten(0.8).string(),
+    borderBottomWidth: 1,
+    borderBottomColor: Color(color.primary).fade(0.8).string(),
+    elevation: 20,
   },
 
   headerTintColor: color.secondaryText,

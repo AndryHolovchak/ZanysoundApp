@@ -74,9 +74,7 @@ class DeezerApi {
   };
 
   createPlaylist = async (title) => {
-    return this._deezerRequest('/user/me/playlists', {}, METHODS.post, {
-      title,
-    });
+    return this._deezerRequest('/user/me/playlists', {title}, METHODS.post);
   };
 
   removePlaylistFromFavorite = async (id) => {

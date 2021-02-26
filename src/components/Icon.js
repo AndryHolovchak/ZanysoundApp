@@ -50,6 +50,9 @@ const ICONS = {
   'play-circle': {unicode: '\uf144'},
   'minus-square': {unicode: '\uf146'},
   plus: {unicode: '\uf067'},
+  'plus-square': {unicode: '\uf0fe'},
+  'plus-circle': {unicode: '\uf055'},
+  minus: {unicode: '\uf068'},
 };
 
 const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {
@@ -76,7 +79,7 @@ const defaultStyle = StyleSheet.create({
   text: {
     fontSize: 20,
     color: color.secondaryText,
-    padding: 2,
+    padding: 5,
   },
 });
 
