@@ -1,14 +1,14 @@
 import React, {useContext, useState} from 'react';
 import {View, Animated, Easing} from 'react-native';
+import Color from 'color';
 import {color} from '../styles';
-import {ModalWindowSystemContext} from './ModalWindowSystem';
+import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import {TouchableWithoutFeedback} from 'react-native';
 import windowHelper from '../helpers/WindowHelper';
 import CustomText from './CustomText';
+import {StyleSheet} from 'react-native';
 
 class Modal extends React.Component {
-  static contextType = ModalWindowSystemContext;
-
   constructor(props) {
     super(props);
     this.opacity = new Animated.Value(0);
@@ -28,7 +28,7 @@ class Modal extends React.Component {
       <View style={styles.modal}>
         <TouchableWithoutFeedback
           onPress={(e) => {
-            this.context.removeCurrent();
+            modalWindowSystemRef.current.removeCurrent();
           }}>
           <View style={styles.touchableBg} />
         </TouchableWithoutFeedback>
@@ -48,7 +48,7 @@ class Modal extends React.Component {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   modal: {
     position: 'relative',
     width: windowHelper.width,
@@ -70,16 +70,17 @@ const styles = {
     minHeight: 30,
     padding: 20,
     borderRadius: 5,
-    backgroundColor: color.bg,
+    backgroundColor: Color(color.bg).lighten(0.5).string(),
     elevation: 5,
   },
   titleContainer: {
     alignItems: 'center',
-    paddingBottom: 40,
+    width: '100%',
+    marginBottom: 40,
   },
   title: {
     fontSize: 17,
   },
-};
+});
 
 export default Modal;

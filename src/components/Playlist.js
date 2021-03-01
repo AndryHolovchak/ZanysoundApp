@@ -36,7 +36,6 @@ class Playlist extends React.Component {
     }
 
     let songs = playlistsHelper.getPlaylistSongs(this.id);
-
     return (
       <View style={styles.playlist}>
         <PlayerPlaylistContainer

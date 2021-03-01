@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
 // import * as Font from 'expo-font';
-import {StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, Text, TouchableNativeFeedback} from 'react-native';
 import {color} from '../styles';
 
 const ICON_FAMILIES = {
@@ -52,6 +53,7 @@ const ICONS = {
   plus: {unicode: '\uf067'},
   'plus-square': {unicode: '\uf0fe'},
   'plus-circle': {unicode: '\uf055'},
+  'ellipsis-v': {unicode: '\uf142'},
   minus: {unicode: '\uf068'},
 };
 
@@ -66,9 +68,9 @@ const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {
 
   if (onPress) {
     return (
-      <TouchableWithoutFeedback onPress={onPress}>
+      <TouchableNativeFeedback onPress={onPress}>
         <Text style={finalStyle}>{targetIcon.unicode}</Text>
-      </TouchableWithoutFeedback>
+      </TouchableNativeFeedback>
     );
   }
 
@@ -81,6 +83,7 @@ const defaultStyle = StyleSheet.create({
     color: color.secondaryText,
     padding: 5,
   },
+  textContainer: {},
 });
 
 export {Icon, ICON_FAMILIES};

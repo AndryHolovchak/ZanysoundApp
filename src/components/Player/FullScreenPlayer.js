@@ -10,6 +10,7 @@ import CustomText from '../CustomText';
 import LikeButton from '../LikeButton';
 import {navigateToSearchRoute} from '../../utils/navigationUtils';
 import AddToPlaylistButton from '../AddToPlaylistButton';
+import TrackModalWindowButton from '../TrackModalWindowButton';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -65,9 +66,9 @@ class FullScreenPlayer extends Component {
           </View>
           <View style={styles.trackAction}>
             <LikeButton targetTrack={track} style={styles.likeButton} />
-            <AddToPlaylistButton
-              targetTrack={track}
-              style={styles.addToPlaylistButton}
+            <TrackModalWindowButton
+              track={track}
+              style={styles.trackModalWindowButton}
             />
           </View>
         </View>
@@ -133,6 +134,7 @@ const styles = {
   },
   albumTitle: {
     marginTop: 10,
+    paddingHorizontal: 20,
     color: Color(color.primaryText).darken(0.1).string(),
     fontSize: 15,
   },
@@ -141,7 +143,7 @@ const styles = {
   },
   trackInfo: {
     alignItems: 'center',
-    marginHorizontal: 15,
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 20,
@@ -155,13 +157,18 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: 20,
+    padding: 1,
+    borderRadius: 5,
+    elevation: 5,
+    backgroundColor: Color(color.bg).lighten(1.3).string(),
   },
   likeButton: {
     paddingHorizontal: 10,
     fontSize: 23,
   },
-  addToPlaylistButton: {
-    paddingHorizontal: 10,
+  trackModalWindowButton: {
+    // paddingHorizontal: 10,
     fontSize: 23,
     marginLeft: 20,
   },
@@ -174,7 +181,7 @@ const styles = {
     },
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
-    elevation: 20,
+    elevation: 10,
     overflow: 'visible',
     borderRadius: 0,
     //shadow end

@@ -1,5 +1,6 @@
 import ytdl from '../lib/ytdl/index';
 import {getAudioUrl} from '../lib/ytdl/lib/info';
+import TrackUrl from '../models/TrackUrl';
 
 const getFirstId = (page) => {
   // let match = page.match(/(?<="url":"\/watch\?v\==?).*?(?=")/);

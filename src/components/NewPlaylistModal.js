@@ -6,13 +6,11 @@ import {color} from '../styles';
 import Color from 'color';
 import {removeExtraSpaces} from '../utils/stringUtils';
 import playlistsHelper from '../helpers/PlaylistsHelper';
-import {ModalWindowSystemContext} from './ModalWindowSystem';
+import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import Toast from 'react-native-toast-message';
 import Modal from './Modal';
 
 class NewPlaylistModal extends Component {
-  static contextType = ModalWindowSystemContext;
-
   constructor(props) {
     super(props);
     this.state = {
@@ -42,10 +40,9 @@ class NewPlaylistModal extends Component {
       this.setState({errorMessage: ''});
       Toast.show({
         text1: 'Playlist created',
-        position: 'top',
         visibilityTime: 1000,
       });
-      this.context.removeCurrent();
+      modalWindowSystemRef.current.removeCurrent();
     } else {
       this.setState({errorMessage: result.message});
     }
@@ -59,10 +56,9 @@ class NewPlaylistModal extends Component {
       this.input.current.blur();
       Toast.show({
         text1: 'Playlist created',
-        position: 'top',
         visibilityTime: 1000,
       });
-      this.context.removeCurrent();
+      modalWindowSystemRef.current.removeCurrent();
     } else {
       this.setState({errorMessage: result.message});
     }

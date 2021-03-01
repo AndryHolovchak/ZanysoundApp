@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, View, AppState} from 'react-native';
+import {Button, Text, View, AppState, StyleSheet} from 'react-native';
 import deezerAuth from './src/auth/DeezerAuth';
 import useForceUpdate from './src/hooks/useForceUpdate';
 import Navigation from './src/components/Navigation';
@@ -16,6 +16,7 @@ import TrackPlayer from 'react-native-track-player';
 import {ModalWindowSystemProvider} from './src/components/ModalWindowSystem';
 import Toast, {BaseToast} from 'react-native-toast-message';
 import CustomText from './src/components/CustomText';
+import {modalWindowSystemRef} from './src/misc/ModalWindowSystemRef';
 
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first track
@@ -55,7 +56,7 @@ export default class App extends React.Component {
 
     return (
       <SafeAreaProvider>
-        <ModalWindowSystemProvider>
+        <View style={styles.navContainer}>
           <Navigation
             onStateChange={this._handleNavStateChange}
             screens={{
@@ -68,13 +69,18 @@ export default class App extends React.Component {
             initSceneName="favorites">
             <Player navState={this._navState} />
           </Navigation>
-        </ModalWindowSystemProvider>
-        <Toast ref={(ref) => Toast.setRef(ref)} />
+        </View>
+        <Toast style={styles.toastContainer} ref={(ref) => Toast.setRef(ref)} />
+        <ModalWindowSystemProvider
+          ref={modalWindowSystemRef}></ModalWindowSystemProvider>
       </SafeAreaProvider>
     );
   }
 }
 
-const styles = {
-  toastContainer: {},
-};
+const styles = StyleSheet.create({
+  navContainer: {
+    flex: 1,
+    zIndex: -1,
+  },
+});

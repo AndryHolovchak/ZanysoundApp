@@ -15,6 +15,8 @@ import {useCallback} from 'react';
 import LikeButton from '../LikeButton';
 import AlbumCover from '../AlbumCover';
 import {navigateToSearchRoute} from '../../utils/navigationUtils';
+import AddToPlaylistButton from '../AddToPlaylistButton';
+import TrackModalWindowButton from '../TrackModalWindowButton';
 
 class Song extends React.Component {
   static defaultProps = {
@@ -67,12 +69,6 @@ class Song extends React.Component {
   }
 
   render() {
-    let isFavorite = favoriteSongsHelper.isFavorite(this.state.id);
-
-    //let showSoundWaves = false;
-    //let soundWavesIsPaused = false;
-
-    //let songStyle = [styles.song];
     let isCurrentSong = player.isCurrentSong(this.props.info);
     let titleFinalStyle = [styles.title];
     let artistFinalStyle = [styles.artist];
@@ -91,7 +87,11 @@ class Song extends React.Component {
           <LikeButton targetTrack={this.props.info} />
           <View style={styles.info}>
             <View style={styles.coverContainer}>
-              <AlbumCover albumModel={this.props.info.album} />
+              <AlbumCover
+                albumModel={this.props.info.album}
+                showWaves={isCurrentSong}
+                pauseWaves={!player.isPlaying}
+              />
             </View>
             <View style={styles.mainInfo}>
               <CustomText
@@ -103,10 +103,14 @@ class Song extends React.Component {
                 style={[artistFinalStyle, this.props.artistStyle]}
                 weight={isCurrentSong ? 500 : 400}
                 value={this.props.info.artist.name}
-                // onPress={this.handleArtistPress}
               />
             </View>
           </View>
+          <TrackModalWindowButton
+            track={this.props.info}
+            trackParentPlaylistId={this.props.parentPlaylistUuid}
+            style={styles.modalWindowButton}
+          />
         </View>
       </TouchableWithoutFeedback>
     );
@@ -208,7 +212,7 @@ const styles = StyleSheet.create({
     marginVertical: 0,
     marginHorizontal: 'auto',
     paddingVertical: 9,
-    paddingRight: 10,
+    // paddingRight: 8,
     paddingLeft: 8,
 
     borderLeftWidth: 1,
@@ -252,6 +256,10 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 12,
     color: new Color(color.secondaryText).alpha(0.9).string(),
+  },
+  modalWindowButton: {
+    marginLeft: 'auto',
+    paddingHorizontal: 20,
   },
 });
 

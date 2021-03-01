@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import favoriteSongsHelper from '../helpers/FavoriteSongsHelper';
 import {color} from '../styles';
 import {Icon, ICON_FAMILIES} from './Icon';
+import Color from 'color';
 
 const LikeButton = ({targetTrack, style}) => {
   let isFavorite = favoriteSongsHelper.isFavorite(targetTrack.id);

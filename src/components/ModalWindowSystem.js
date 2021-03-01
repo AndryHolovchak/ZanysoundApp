@@ -1,5 +1,6 @@
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import WindowHelper from '../helpers/WindowHelper';
 const ModalWindowSystemContext = React.createContext({});
 
 class ModalWindowSystemProvider extends React.Component {
@@ -23,8 +24,9 @@ class ModalWindowSystemProvider extends React.Component {
   render = () => {
     return (
       <ModalWindowSystemContext.Provider
+        style={styles.provider}
         value={{add: this.add, removeCurrent: this.removeCurrent}}>
-        <View style={styles.childsContainer}>{this.props.children}</View>
+        {/* <View style={styles.childsContainer}>{this.props.children}</View> */}
 
         <View style={styles.modalsContainer}>
           {this.queue[this.queue.length - 1]}
@@ -34,7 +36,12 @@ class ModalWindowSystemProvider extends React.Component {
   };
 }
 
-const styles = {
+const styles = StyleSheet.create({
+  provider: {
+    position: 'absolute',
+    width: WindowHelper.width,
+    height: WindowHelper.height,
+  },
   modalsContainer: {
     position: 'absolute',
     // width: '100%',
@@ -46,6 +53,6 @@ const styles = {
     flex: 1,
     zIndex: -1,
   },
-};
+});
 
 export {ModalWindowSystemContext, ModalWindowSystemProvider};

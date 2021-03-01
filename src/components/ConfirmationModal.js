@@ -4,11 +4,22 @@ import {Button} from 'react-native-elements';
 import {color} from '../styles';
 import Modal from './Modal';
 import Color from 'color';
+import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 
 class ConfirmationModal extends Component {
   constructor(props) {
     super(props);
   }
+
+  handleNoPress = () => {
+    this.props.onNoPress && this.props.onNoPress();
+    modalWindowSystemRef.current.removeCurrent();
+  };
+
+  handleYesPress = () => {
+    this.props.onYesPress && this.props.onYesPress();
+    modalWindowSystemRef.current.removeCurrent();
+  };
 
   render() {
     let noButtonStyle = [styles.button];
@@ -23,8 +34,16 @@ class ConfirmationModal extends Component {
     return (
       <Modal title={this.props.title}>
         <View style={styles.content}>
-          <Button buttonStyle={noButtonStyle} title="No" />
-          <Button buttonStyle={yesButtonStyle} title="Yes" />
+          <Button
+            buttonStyle={noButtonStyle}
+            title="No"
+            onPress={this.handleNoPress}
+          />
+          <Button
+            buttonStyle={yesButtonStyle}
+            title="Yes"
+            onPress={this.handleYesPress}
+          />
         </View>
       </Modal>
     );

@@ -68,7 +68,11 @@ class MiniPlayer extends Component {
           />
           <View style={styles.inner}>
             <View style={styles.leftSide}>
-              <AlbumCover albumModel={track.album} style={styles.cover} />
+              <AlbumCover
+                showWaves={false}
+                albumModel={track.album}
+                style={styles.cover}
+              />
               <Icon
                 onPress={this.handleLikeButtonClick}
                 name="heart"

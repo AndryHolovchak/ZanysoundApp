@@ -11,6 +11,9 @@ import {navigateToPlaylistRoute} from '../utils/navigationUtils';
 import {useNavigation} from '@react-navigation/native';
 import PlaylistRemoveButton from './PlaylistRemoveButton';
 import {secToDDMMYYYY} from '../utils/timeUtils';
+import Cover from './Cover';
+import player from '../misc/Player';
+import PlaylistCover from './PlaylistCover';
 
 const PlaylistPreview = ({shortInfo, style}) => {
   const navigation = useNavigation();
@@ -19,7 +22,11 @@ const PlaylistPreview = ({shortInfo, style}) => {
     <TouchableNativeFeedback
       onPress={() => navigateToPlaylistRoute(shortInfo.id, navigation)}>
       <View style={[styles.playlistPreview, style]}>
-        <Image style={styles.cover} source={{uri: shortInfo.coverXl}} />
+        <PlaylistCover
+          playlist={shortInfo}
+          containerStyle={styles.coverContainer}
+        />
+        {/* <Image style={styles.cover} source={{uri: shortInfo.coverXl}} /> */}
         <View style={styles.playlistInfo}>
           <CustomText
             weight={600}
@@ -48,10 +55,7 @@ const styles = {
     borderRadius: 1,
     overflow: 'hidden',
   },
-  cover: {
-    borderRadius: 3,
-    width: 64,
-    height: 64,
+  coverContainer: {
     marginRight: 10,
   },
   playlistInfo: {

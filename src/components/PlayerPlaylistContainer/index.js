@@ -9,6 +9,7 @@ import {FlatList, VirtualizedList, View} from 'react-native';
 import {color, size} from '../../styles';
 import Color from 'color';
 import SongWithNavigation from '../SongWithNavigation';
+import {CAPABILITY_SKIP} from 'react-native-track-player';
 
 class PlayerPlaylistContainer extends React.Component {
   static propTypes = {
@@ -110,8 +111,8 @@ class PlayerPlaylistContainer extends React.Component {
   renderItem = (e) => {
     return (
       <SongWithNavigation
-        // parentPlaylistUuid={this.props.parentPlaylistUuid}
-        parentPlaylistUuid={this.props.id}
+        parentPlaylistUuid={this.props.parentPlaylistUuid}
+        // parentPlaylistUuid={this.props.id}
         info={e.item}
         playerPlaylistCreator={() => {
           player.createNewPlaylist(this.props.songs, this.props.id);
@@ -135,8 +136,7 @@ class PlayerPlaylistContainer extends React.Component {
       <View style={styles.playerPlaylistContainer}>
         {/* <PlayerPlaylistContainerBG id={this.props.id} /> */}
         <FlatList
-          ListHeaderComponent={this.props.header}
-          stickyHeaderIndices={this.props.header ? [0] : null}
+          key={this.props.id}
           onEndReached={this.props.onAllSongsLoaded}
           onEndReachedThreshold={0.7}
           // style={styles.tracksContainer}
@@ -161,7 +161,7 @@ const styles = {
     position: 'relative',
   },
   tracksContainer: {
-    backgroundColor: Color(color.bg).darken(0.2).string(), //'#0d0d0dc0',
+    // backgroundColor: Color(color.bg).darken(0.2).string(), //'#0d0d0dc0',
     paddingBottom: size.miniPlayerHeight,
   },
 };

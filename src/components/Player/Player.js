@@ -165,7 +165,7 @@ class Player extends Component {
             style={StyleSheet.flatten([
               styles.miniPlayer,
               {
-                opacity: Animated.subtract(1, this.expand),
+                // opacity: Animated.subtract(1, this.expand),
                 transform: [
                   {
                     translateY: Animated.multiply(

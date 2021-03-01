@@ -73,6 +73,7 @@ class Player {
     this._playlist = new PlayerPlaylist();
     this._onSongChange = new ExtendedEvent();
     this._onTogglePlay = new ExtendedEvent();
+    this._onPlaylistChange = new ExtendedEvent();
     this._trackPlayerListeners = [];
   }
 
@@ -199,6 +200,14 @@ class Player {
     this._onTogglePlay.removeListener(callback);
   };
 
+  addOnPlaylistChangeListener = (callback) => {
+    this._onPlaylistChange.addListener(callback);
+  };
+
+  removeOnPlaylistChangeListener = (callback) => {
+    this._onPlaylistChange.removeListener(callback);
+  };
+
   toggleShuffleMode = () => {
     this._isShuffleModeOn
       ? this._playlist.useOriginalOrder()
@@ -256,6 +265,8 @@ class Player {
     if (this._isShuffleModeOn) {
       this._playlist.shuffleOrder();
     }
+
+    this._onPlaylistChange.trigger();
   };
 
   syncCurrentPlaylist = (songs) => {

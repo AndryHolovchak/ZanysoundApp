@@ -13,14 +13,12 @@ import {ScrollView} from 'react-native';
 import Color from 'color';
 import {Icon, ICON_FAMILIES} from './Icon';
 import CustomText from './CustomText';
-import {ModalWindowSystemContext} from './ModalWindowSystem';
+import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import Modal from './Modal';
 import NewPlaylistModal from './NewPlaylistModal';
 import NewPlaylistButtonCover from './NewPlaylistButtonCover';
 
 class Playlists extends React.Component {
-  static contextType = ModalWindowSystemContext;
-
   constructor(props) {
     super(props);
     playlistsHelper.listenInitalization(this.handlePlaylistsHelperInit);
@@ -47,7 +45,7 @@ class Playlists extends React.Component {
   };
 
   handleCreateNewPress = () => {
-    this.context.add(<NewPlaylistModal />);
+    modalWindowSystemRef.current.add(<NewPlaylistModal />);
   };
 
   renderCreateNewButton = () => {

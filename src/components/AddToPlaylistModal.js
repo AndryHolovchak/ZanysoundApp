@@ -11,7 +11,7 @@ import windowHelper from '../helpers/WindowHelper';
 import Ripple from 'react-native-material-ripple';
 import {TouchableNativeFeedback} from 'react-native';
 import {secToDDMMYYYY} from '../utils/timeUtils';
-import {ModalWindowSystemContext} from './ModalWindowSystem';
+import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import {Icon, ICON_FAMILIES} from './Icon';
 import Modal from './Modal';
 import Toast from 'react-native-toast-message';
@@ -20,8 +20,6 @@ import NewPlaylistModal from './NewPlaylistModal';
 import NewPlaylistButtonCover from './NewPlaylistButtonCover';
 
 class AddToPlaylistModal extends React.Component {
-  static contextType = ModalWindowSystemContext;
-
   constructor(props) {
     super(props);
     this.newPlaylistModalKey = generateId();
@@ -40,7 +38,6 @@ class AddToPlaylistModal extends React.Component {
     if (result.success) {
       Toast.show({
         text1: 'Track added',
-        position: 'bottom',
         visibilityTime: 1000,
       });
     } else {
@@ -48,16 +45,17 @@ class AddToPlaylistModal extends React.Component {
         type: 'error',
         text1: 'Error',
         text2: result.message,
-        position: 'bottom',
         visibilityTime: 1000,
       });
     }
 
-    this.context.removeCurrent();
+    modalWindowSystemRef.current.removeCurrent();
   };
 
   handleNewPlaylistPress = () => {
-    this.context.add(<NewPlaylistModal key={this.newPlaylistModalKey} />);
+    modalWindowSystemRef.current.add(
+      <NewPlaylistModal key={this.newPlaylistModalKey} />,
+    );
   };
 
   componentDidMount() {
@@ -80,10 +78,9 @@ class AddToPlaylistModal extends React.Component {
         <ScrollView style={styles.content}>
           <TouchableNativeFeedback onPress={this.handleNewPlaylistPress}>
             <View style={[styles.playlist, styles.newPlaylist]}>
-              {/* <View style={styles.newPlaylistIconConteiner}>
-                <Icon name="plus" style={styles.newPlaylistIcon} />
-              </View> */}
-              <NewPlaylistButtonCover />
+              <NewPlaylistButtonCover
+                containerStyle={styles.newPlaylistButtonContainer}
+              />
               <View style={styles.playlistInfo}>
                 <CustomText
                   weight={600}
@@ -125,27 +122,31 @@ class AddToPlaylistModal extends React.Component {
 }
 
 const styles = {
-  content: {width: '100%', maxHeight: windowHelper.height * 0.6},
-  newPlaylist: {
-    backgroundColor: Color(color.bg).lighten(0.6).string(),
-    elevation: 20,
+  content: {
+    width: '100%',
+    maxHeight: windowHelper.height * 0.6,
+    borderRadius: 5,
+    elevation: 10,
+    backgroundColor: Color(color.bg).lighten(0.9).string(),
   },
-
+  newPlaylistButtonContainer: {
+    width: 40,
+    height: 40,
+  },
   playlist: {
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    marginVertical: 1,
+    // marginVertical: 1,
     paddingVertical: 9,
     paddingHorizontal: 5,
     borderRadius: 2,
-    backgroundColor: Color(color.bg).saturate(0.1).lighten(0.1).string(),
   },
   playlistCoverContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 64,
-    height: 64,
+    width: 40,
+    height: 40,
     elevation: 17,
     borderRadius: 3,
   },
@@ -159,9 +160,8 @@ const styles = {
   },
 
   playlistTitle: {
-    fontSize: 18,
+    fontSize: 16,
   },
-
   playlistCreationTime: {
     fontSize: 11,
     color: Color(color.secondaryText).fade(0.5).string(),
