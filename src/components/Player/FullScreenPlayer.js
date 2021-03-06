@@ -41,6 +41,7 @@ class FullScreenPlayer extends Component {
         <View style={styles.album}>
           <View style={styles.coverContainer}>
             <Image
+              key={track.id}
               style={styles.cover}
               source={{
                 uri: track.album.coverXl || DefaultCoverUrl,

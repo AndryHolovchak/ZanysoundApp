@@ -7,7 +7,19 @@ class AlbumShortInfo {
       obj.cover_small,
       obj.cover_medium,
       obj.cover_big,
-      obj.cover_xl
+      obj.cover_xl,
+    );
+  }
+
+  static parse(json) {
+    return new AlbumShortInfo(
+      json._id,
+      json._title,
+      json._cover,
+      json._coverSmall,
+      json._coverMedium,
+      json._coverBig,
+      json._coverXl,
     );
   }
 

@@ -16,6 +16,7 @@ class NewPlaylistModal extends Component {
     this.state = {
       inputValue: '',
       errorMessage: '',
+      playlistIsCreating: false,
     };
     this.input = React.createRef();
   }
@@ -29,11 +30,17 @@ class NewPlaylistModal extends Component {
   };
 
   handleSubmit = async (e) => {
-    if (removeExtraSpaces(this.state.inputValue).length === 0) {
+    if (
+      removeExtraSpaces(this.state.inputValue).length === 0 ||
+      this.state.playlistIsCreating
+    ) {
       return;
     }
 
+    this.setState({playlistIsCreating: true});
+    this.input.current.blur();
     let result = await playlistsHelper.createPlaylist(this.state.inputValue);
+    this.setState({playlistIsCreating: false});
 
     if (result.success) {
       console.log('created');
@@ -49,11 +56,17 @@ class NewPlaylistModal extends Component {
   };
 
   handleButtonPress = async () => {
+    if (this.state.playlistIsCreating) {
+      return;
+    }
+
+    this.setState({playlistIsCreating: true});
+    this.input.current.blur();
     let result = await playlistsHelper.createPlaylist(this.state.inputValue);
+    this.setState({playlistIsCreating: false});
 
     if (result.success) {
       this.setState({errorMessage: ''});
-      this.input.current.blur();
       Toast.show({
         text1: 'Playlist created',
         visibilityTime: 1000,
@@ -82,6 +95,7 @@ class NewPlaylistModal extends Component {
         />
         <Button
           title="Create"
+          loading={this.state.playlistIsCreating}
           onPress={this.handleButtonPress}
           containerStyle={styles.buttonContainer}
           buttonStyle={styles.button}

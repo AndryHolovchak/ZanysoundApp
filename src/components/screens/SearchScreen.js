@@ -8,6 +8,8 @@ import {color} from '../../styles';
 import {generateId} from '../../utils/idUtils';
 import TrackSearchInput from '../TrackSearchInput';
 import searchHelper from '../../helpers/SearchHelper';
+import LoadingIndicator from '../LoadingIndicator';
+import ScreenPlaceholder from '../ScreenPlaceholder';
 
 class SearchScreen extends React.Component {
   constructor(props) {
@@ -42,12 +44,23 @@ class SearchScreen extends React.Component {
     let searchResult = searchHelper.searchResult;
     return (
       <View style={styles.container}>
-        <PlayerPlaylistContainer
-          tracksContainerStyle={styles.playlistContainer}
-          id={searchHelper.searchId}
-          songs={searchHelper.isSearching ? [] : searchResult || []}
-          onAllSongsLoaded={this.handleAllSongsLoaded}
-        />
+        {searchHelper.isSearching ? (
+          <LoadingIndicator text="Searching..." />
+        ) : searchResult === null ? (
+          <ScreenPlaceholder text="Search" />
+        ) : searchResult.length ? (
+          <PlayerPlaylistContainer
+            tracksContainerStyle={styles.playlistContainer}
+            id={searchHelper.searchId}
+            songs={searchHelper.isSearching ? [] : searchResult || []}
+            onAllSongsLoaded={this.handleAllSongsLoaded}
+          />
+        ) : (
+          <ScreenPlaceholder
+            text={`No results for ${searchHelper.searchQuery}`}
+          />
+        )}
+
         <TrackSearchInput
           style={styles.trackSearchInput}
           navigation={this.props.navigation}

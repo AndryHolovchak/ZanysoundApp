@@ -10,10 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "github:react-native-async-storage/async-storage",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/netinfo": "^6.0.0",
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/drawer": "^5.12.3",
     "@react-navigation/native": "^5.9.2",
@@ -26,6 +26,7 @@
     "react-native-gesture-handler": "^1.9.0",
     "react-native-material-ripple": "^0.9.1",
     "react-native-modal": "^11.7.0",
+    "react-native-offline": "^5.8.0",
     "react-native-reanimated": "^1.13.2",
     "react-native-redash": "^8.0.0",
     "react-native-safe-area-context": "^3.1.9",

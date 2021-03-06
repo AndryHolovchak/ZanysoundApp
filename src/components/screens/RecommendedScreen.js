@@ -6,6 +6,7 @@ import PlayerPlaylistContainer from '../PlayerPlaylistContainer';
 import {recommendedWindowSnapshotId} from '../../misc/snapshotIds';
 import {getPlaylistId} from '../../misc/Player';
 import {View} from 'react-native';
+import LoadingIndicator from '../LoadingIndicator';
 // const Spinner = require("../Spinner");
 // const WindowPlaceholder = require("../WindowPlaceholder/WindowPlaceholder.jsx");
 // const LoadingScreen = require("../LoadingScreen");
@@ -60,6 +61,10 @@ class RecommendedScreen extends React.Component {
 
   render() {
     let songs = recommendedSongsHelper.songs;
+
+    if (!recommendedSongsHelper.isInitialized) {
+      return <LoadingIndicator text="Loading recommended tracks..." />;
+    }
 
     return (
       <View style={styles.recommendedScreen}>

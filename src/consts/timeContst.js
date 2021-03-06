@@ -1,0 +1,2 @@
+const SECONDS_IN_A_HOUR = 3600;
+export {SECONDS_IN_A_HOUR};

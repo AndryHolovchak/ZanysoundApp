@@ -48,8 +48,30 @@ const secToMSS = (sec) => {
   return m + ':' + s;
 };
 
+const secToMMSS = (sec) => {
+  let res = secToMSS(sec);
+
+  if (res.length < 5) {
+    res = '0' + res;
+  }
+  return res;
+};
+
+const secToHHMMSS = (sec) => {
+  return secToHH(sec) + ':' + secToMMSS(sec);
+};
+
 const secToHours = (sec) => {
   return Math.floor(sec / 3600);
+};
+
+const secToHH = (sec) => {
+  let h = secToHours(sec);
+
+  if (h < 10) {
+    h = '0' + h.toString();
+  }
+  return h;
 };
 
 const getCurrentTimeSec = () => {
@@ -62,6 +84,8 @@ module.exports = {
   secToDDMMYYYY,
   secToHMSS,
   secToMSS,
+  secToHHMMSS,
   secToHours,
+  secToHH,
   getCurrentTimeSec,
 };

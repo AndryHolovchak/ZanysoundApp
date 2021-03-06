@@ -1,11 +1,12 @@
 import EventSystem from '../misc/EventSystem';
 import {getUrlParams, object2queryParams} from '../utils/urlUtils';
 import deezerApi from '../api/DeezerApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Linking} from 'react-native';
+import storage from '../storage/AsyncStorage';
 
 class DeezerAuth {
   _TOKEN_STORAGE_KEY = 'dz';
+  _TOKEN_STORAGE_ID = 'auth';
   _DEEZER_OAUTH_URL = 'https://connect.deezer.com/oauth/auth.php';
   _DEEZER_APP_ID = '460822';
   _DEEZER_OAUTH_REDIR = 'https://zanysound.com/appAuthRedirect';
@@ -46,10 +47,12 @@ class DeezerAuth {
     let token = urlParams['d_t'] == 'undefined' ? undefined : urlParams['d_t'];
     console.log('from popup ' + token);
     Linking.removeEventListener('url', this._handleUrlChange);
-
-    await AsyncStorage.setItem(this._TOKEN_STORAGE_KEY, token);
+    await storage.save({
+      key: this._TOKEN_STORAGE_KEY,
+      id: this._TOKEN_STORAGE_ID,
+      data: {token},
+    });
     deezerApi.token = token;
-
     this._isSignIn = !!token;
 
     if (this._isSignIn) {
@@ -75,7 +78,17 @@ class DeezerAuth {
       return;
     }
 
-    let tokenFromStorage = await AsyncStorage.getItem(this._TOKEN_STORAGE_KEY);
+    let tokenFromStorage;
+
+    try {
+      let itemFromStorage = await storage.load({
+        key: this._TOKEN_STORAGE_KEY,
+        id: this._TOKEN_STORAGE_ID,
+      });
+      tokenFromStorage = itemFromStorage.token;
+    } catch {
+      tokenFromStorage = null;
+    }
 
     console.log('from local: ' + tokenFromStorage);
     deezerApi.token = tokenFromStorage;

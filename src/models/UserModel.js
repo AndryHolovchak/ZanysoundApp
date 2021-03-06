@@ -3,6 +3,10 @@ class UserModel {
     return new UserModel(json.id, json.name, json.picture_big, json.email);
   };
 
+  static parse(json) {
+    return new UserModel(json._id, json._name, json._pictureBig, json._email);
+  }
+
   constructor(id, name, pictureBig, email) {
     this._id = id;
     this._name = name;

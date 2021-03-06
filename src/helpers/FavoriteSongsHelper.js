@@ -4,15 +4,22 @@ import * as arrayUtils from '../utils/arrayUtils';
 import playlistsHelper from './PlaylistsHelper';
 import deezerApi from '../api/DeezerApi';
 import deezerAuth from '../auth/DeezerAuth';
+import storage from '../storage/AsyncStorage';
+import {networkConnectionHelper} from './NetworkConnectionHelper';
+
+const FAVORITE_TRACKS_KEY = 'favoriteTracks';
 
 class FavoriteSongsHelper {
   _isInitialized = false;
+  _isSyncedWithServer = false;
+  _isSyncingWithServer = false;
   _songs = {};
   _orderedSongs = [];
   _songListeners = {
     forAll: [],
   };
   _onInitialized;
+  _onSync;
 
   get isInitialized() {
     return this._isInitialized;
@@ -25,15 +32,37 @@ class FavoriteSongsHelper {
     }
   }
 
+  set onSync(callback) {
+    this._onSync.addListener(callback);
+    if (this._isSyncedWithServer) {
+      setTimeout(callback, 0);
+    }
+  }
+
+  get isSyncing() {
+    return this._isSyncingWithServer;
+  }
+
   constructor() {
     this._onInitialized = new EventSystem();
+    this._onSync = new EventSystem();
 
-    deezerAuth.onSignIn = () => {
-      if (playlistsHelper.isInitialized) {
-        this._initialize();
-      } else {
-        playlistsHelper.listenInitalization(this._initialize);
-      }
+    deezerAuth.onSignIn = async () => {
+      await this._initializeUsingLocalStorage();
+
+      playlistsHelper.listenOnSyncWithServer(() => {
+        networkConnectionHelper.forceUpdate();
+
+        networkConnectionHelper.listenOnUpdate(() => {
+          if (
+            networkConnectionHelper.isOnline &&
+            !this._isSyncedWithServer &&
+            !this._isSyncingWithServer
+          ) {
+            this._syncWithServer();
+          }
+        });
+      });
     };
   }
 
@@ -71,14 +100,16 @@ class FavoriteSongsHelper {
   async addSong(songInfo) {
     if (!this.isFavorite(songInfo.id)) {
       this.updateSong(songInfo, true);
-      deezerApi.addToLoved(songInfo.id);
+      await deezerApi.addToLoved(songInfo.id);
+      this._saveTracksToLocalStorage();
     }
   }
 
   async removeSong(songInfo) {
     if (this.isFavorite(songInfo.id)) {
       this.updateSong(songInfo, false);
-      deezerApi.removeFromLoved(songInfo.id);
+      await deezerApi.removeFromLoved(songInfo.id);
+      this._saveTracksToLocalStorage();
     }
   }
 
@@ -111,10 +142,13 @@ class FavoriteSongsHelper {
     arrayUtils.removeElement(callback, callbacksForAll);
   }
 
-  _addSongInstance(songInfo) {
-    let newSongInfo = SongModel.fromAnotherInstance(songInfo);
-    this._songs[songInfo.id] = newSongInfo;
-    this._orderedSongs.unshift(newSongInfo);
+  _addSongInstance(songInfo, createNewInstance = true) {
+    let trackInfo = createNewInstance
+      ? SongModel.fromAnotherInstance(songInfo)
+      : songInfo;
+
+    this._songs[songInfo.id] = trackInfo;
+    this._orderedSongs.unshift(trackInfo);
   }
 
   _removeSongInstance(id) {
@@ -142,25 +176,78 @@ class FavoriteSongsHelper {
     }
   }
 
-  _initialize = async () => {
+  _initializeUsingLocalStorage = async () => {
+    let favoriteTracks = null;
+
+    try {
+      favoriteTracks = await storage.load({key: FAVORITE_TRACKS_KEY});
+    } catch {
+      console.log('Favorite tracks: There is no favorite tracks in storage');
+      this._isInitialized = true;
+      this._onInitialized.trigger();
+      return;
+    }
+
+    let tracksInfo = favoriteTracks.map((track) => SongModel.parse(track));
+
+    this._orderedSongs = tracksInfo;
+
+    for (let trackInfo of tracksInfo) {
+      this._songs[trackInfo.id] = trackInfo;
+      this._notifyListeners(trackInfo, true);
+    }
+
+    console.log('Favorite tracks: Initialized using storage');
+
+    this._isInitialized = true;
+    this._onInitialized.trigger();
+  };
+
+  _syncWithServer = async () => {
+    this._isSyncedWithServer = false;
+    this._isSyncingWithServer = true;
+
     let lovedPlaylist = await deezerApi.getPlaylist(
       playlistsHelper.lovedPlaylistShortInfo.id,
     );
 
     let lovedSongs = lovedPlaylist.tracks.data.reverse();
 
-    let songInfo = lovedSongs.map((obj) => new SongModel.fromDeezer(obj, true));
+    let newTracks = lovedSongs.map(
+      (obj) => new SongModel.fromDeezer(obj, true),
+    );
 
-    for (let i = songInfo.length - 1; i >= 0; i--) {
-      let currentSong = songInfo[i];
-      if (!this._songs[currentSong.id]) {
+    let oldTracks = this._songs;
+
+    this._songs = {};
+    this._orderedSongs = [];
+
+    for (let i = newTracks.length - 1; i >= 0; i--) {
+      let currentSong = newTracks[i];
+
+      if (oldTracks[currentSong.id]) {
+        this._addSongInstance(oldTracks[currentSong.id], false);
+      } else {
         this._addSongInstance(currentSong);
         this._notifyListeners(currentSong, true);
       }
     }
 
-    this._isInitialized = true;
-    this._onInitialized.trigger();
+    this._saveTracksToLocalStorage();
+
+    if (!this._isInitialized) {
+      this._isInitialized = true;
+      this._onInitialized.trigger();
+    }
+
+    this._isSyncedWithServer = true;
+    this._isSyncingWithServer = false;
+    console.log('Favorite tracks: Synced with server');
+    this._onSync.trigger();
+  };
+
+  _saveTracksToLocalStorage = async () => {
+    await storage.save({key: FAVORITE_TRACKS_KEY, data: this._orderedSongs});
   };
 }
 

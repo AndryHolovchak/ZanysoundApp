@@ -1,6 +1,7 @@
-import { generateId } from "../utils/idUtils";
-import AlbumShortInfo from "./AlbumShortInfo";
-import ARtistShortInfo from "./ArtistShortInfo";
+import {generateId} from '../utils/idUtils';
+import AlbumShortInfo from './AlbumShortInfo';
+import ArtistShortInfo from './ArtistShortInfo';
+import ARtistShortInfo from './ArtistShortInfo';
 
 class SongModel {
   static fromServerJson(json) {
@@ -15,12 +16,12 @@ class SongModel {
       obj.album.cover_small,
       obj.album.cover_medium,
       obj.album.cover_big,
-      obj.album.cover_xl
+      obj.album.cover_xl,
     );
     let artist = new ARtistShortInfo(
       obj.artist.id,
       obj.artist.name,
-      obj.artist.type
+      obj.artist.type,
     );
 
     return new SongModel(
@@ -32,7 +33,7 @@ class SongModel {
       obj.rank,
       obj.duration,
       album,
-      artist
+      artist,
     );
   }
 
@@ -46,7 +47,21 @@ class SongModel {
       songModel.rank,
       songModel.duration,
       songModel.album,
-      songModel.artist
+      songModel.artist,
+    );
+  }
+
+  static parse(json) {
+    return new SongModel(
+      json._id,
+      json._title,
+      json._titleShort,
+      json._titleVersion,
+      json._explicitLyrics,
+      json._rank,
+      json._duration,
+      AlbumShortInfo.parse(json._album),
+      ArtistShortInfo.parse(json._artist),
     );
   }
 
@@ -59,7 +74,7 @@ class SongModel {
     rank,
     duration,
     album,
-    artist
+    artist,
   ) {
     this._id = id;
     this._title = title;

@@ -17,6 +17,7 @@ import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import Modal from './Modal';
 import NewPlaylistModal from './NewPlaylistModal';
 import NewPlaylistButtonCover from './NewPlaylistButtonCover';
+import LoadingIndicator from './LoadingIndicator';
 
 class Playlists extends React.Component {
   constructor(props) {
@@ -80,8 +81,12 @@ class Playlists extends React.Component {
 
   render() {
     let playlists = playlistsHelper.getPlaylistsShortInfo() || [];
+
     return (
       <View style={styles.collectionScreen}>
+        {playlistsHelper.isInitialized ? null : (
+          <LoadingIndicator containerStyle={styles.loadingIndicatorContainer} />
+        )}
         <FlatList
           ListHeaderComponent={() => this.renderCreateNewButton()}
           contentContainerStyle={styles.flatlistContainer}
@@ -100,6 +105,11 @@ class Playlists extends React.Component {
 
 const styles = StyleSheet.create({
   collectionScreen: {
+    height: '100%',
+  },
+  loadingIndicatorContainer: {
+    position: 'absolute',
+    width: '100%',
     height: '100%',
   },
   createNew: {

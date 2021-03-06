@@ -74,6 +74,7 @@ class Player {
     this._onSongChange = new ExtendedEvent();
     this._onTogglePlay = new ExtendedEvent();
     this._onPlaylistChange = new ExtendedEvent();
+    this._onPlaybackError = new ExtendedEvent();
     this._trackPlayerListeners = [];
   }
 
@@ -83,6 +84,12 @@ class Player {
     }
 
     this._trackPlayerListeners = [];
+
+    this._trackPlayerListeners.push(
+      TrackPlayer.addEventListener('playback-error', (e) => {
+        this._onPlaybackError.trigger();
+      }),
+    );
 
     this._trackPlayerListeners.push(
       TrackPlayer.addEventListener('remote-play', () => {
@@ -170,14 +177,12 @@ class Player {
         TrackPlayer.CAPABILITY_STOP,
         TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
         TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
-        TrackPlayer.CAPABILITY_SEEK_TO,
       ],
       compactCapabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
         TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
         TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
-        TrackPlayer.CAPABILITY_SEEK_TO,
       ],
     });
     this.setEventListeners();
@@ -206,6 +211,14 @@ class Player {
 
   removeOnPlaylistChangeListener = (callback) => {
     this._onPlaylistChange.removeListener(callback);
+  };
+
+  addOnPlaybackErrorListener = (callback) => {
+    this._onPlaybackError.addListener(callback);
+  };
+
+  removeOnPlaybackErrorListener = (callback) => {
+    this._onPlaybackError.removeListener(callback);
   };
 
   toggleShuffleMode = () => {
@@ -305,18 +318,24 @@ class Player {
     if (!prevTrack) {
       await TrackPlayer.add({
         id: '-1',
-        url: silenceMp3,
+        // url: silenceMp3, //TODO: use local file for prod
+        url:
+          'https://drive.google.com/uc?export=download&id=1Tr30mBslt3cFj5GuO-lo0gj3FoLccEe5',
         // 'https://drive.google.com/uc?export=download&id=1Lf2Ih4FL_lbD6NFL7qUKgvrzAhwZ_z2j', // works in both cases
         // 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',// works in both cases
+        duration: 0,
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
       });
       await TrackPlayer.add({
         id: '1',
-        url: silenceMp3,
+        // url: silenceMp3, //TODO: use local file for prod
+        url:
+          'https://drive.google.com/uc?export=download&id=1Tr30mBslt3cFj5GuO-lo0gj3FoLccEe5',
         // 'https://drive.google.com/uc?export=download&id=1Lf2Ih4FL_lbD6NFL7qUKgvrzAhwZ_z2j', // works in both cases
         //  'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // works in both cases
+        duration: 0,
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
@@ -327,13 +346,11 @@ class Player {
       TrackPlayer.skip('-1'); //await
       TrackPlayer.play(); //await
       let firstPlaceholderPromise = TrackPlayer.updateMetadataForTrack('-1', {
-        //  duration: 100,
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
       });
       let secondPlaceholderPromise = TrackPlayer.updateMetadataForTrack('1', {
-        // duration: 100,
         title: currentTrack.title,
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
@@ -369,6 +386,7 @@ class Player {
       '1',
     );
     await TrackPlayer.skip(currentTrack.id.toString());
+
     await TrackPlayer.play();
 
     this._trackIsChanging = false;

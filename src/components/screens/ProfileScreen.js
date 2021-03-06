@@ -6,6 +6,7 @@ import CustomText from '../CustomText';
 import {color} from '../../styles';
 import Button from '../Button';
 import Color from 'color';
+import LoadingIndicator from '../LoadingIndicator';
 // const { i18n } = require("../../js/i18n");
 
 class ProfileScreen extends React.Component {
@@ -13,6 +14,7 @@ class ProfileScreen extends React.Component {
     super(props);
 
     userHelper.onInitialized = () => this.forceUpdate();
+    userHelper.onSync = () => this.forceUpdate();
 
     if (!userHelper.isInitialized) {
       // userHelper._initialize();
@@ -24,23 +26,25 @@ class ProfileScreen extends React.Component {
   };
 
   render() {
-    if (!userHelper.isInitialized) {
-      return null;
-    }
-
     let user = userHelper.info;
 
     return (
       <View style={styles.profileScreen}>
         <View style={styles.userInfo}>
-          <Image
-            style={styles.avatar}
-            source={{
-              uri: user.pictureBig,
-            }}
-          />
-          <CustomText value={user.name} weight={700} style={styles.name} />
-          <CustomText value={user.email} style={styles.email} />
+          {userHelper.isInitialized ? (
+            <View style={styles.userInfoInner}>
+              <Image
+                style={styles.avatar}
+                source={{
+                  uri: user.pictureBig,
+                }}
+              />
+              <CustomText value={user.name} weight={700} style={styles.name} />
+              <CustomText value={user.email} style={styles.email} />
+            </View>
+          ) : (
+            <LoadingIndicator text="Loading user info..." />
+          )}
         </View>
 
         <Button
@@ -60,6 +64,9 @@ const styles = {
     justifyContent: 'center',
   },
   userInfo: {
+    maxHeight: '80%',
+  },
+  userInfoInner: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 30,

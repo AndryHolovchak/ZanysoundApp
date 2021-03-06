@@ -21,6 +21,7 @@ class YoutubeHelper {
         artist,
       },
     });
+    console.log(storageItem.url);
     return storageItem.url;
   };
   _getTrackVideoId = async (trackId, title, artist) => {
@@ -37,14 +38,23 @@ class YoutubeHelper {
   };
 
   _syncTrackVideoUrls = async (params) => {
-    // console.log('Sync trackVideoUrls');
     let {
-      id,
+      id, //currently is deezerId
       syncParams: {title, artist},
     } = params;
 
+    let videoUrl;
     let videoId = await this._getTrackVideoId(id, title, artist);
-    let videoUrl = await this._fetchVideoUrl(videoId);
+
+    // if for some reason it is not possible to get the url
+    // (for example, if the video is deleted) then look for a new video
+    try {
+      videoUrl = await this._fetchVideoUrl(videoId);
+    } catch (e) {
+      await storage.remove({key: TRACK_VIDEO_IDS_KEY, id});
+      videoId = await this._getTrackVideoId(id, title, artist);
+      videoUrl = await this._fetchVideoUrl(videoId);
+    }
 
     let storageData = {url: videoUrl};
 
@@ -58,8 +68,6 @@ class YoutubeHelper {
     return storageData;
   };
   _syncTrackVideoIds = async (params) => {
-    // console.log('Sync trackVideoIds');
-
     let {
       id,
       syncParams: {title, artist},

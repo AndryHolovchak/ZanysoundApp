@@ -17,6 +17,7 @@ import {ModalWindowSystemProvider} from './src/components/ModalWindowSystem';
 import Toast, {BaseToast} from 'react-native-toast-message';
 import CustomText from './src/components/CustomText';
 import {modalWindowSystemRef} from './src/misc/ModalWindowSystemRef';
+import {NetworkProvider} from 'react-native-offline';
 
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first track

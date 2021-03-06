@@ -10,28 +10,47 @@ import userHelper from './UserHelper';
 import deezerAuth from '../auth/DeezerAuth';
 import {ForceTouchGestureHandler} from 'react-native-gesture-handler';
 import {TouchableNativeFeedbackBase} from 'react-native';
+import storage from '../storage/AsyncStorage';
+import {networkConnectionHelper} from './NetworkConnectionHelper';
 
 class PlaylistsHelper {
   TITLE_MAX_LENGTH = 50;
+  _STORAGE_PLAYLISTS_KEY = 'playlists';
+  _STORAGE_PLAYLISTS_TRACKS_KEY = 'playlistsTracks';
 
   constructor() {
-    this._lovedPlaylistShortInfo;
-    this._platlistsShortInfo = [];
-    this._playlistsSongs = {};
+    this._lovedPlaylistShortInfo = null;
+    this._playlistsShortInfo = [];
+    this._playlistsTracks = {};
     this._onPlaylistSongsChangeEvent = new ExtendedEvent();
     this._onPlaylistCreateEvent = new ExtendedEvent();
     this._onPlaylistDeleteEvent = new ExtendedEvent();
     this._onPlaylistInfoChange = new ExtendedEvent();
+    this._onSyncWithServer = new ExtendedEvent();
     this._initializationListeners = [];
     this._isInitialized = false;
     this._isInitializing = false;
+    this._isSyncing = false;
+    this._isSynced = false;
 
-    deezerAuth.onSignIn = () => {
-      if (userHelper.isInitialized) {
-        this._initialize();
-      } else {
-        userHelper.onInitialized = this._initialize;
-      }
+    deezerAuth.onSignIn = async () => {
+      //for test
+      // await storage.clearMapForKey(this._STORAGE_PLAYLISTS_TRACKS_KEY);
+      // await storage.remove({key: this._STORAGE_PLAYLISTS_TRACKS_KEY});
+
+      await this._initializeUsingLocalStorage();
+
+      networkConnectionHelper.forceUpdate();
+
+      networkConnectionHelper.listenOnUpdate(() => {
+        if (
+          networkConnectionHelper.isOnline &&
+          !this._isSynced &&
+          !this._isSyncing
+        ) {
+          this._syncWithServer();
+        }
+      });
     };
   }
 
@@ -39,11 +58,55 @@ class PlaylistsHelper {
     return this._lovedPlaylistShortInfo;
   }
 
-  _initialize = async () => {
-    this._isInitializing = true;
+  get isSyncedWithServer() {
+    return this._isSynced;
+  }
 
+  get isInitialized() {
+    return this._isInitialized;
+  }
+
+  _initializeUsingLocalStorage = async () => {
+    try {
+      let playlists = await storage.load({key: this._STORAGE_PLAYLISTS_KEY});
+      this._playlistsShortInfo = playlists || this._playlistsShortInfo;
+    } catch {
+      console.log('Playlists: There is no playlists info in storage');
+      this._isInitialized = true;
+      this._triggerInitializationListeners();
+      return;
+    }
+
+    for (let playlistShortInfo of this._playlistsShortInfo) {
+      let playlistTracks = null;
+      try {
+        playlistTracks = await storage.load({
+          key: this._STORAGE_PLAYLISTS_TRACKS_KEY,
+          id: playlistShortInfo.id,
+        });
+      } catch {
+        continue;
+      }
+
+      let parsedTracks = playlistTracks.tracks.map((track) =>
+        SongModel.parse(track),
+      );
+
+      this._playlistsTracks[playlistShortInfo.id] = {
+        isFromLocalStorage: true,
+        tracks: parsedTracks,
+      };
+    }
+
+    this._isInitialized = true;
+    console.log('Playlists: Initialized using storage');
+    this._triggerInitializationListeners();
+  };
+
+  _syncWithServer = async () => {
+    this._isSyncing = true;
+    this._isSynced = false;
     let playlists = await deezerApi.getUserPlaylists();
-    this._lovedPlaylistShortInfo = null;
 
     for (let i = 0; i < playlists.length; i++) {
       if (deezerApi.isLovedTracksPlaylist(playlists[i])) {
@@ -54,12 +117,25 @@ class PlaylistsHelper {
       }
     }
 
-    this._platlistsShortInfo = playlists
+    this._playlistsShortInfo = playlists
       .map((data) => PlaylistShortInfo.fromDeezer(data))
       .sort((a, b) => b.creationTime - a.creationTime);
 
-    this._isInitialized = true;
-    this._isInitializing = false;
+    this._savePlaylistsInfoToStorage();
+    console.log('Playlists: Synced with server');
+
+    this._isSynced = true;
+    this._isSyncing = false;
+
+    this._onSyncWithServer.trigger();
+
+    if (!this._isInitialized) {
+      this._isInitialized = true;
+      this._triggerInitializationListeners();
+    }
+  };
+
+  _triggerInitializationListeners = () => {
     this._initializationListeners.forEach((listener) => listener());
   };
 
@@ -95,6 +171,13 @@ class PlaylistsHelper {
     this._onPlaylistDeleteEvent.removeListener(callback);
   };
 
+  listenOnSyncWithServer = (callback) => {
+    this._onSyncWithServer.addListener(callback);
+    return () => {
+      this._onSyncWithServer.removeListener(callback);
+    };
+  };
+
   validateTitle = (title) => {
     let formattedTitle = removeExtraSpaces(title);
 
@@ -119,10 +202,10 @@ class PlaylistsHelper {
 
     let response = await deezerApi.createPlaylist(formattedTitle);
     let playlistInfo = await deezerApi.getPlaylist(response.id);
-    console.log(playlistInfo);
-    this._platlistsShortInfo.unshift(
+    this._playlistsShortInfo.unshift(
       PlaylistShortInfo.fromDeezer(playlistInfo),
     );
+    this._savePlaylistsInfoToStorage();
     this._onPlaylistCreateEvent.trigger();
 
     return new ActionResult(true);
@@ -135,8 +218,9 @@ class PlaylistsHelper {
       deezerApi.removePlaylistFromFavorite(id);
     }
 
-    removeByElemProperty('id', id, this._platlistsShortInfo);
-    delete this._playlistsSongs[id];
+    removeByElemProperty('id', id, this._playlistsShortInfo);
+    delete this._playlistsTracks[id];
+    this._savePlaylistsInfoToStorage();
     this._onPlaylistDeleteEvent.trigger();
   };
 
@@ -144,10 +228,11 @@ class PlaylistsHelper {
     let response = await deezerApi.addToPlaylist(playlistId, songInfo.id);
 
     if (response === true) {
-      if (this._playlistsSongs[playlistId] != null) {
-        this._playlistsSongs[playlistId].unshift(
+      if (this._playlistsTracks[playlistId]?.tracks) {
+        this._playlistsTracks[playlistId].tracks.unshift(
           SongModel.fromAnotherInstance(songInfo),
         );
+        this._savePlaylistTracksToStorage(playlistId);
       }
       this._onPlaylistSongsChangeEvent.trigger(playlistId);
       return new ActionResult(true);
@@ -159,12 +244,43 @@ class PlaylistsHelper {
   removeFromPlaylist = async (songInfo, playlistId) => {
     await deezerApi.removeFromPlaylist(playlistId, songInfo.id);
 
-    if (this._playlistsSongs[playlistId] != null) {
-      removeSongFromArray(songInfo.id, this._playlistsSongs[playlistId]);
+    if (this._playlistsTracks[playlistId]?.tracks) {
+      removeSongFromArray(
+        songInfo.id,
+        this._playlistsTracks[playlistId].tracks,
+      );
+      this._savePlaylistTracksToStorage();
     }
 
     this._onPlaylistSongsChangeEvent.trigger(playlistId);
     return true;
+  };
+
+  _savePlaylistsInfoToStorage = async () => {
+    await storage.save({
+      key: this._STORAGE_PLAYLISTS_KEY,
+      data: this._playlistsShortInfo,
+    });
+
+    console.log('Playlists: info saved');
+  };
+
+  _savePlaylistTracksToStorage = async (playlistId) => {
+    await storage.save({
+      key: this._STORAGE_PLAYLISTS_TRACKS_KEY,
+      id: playlistId.toString(),
+      data: {
+        isFromLocalStorage: true,
+        tracks: this._playlistsTracks[playlistId].tracks,
+      },
+    });
+
+    console.log(
+      'Playlists: track saved for ' +
+        playlistId +
+        ', length = ' +
+        this._playlistsTracks[playlistId].tracks.length,
+    );
   };
 
   listenInitalization = (callback) => {
@@ -176,34 +292,69 @@ class PlaylistsHelper {
   };
 
   loadPlaylistSongs = async (playlistId) => {
-    if (this._playlistsSongs[playlistId]) {
-      return this._playlistsSongs[playlistId];
+    let oldPlaylistTracks = this._playlistsTracks[playlistId];
+
+    if (oldPlaylistTracks && !oldPlaylistTracks.isFromLocalStorage) {
+      return oldPlaylistTracks.tracks;
     }
 
-    let response = await deezerApi.getPlaylist(playlistId);
-    this._playlistsSongs[playlistId] = response.tracks.data
+    let response = null;
+
+    try {
+      response = await deezerApi.getPlaylist(playlistId);
+    } catch {
+      console.log(
+        'There is no internet connection so return tracks from storage',
+      );
+      return oldPlaylistTracks?.tracks || null;
+    }
+
+    let newTracks = response.tracks.data
       .map((json) => SongModel.fromDeezer(json))
       .reverse();
+
+    if (oldPlaylistTracks?.isFromLocalStorage && oldPlaylistTracks?.tracks) {
+      let oldPlaylistTracksDictionary = {};
+
+      for (let track of oldPlaylistTracks.tracks) {
+        oldPlaylistTracksDictionary[track.id] = track;
+      }
+
+      for (let i = 0; i < newTracks.length; i++) {
+        newTracks[i] =
+          oldPlaylistTracksDictionary[newTracks[i].id] || newTracks[i];
+      }
+    }
+
+    this._playlistsTracks[playlistId] = {
+      isFromLocalStorage: false,
+      tracks: newTracks,
+    };
+
+    this._savePlaylistTracksToStorage(playlistId);
     this._onPlaylistSongsChangeEvent.trigger(playlistId);
-    return this._playlistsSongs[playlistId];
+    return this._playlistsTracks[playlistId].tracks;
   };
 
-  getPlaylistSongs = (playlistUuid) => {
-    return (this._playlistsSongs[playlistUuid] || []).slice();
+  getPlaylistSongs = (playlistId) => {
+    return this._playlistsTracks[playlistId]?.tracks || null;
   };
 
   isPlaylistSongsLoaded = (playlistId) => {
-    return this._playlistsSongs[playlistId] != null;
+    return (
+      this._playlistsTracks[playlistId] !== null &&
+      this._playlistsTracks[playlistId] !== undefined
+    );
   };
 
   getPlaylistsShortInfo = () => {
-    return JSON.parse(JSON.stringify(this._platlistsShortInfo));
+    return JSON.parse(JSON.stringify(this._playlistsShortInfo));
   };
 
   getLoadedPlaylistInfo = (id) => {
     let target = null;
 
-    for (let playlist of this._platlistsShortInfo) {
+    for (let playlist of this._playlistsShortInfo) {
       if (playlist.id === id) {
         target = JSON.parse(JSON.stringify(playlist));
         break;
@@ -214,7 +365,7 @@ class PlaylistsHelper {
   };
 
   _isInPlaylistSongsArray = (songUuid, playlistUuid) => {
-    let songs = this._playlistsSongs[playlistUuid];
+    let songs = this._playlistsTracks[playlistUuid];
 
     if (songs && songs.length) {
       for (let i = 0; i < songs.length; i++) {

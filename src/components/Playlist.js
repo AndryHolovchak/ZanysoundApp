@@ -1,7 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
 import playlistsHelper from '../helpers/PlaylistsHelper';
+import LoadingIndicator from './LoadingIndicator';
 import PlayerPlaylistContainer from './PlayerPlaylistContainer';
+import ScreenPlaceholder from './ScreenPlaceholder';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -36,6 +38,15 @@ class Playlist extends React.Component {
     }
 
     let songs = playlistsHelper.getPlaylistSongs(this.id);
+
+    if (!songs) {
+      return <LoadingIndicator text="Loading tracks" />;
+    }
+
+    if (songs.length === 0) {
+      return <ScreenPlaceholder text="Playlist is empty" />;
+    }
+
     return (
       <View style={styles.playlist}>
         <PlayerPlaylistContainer

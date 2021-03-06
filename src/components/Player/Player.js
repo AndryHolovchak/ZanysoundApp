@@ -19,6 +19,7 @@ import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 import {useNavigation} from '@react-navigation/native';
 import * as RootNavigation from '../../misc/RootNavigation';
 import {State} from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 
 const MIN_HEIGHT = size.miniPlayerHeight;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -54,6 +55,8 @@ class Player extends Component {
 
     player.addOnSongChangeListener(this.handlePlayerSongChange);
     player.addOnTogglePlayListener(this.handlePlayerTogglePlay);
+    player.addOnPlaybackErrorListener(this.handlePlayerPlaybackError);
+
     favoriteSongsHelper.listenFavoriteStatus(this.handleFavoriteStatusChange);
   }
 
@@ -74,6 +77,15 @@ class Player extends Component {
   handlePlayerSongChange = () => this.forceUpdate();
 
   handlePlayerTogglePlay = () => this.forceUpdate();
+
+  handlePlayerPlaybackError = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Playback error',
+      text2: 'Try to play this track in a few hours',
+      visibilityTime: 2000,
+    });
+  };
 
   handleFavoriteStatusChange = (info) => {
     let currentSong = player.currentSong;
@@ -119,6 +131,8 @@ class Player extends Component {
   componentWillUnmount() {
     player.removeOnSongChangeListener(this.handlePlayerSongChange);
     player.removeOnTogglePlayListener(this.handlePlayerTogglePlay);
+    player.removeOnPlaybackErrorListener(this.handlePlayerPlaybackError);
+
     favoriteSongsHelper.stopListeningFavoriteStatus(
       this.handleFavoriteStatusChange,
     );

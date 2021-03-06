@@ -8,6 +8,10 @@ import {generateId} from '../../utils/idUtils';
 import DataContainer from '../../misc/DataContainer';
 import PlayerPlaylistContainer from '../PlayerPlaylistContainer';
 import {View} from 'react-native';
+import {ActivityIndicator} from 'react-native';
+import {color} from '../../styles';
+import LoadingIndicator from '../LoadingIndicator';
+import ScreenPlaceholder from '../ScreenPlaceholder';
 
 //const LoadingScreen = require("../LoadingScreen");
 //import { i18n } from "../../i18n";
@@ -23,11 +27,16 @@ class FavoritesScreen extends React.Component {
     };
 
     favoriteSongsHelper.onInitialized = this.listenFavoriteStatus;
+    favoriteSongsHelper.onSync = this.handleFavoriteSongsHelperSync;
   }
 
   favoriteStatusListener = (song, isLiked) => {
-    this.forceUpdate();
+    if (!favoriteSongsHelper.isSyncing) {
+      this.forceUpdate();
+    }
   };
+
+  handleFavoriteSongsHelperSync = () => this.forceUpdate();
 
   listenFavoriteStatus = () => {
     favoriteSongsHelper.listenFavoriteStatus(this.favoriteStatusListener);
@@ -51,7 +60,17 @@ class FavoritesScreen extends React.Component {
   }
 
   render() {
+    if (!favoriteSongsHelper.isInitialized) {
+      return <LoadingIndicator />;
+    }
+
     let songs = favoriteSongsHelper.getFavorite();
+
+    console.log('UPD');
+
+    if (songs.length === 0) {
+      return <ScreenPlaceholder text="You have no favorite tracks" />;
+    }
 
     return favoriteSongsHelper.isInitialized && songs.length ? (
       <View style={styles.favoriteScreen}>

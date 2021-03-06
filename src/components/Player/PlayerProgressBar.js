@@ -18,13 +18,15 @@ import player from '../../misc/Player';
 import {useEffect} from 'react';
 import {useCallback} from 'react';
 import CustomText from '../CustomText';
-import {secToMSS} from '../../utils/timeUtils';
+import {secToMSS, secToHHMMSS} from '../../utils/timeUtils';
 import useForceUpdate from '../../hooks/useForceUpdate';
+import {SECONDS_IN_A_HOUR} from '../../consts/timeContst';
 
 let tmpValue = 0;
 let isSliding = false;
 let useTmpValue = false;
 let buffered = 0;
+let skipOneRender = true;
 
 const PlayerProgressBar = ({
   style,
@@ -45,24 +47,20 @@ const PlayerProgressBar = ({
     useTmpValue = false;
   }, []);
 
-  if (useTmpValue && !isSliding) {
-    setTimeout(() => (useTmpValue = false), 500);
-  }
-
   useEffect(() => {
     player.addOnSongChangeListener(handleTrackChange);
     return () => player.removeOnSongChangeListener(handleTrackChange);
   }, [handleTrackChange]);
 
-  setTimeout(async () => {
-    let b = await TrackPlayer.getBufferedPosition();
-    buffered = b;
-  }, 0);
+  if (useTmpValue && !isSliding) {
+    setTimeout(() => (useTmpValue = false), 900);
+  }
 
   let positionToShow =
-    player.trackIsChanging || !buffered || !duration
+    player.trackIsChanging || !duration
       ? 0
       : (useTmpValue ? tmpValue : position / duration) || 0;
+  let durationToShow = player.trackIsChanging ? 0 : duration || 0;
 
   return (
     <View style={[styles.container, style]}>
@@ -84,7 +82,7 @@ const PlayerProgressBar = ({
         value={positionToShow}
         onValueChange={(newValue) => {
           useTmpValue && (tmpValue = newValue);
-          forceUpdate();
+          // forceUpdate();
         }}
         onSlidingStart={(newValue) => {
           if (interactable) {
@@ -96,7 +94,7 @@ const PlayerProgressBar = ({
         }}
         onSlidingComplete={async (newValue) => {
           if (interactable) {
-            player.seekTo(newValue);
+            await player.seekTo(newValue);
             tmpValue = newValue;
             useTmpValue = true;
             isSliding = false;
@@ -105,7 +103,11 @@ const PlayerProgressBar = ({
       />
       {showTime && (
         <CustomText
-          value={secToMSS(player.trackIsChanging ? 0 : duration)}
+          value={
+            durationToShow >= SECONDS_IN_A_HOUR
+              ? secToHHMMSS(durationToShow)
+              : secToMSS(durationToShow)
+          }
           style={styles.duration}
         />
       )}
