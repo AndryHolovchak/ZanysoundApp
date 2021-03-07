@@ -7,6 +7,8 @@ import {recommendedWindowSnapshotId} from '../../misc/snapshotIds';
 import {getPlaylistId} from '../../misc/Player';
 import {View} from 'react-native';
 import LoadingIndicator from '../LoadingIndicator';
+import {networkConnectionHelper} from '../../helpers/NetworkConnectionHelper';
+import ScreenPlaceholder from '../ScreenPlaceholder';
 // const Spinner = require("../Spinner");
 // const WindowPlaceholder = require("../WindowPlaceholder/WindowPlaceholder.jsx");
 // const LoadingScreen = require("../LoadingScreen");
@@ -25,9 +27,27 @@ class RecommendedScreen extends React.Component {
     this.forceUpdate();
   };
 
+  handleNetworkUpdate = (networkStateChanged) => {
+    if (networkStateChanged) {
+      this.forceUpdate();
+    }
+  };
+
+  handleRecommendedSongsInitFailed = () => {
+    this.forceUpdate();
+  };
+
   componentDidMount() {
     recommendedSongsHelper.listenInitialization(
       this.handleRecommendedSongsInit,
+    );
+
+    this.stopListenOnNetworkUpdate = networkConnectionHelper.listenOnUpdate(
+      this.handleNetworkUpdate,
+    );
+
+    recommendedSongsHelper.listenOnInitFailed(
+      this.handleRecommendedSongsInitFailed,
     );
 
     if (
@@ -56,11 +76,20 @@ class RecommendedScreen extends React.Component {
     recommendedSongsHelper.unlistenInitialization(
       this.handleRecommendedSongsInit,
     );
-    // this.saveSnapshot();
+    this.stopListenOnNetworkUpdate();
+    recommendedSongsHelper.unlistenOnInitFailed(
+      this.handleRecommendedSongsInitFailed,
+    );
   }
 
   render() {
     let songs = recommendedSongsHelper.songs;
+
+    if (recommendedSongsHelper.initFailedDueToNetworkConnection) {
+      return (
+        <ScreenPlaceholder text="Failed to load recommended songs. You are offline" />
+      );
+    }
 
     if (!recommendedSongsHelper.isInitialized) {
       return <LoadingIndicator text="Loading recommended tracks..." />;

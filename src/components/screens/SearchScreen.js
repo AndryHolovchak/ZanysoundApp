@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {SearchBar} from 'react-native-elements';
+import {Button, SearchBar} from 'react-native-elements';
 import PlayerPlaylistContainer from '../PlayerPlaylistContainer';
 import {Icon} from '../Icon';
 import Color from 'color';
@@ -10,6 +10,7 @@ import TrackSearchInput from '../TrackSearchInput';
 import searchHelper from '../../helpers/SearchHelper';
 import LoadingIndicator from '../LoadingIndicator';
 import ScreenPlaceholder from '../ScreenPlaceholder';
+import CustomText from '../CustomText';
 
 class SearchScreen extends React.Component {
   constructor(props) {
@@ -17,11 +18,17 @@ class SearchScreen extends React.Component {
 
     this.state = {
       playlistContainerId: generateId(),
+      errorMessage: null,
     };
   }
 
-  handleSongSearch = () => {
+  handleSearchEnd = () => {
     this.forceUpdate();
+    this.setState({errorMessage: null});
+  };
+
+  handkeSearchStart = () => {
+    // this.setState({errorMessage: null});
   };
 
   handleAllSongsLoaded = async () => {
@@ -29,22 +36,58 @@ class SearchScreen extends React.Component {
     this.forceUpdate();
   };
 
+  handleSearchFailed = (message) => {
+    console.log('Handler');
+    this.setState({errorMessage: message});
+  };
+
+  handleTryAgainButtonPress = () => {
+    searchHelper.search(searchHelper.searchQuery);
+  };
+
+  generateErrorBlock = () => {
+    return (
+      <View style={styles.errorBlock}>
+        <CustomText
+          value={this.state.errorMessage}
+          style={styles.errorMessage}
+          weight={500}
+        />
+        <Button
+          loading={searchHelper.isSearching}
+          buttonStyle={styles.tryAgainButton}
+          titleStyle={styles.tryAgainButtonTitle}
+          onPress={this.handleTryAgainButtonPress}
+          title="Try again"
+        />
+      </View>
+    );
+  };
+
   componentDidMount() {
-    searchHelper.subscribeToSearchEnd(this.handleSongSearch);
+    searchHelper.subscribeToSearchStart(this.handkeSearchStart);
+    searchHelper.subscribeToSearchEnd(this.handleSearchEnd);
+    this.unlistenOnSearchFailed = searchHelper.listenOnSearchFailed(
+      this.handleSearchFailed,
+    );
     if (searchHelper.searchResult) {
       this.forceUpdate();
     }
   }
 
   componentWillUnmount() {
-    searchHelper.unsubscribeFromSearchEnd(this.handleSongSearch);
+    searchHelper.unsubscribeFromSearchStart(this.handkeSearchStart);
+    searchHelper.unsubscribeFromSearchEnd(this.handleSearchEnd);
+    this.unlistenOnSearchFailed();
   }
 
   render() {
     let searchResult = searchHelper.searchResult;
     return (
       <View style={styles.container}>
-        {searchHelper.isSearching ? (
+        {this.state.errorMessage ? (
+          this.generateErrorBlock()
+        ) : searchHelper.isSearching ? (
           <LoadingIndicator text="Searching..." />
         ) : searchResult === null ? (
           <ScreenPlaceholder text="Search" />
@@ -94,6 +137,25 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 3,
     alignSelf: 'center',
+  },
+  errorBlock: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  errorMessage: {
+    fontSize: 20,
+    color: color.secondaryText,
+    marginBottom: 10,
+  },
+  tryAgainButton: {
+    backgroundColor: Color(color.bg).lighten(3).string(),
+    width: 200,
+    height: 40,
+    maxWidth: '100%',
+  },
+  tryAgainButtonTitle: {
+    color: color.primaryText,
   },
 });
 

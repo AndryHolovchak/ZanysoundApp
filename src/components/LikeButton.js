@@ -4,15 +4,23 @@ import favoriteSongsHelper from '../helpers/FavoriteSongsHelper';
 import {color} from '../styles';
 import {Icon, ICON_FAMILIES} from './Icon';
 import Color from 'color';
+import NetworkError from '../errors/NetworkError';
+import {showErrorToast, showNetworkErrorToast} from '../utils/toastUtils';
 
 const LikeButton = ({targetTrack, style}) => {
   let isFavorite = favoriteSongsHelper.isFavorite(targetTrack.id);
 
   return (
     <Icon
-      onPress={(e) => {
+      onPress={async (e) => {
         e.stopPropagation();
-        favoriteSongsHelper.toggleSong(targetTrack);
+        try {
+          await favoriteSongsHelper.toggleSong(targetTrack);
+        } catch (e) {
+          if (e instanceof NetworkError) {
+            showNetworkErrorToast();
+          }
+        }
       }}
       style={StyleSheet.flatten([styles.icon, style])}
       name="heart"

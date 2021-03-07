@@ -18,6 +18,11 @@ import Toast, {BaseToast} from 'react-native-toast-message';
 import CustomText from './src/components/CustomText';
 import {modalWindowSystemRef} from './src/misc/ModalWindowSystemRef';
 import {NetworkProvider} from 'react-native-offline';
+import {networkConnectionHelper} from './src/helpers/NetworkConnectionHelper';
+import {
+  showOfflineModeToast,
+  showOnlineModeToast,
+} from './src/utils/toastUtils';
 
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first track
@@ -37,10 +42,19 @@ export default class App extends React.Component {
     this.forceUpdate();
   };
 
+  handleNetworkUpdate = (networkStateChanged) => {
+    if (networkStateChanged) {
+      networkConnectionHelper.isOnline
+        ? showOnlineModeToast()
+        : showOfflineModeToast();
+    }
+  };
+
   componentDidMount() {
     deezerAuth.onSignIn = this._handleSignIn;
     deezerAuth.onSignOut = this._handleSignOut;
     deezerAuth.singInByLocalStorage();
+    networkConnectionHelper.listenOnUpdate(this.handleNetworkUpdate);
   }
 
   render() {

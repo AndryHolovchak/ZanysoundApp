@@ -18,6 +18,8 @@ import Toast from 'react-native-toast-message';
 import {generateId} from '../utils/idUtils';
 import NewPlaylistModal from './NewPlaylistModal';
 import NewPlaylistButtonCover from './NewPlaylistButtonCover';
+import NetworkError from '../errors/NetworkError';
+import {showNetworkErrorToast} from '../utils/toastUtils';
 
 class AddToPlaylistModal extends React.Component {
   constructor(props) {
@@ -30,10 +32,20 @@ class AddToPlaylistModal extends React.Component {
   handleDeletePlaylist = () => this.forceUpdate();
 
   handlePlaylistPress = async (playlistId) => {
-    let result = await playlistsHelper.addToPlaylist(
-      this.props.targetTrack,
-      playlistId,
-    );
+    let result = null;
+
+    try {
+      result = await playlistsHelper.addToPlaylist(
+        this.props.targetTrack,
+        playlistId,
+      );
+    } catch (e) {
+      if (e instanceof NetworkError) {
+        showNetworkErrorToast();
+        return;
+      }
+      throw e;
+    }
 
     if (result.success) {
       Toast.show({

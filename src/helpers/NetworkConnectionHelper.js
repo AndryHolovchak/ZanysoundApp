@@ -46,7 +46,7 @@ class NetworkConnectionHelper {
 
   _update = async () => {
     const isOnline = await checkInternetConnection();
-    let statusChanged = this._isOnline !== isOnline;
+    let statusChanged = this._isOnline !== null && this._isOnline !== isOnline;
     this._isOnline = isOnline;
 
     if (statusChanged) {

@@ -1,3 +1,4 @@
+import NetworkError from '../errors/NetworkError';
 import {object2queryParams} from '../utils/urlUtils';
 
 const API_URL = 'https://api.deezer.com';
@@ -26,7 +27,14 @@ class DeezerApi {
       Object.assign(queryParams, {access_token: this._token}),
     );
     let url = API_URL + path + params;
-    let response = await fetch(url, {method, body});
+    let response = null;
+
+    try {
+      response = await fetch(url, {method, body});
+    } catch {
+      throw new NetworkError('Network error');
+    }
+
     let json = await response.json();
     return json;
   };

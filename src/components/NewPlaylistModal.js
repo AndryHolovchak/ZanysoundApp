@@ -9,6 +9,8 @@ import playlistsHelper from '../helpers/PlaylistsHelper';
 import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import Toast from 'react-native-toast-message';
 import Modal from './Modal';
+import NetworkError from '../errors/NetworkError';
+import {showNetworkErrorToast, showSuccessToast} from '../utils/toastUtils';
 
 class NewPlaylistModal extends Component {
   constructor(props) {
@@ -37,22 +39,7 @@ class NewPlaylistModal extends Component {
       return;
     }
 
-    this.setState({playlistIsCreating: true});
-    this.input.current.blur();
-    let result = await playlistsHelper.createPlaylist(this.state.inputValue);
-    this.setState({playlistIsCreating: false});
-
-    if (result.success) {
-      console.log('created');
-      this.setState({errorMessage: ''});
-      Toast.show({
-        text1: 'Playlist created',
-        visibilityTime: 1000,
-      });
-      modalWindowSystemRef.current.removeCurrent();
-    } else {
-      this.setState({errorMessage: result.message});
-    }
+    this.startCreatingProcess();
   };
 
   handleButtonPress = async () => {
@@ -60,20 +47,32 @@ class NewPlaylistModal extends Component {
       return;
     }
 
+    this.startCreatingProcess();
+  };
+
+  startCreatingProcess = async () => {
     this.setState({playlistIsCreating: true});
     this.input.current.blur();
-    let result = await playlistsHelper.createPlaylist(this.state.inputValue);
-    this.setState({playlistIsCreating: false});
+    let result = null;
 
-    if (result.success) {
-      this.setState({errorMessage: ''});
-      Toast.show({
-        text1: 'Playlist created',
-        visibilityTime: 1000,
-      });
+    try {
+      result = await playlistsHelper.createPlaylist(this.state.inputValue);
+
+      if (result.success) {
+        this.setState({errorMessage: ''});
+        showSuccessToast('Playlist created');
+      } else {
+        this.setState({errorMessage: result.message});
+      }
+    } catch (e) {
+      if (e instanceof NetworkError) {
+        showNetworkErrorToast();
+      } else {
+        throw e;
+      }
+    } finally {
+      this.setState({playlistIsCreating: false});
       modalWindowSystemRef.current.removeCurrent();
-    } else {
-      this.setState({errorMessage: result.message});
     }
   };
 

@@ -6,6 +6,8 @@ import AddToPlaylistModal from './AddToPlaylistModal';
 import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import playlistsHelper from '../helpers/PlaylistsHelper';
 import Toast from 'react-native-toast-message';
+import NetworkError from '../errors/NetworkError';
+import {showNetworkErrorToast} from '../utils/toastUtils';
 
 class TrackModalWindow extends Component {
   constructor(props) {
@@ -23,10 +25,19 @@ class TrackModalWindow extends Component {
   };
 
   handleRemoveItemPress = async () => {
-    await playlistsHelper.removeFromPlaylist(
-      this.props.track,
-      this.props.trackParentPlaylistId,
-    );
+    try {
+      await playlistsHelper.removeFromPlaylist(
+        this.props.track,
+        this.props.trackParentPlaylistId,
+      );
+    } catch (e) {
+      if (e instanceof NetworkError) {
+        showNetworkErrorToast();
+        return;
+      }
+      throw e;
+    }
+
     modalWindowSystemRef.current.removeCurrent();
     Toast.show({
       text1: 'Track removed',

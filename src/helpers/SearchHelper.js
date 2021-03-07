@@ -4,6 +4,7 @@ import * as stringUtils from '../utils/stringUtils';
 import {generateId} from '../utils/idUtils';
 import deezerApi from '../api/DeezerApi';
 import EventSystem from '../misc/EventSystem';
+import NetworkError from '../errors/NetworkError';
 
 class SearchHelper {
   _SEARCH_RESULT_MAX_LENGTH = 90;
@@ -15,6 +16,7 @@ class SearchHelper {
     this._searchQuery = null;
     this._onSearchStart = new EventSystem();
     this._onSearchEnd = new EventSystem();
+    this._onSearchFailed = new EventSystem();
   }
 
   get isSearching() {
@@ -48,6 +50,13 @@ class SearchHelper {
     this._onSearchEnd.removeListener(callback);
   };
 
+  listenOnSearchFailed = (callback) => {
+    this._onSearchFailed.addListener(callback);
+    return () => {
+      this._onSearchFailed.removeListener(callback);
+    };
+  };
+
   search = async (query) => {
     let formattedQuery = stringUtils.removeExtraSpaces(query);
     if (formattedQuery.length === 0) {
@@ -60,7 +69,18 @@ class SearchHelper {
     this._isSearching = true;
 
     this._onSearchStart.trigger(this._searchId, this._searchQuery);
-    let json = await deezerApi.searchTrack(this._searchQuery);
+    let json = null;
+
+    try {
+      json = await deezerApi.searchTrack(this._searchQuery);
+    } catch (e) {
+      if (e instanceof NetworkError) {
+        this._isSearching = false;
+        this._onSearchFailed.trigger('No internet connection');
+        return;
+      }
+      throw e;
+    }
     if (this._searchId !== currentSearchRequestId) {
       return;
     }

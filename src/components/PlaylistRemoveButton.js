@@ -6,6 +6,8 @@ import {Icon} from './Icon';
 import Toast from 'react-native-toast-message';
 import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import ConfirmationModal from './ConfirmationModal';
+import NetworkError from '../errors/NetworkError';
+import {showNetworkErrorToast, showSuccessToast} from '../utils/toastUtils';
 
 const PlaylistRemoveButton = ({target, style}) => {
   return (
@@ -16,14 +18,19 @@ const PlaylistRemoveButton = ({target, style}) => {
             title="Delete playlist?"
             secondaryButton="no"
             onYesPress={async () => {
-              await playlistsHelper.deletePlaylist(
-                target.id,
-                userHelper.info.id,
-              );
-              Toast.show({
-                text1: 'Playlist removed',
-                visibilityTime: 1000,
-              });
+              try {
+                await playlistsHelper.deletePlaylist(
+                  target.id,
+                  userHelper.info.id,
+                );
+                showSuccessToast('Playlist removed');
+              } catch (e) {
+                if (e instanceof NetworkError) {
+                  showNetworkErrorToast();
+                  return;
+                }
+                throw e;
+              }
             }}
           />,
         );

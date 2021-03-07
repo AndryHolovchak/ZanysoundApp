@@ -12,6 +12,7 @@ import {ForceTouchGestureHandler} from 'react-native-gesture-handler';
 import {TouchableNativeFeedbackBase} from 'react-native';
 import storage from '../storage/AsyncStorage';
 import {networkConnectionHelper} from './NetworkConnectionHelper';
+import NetworkError from '../errors/NetworkError';
 
 class PlaylistsHelper {
   TITLE_MAX_LENGTH = 50;
@@ -106,7 +107,18 @@ class PlaylistsHelper {
   _syncWithServer = async () => {
     this._isSyncing = true;
     this._isSynced = false;
-    let playlists = await deezerApi.getUserPlaylists();
+
+    let playlists = null;
+
+    try {
+      playlists = await deezerApi.getUserPlaylists();
+    } catch (e) {
+      if (e instanceof NetworkError) {
+        this._isSyncing = false;
+        return;
+      }
+      throw e;
+    }
 
     for (let i = 0; i < playlists.length; i++) {
       if (deezerApi.isLovedTracksPlaylist(playlists[i])) {
@@ -213,9 +225,9 @@ class PlaylistsHelper {
 
   deletePlaylist = async (id, creatorId) => {
     if (userHelper.info.id === creatorId) {
-      deezerApi.deletePlaylist(id);
+      await deezerApi.deletePlaylist(id);
     } else {
-      deezerApi.removePlaylistFromFavorite(id);
+      await deezerApi.removePlaylistFromFavorite(id);
     }
 
     removeByElemProperty('id', id, this._playlistsShortInfo);
@@ -249,7 +261,7 @@ class PlaylistsHelper {
         songInfo.id,
         this._playlistsTracks[playlistId].tracks,
       );
-      this._savePlaylistTracksToStorage();
+      this._savePlaylistTracksToStorage(playlistId);
     }
 
     this._onPlaylistSongsChangeEvent.trigger(playlistId);

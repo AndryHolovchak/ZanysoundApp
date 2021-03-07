@@ -3,6 +3,7 @@ import SongModel from '../models/SongModel';
 import deezerAuth from '../auth/DeezerAuth';
 import deezerApi from '../api/DeezerApi';
 import {concatWithoutSongDuplicates} from '../utils/songUtils';
+import {networkConnectionHelper} from './NetworkConnectionHelper';
 
 class RecommendedSongsHelper {
   _MAX_NUMBER_OF_SONG = 140;
@@ -10,7 +11,10 @@ class RecommendedSongsHelper {
   constructor() {
     this._isInitialized = false;
     this._isInitializing = false;
+    this._initFailedDueToNetworkConnection = false;
+    this._networkListenerAssigned = false;
     this._initializationEvent = new EventSystem();
+    this._onInitFailed = new EventSystem();
     this._songs = [];
   }
 
@@ -22,26 +26,46 @@ class RecommendedSongsHelper {
     return this._isInitializing;
   }
 
+  get initFailedDueToNetworkConnection() {
+    return this._initFailedDueToNetworkConnection;
+  }
+
   get songs() {
     return this._songs;
   }
 
   initialize = async () => {
-    if (this._isInitialized || this._isInitializing) {
+    if (this._networkListenerAssigned) {
       return;
     }
 
-    this._isInitializing = true;
+    networkConnectionHelper.listenOnOnline(() => {
+      if (this._isInitialized || this._isInitializing) {
+        return;
+      }
 
-    if (deezerAuth.isSignIn) {
-      this.completeInit();
-    } else {
-      deezerAuth.onSignIn = this.completeInit;
-    }
+      this._isInitializing = true;
+
+      if (deezerAuth.isSignIn) {
+        this.completeInit();
+      } else {
+        deezerAuth.onSignIn = this.completeInit;
+      }
+    });
+
+    this._networkListenerAssigned = true;
   };
 
   completeInit = async () => {
-    await this.loadNext();
+    try {
+      await this.loadNext();
+      this._initFailedDueToNetworkConnection = false;
+    } catch {
+      this._isInitializing = false;
+      this._initFailedDueToNetworkConnection = true;
+      this._onInitFailed.trigger();
+      return;
+    }
     this._isInitializing = false;
     this._isInitialized = true;
     this._initializationEvent.trigger();
@@ -67,6 +91,14 @@ class RecommendedSongsHelper {
 
   unlistenInitialization = (callback) => {
     this._initializationEvent.removeListener(callback);
+  };
+
+  listenOnInitFailed = (callback) => {
+    this._onInitFailed.addListener(callback);
+  };
+
+  unlistenOnInitFailed = (callback) => {
+    this._onInitFailed.removeListener(callback);
   };
 }
 

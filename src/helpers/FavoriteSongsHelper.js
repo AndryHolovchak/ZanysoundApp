@@ -6,6 +6,7 @@ import deezerApi from '../api/DeezerApi';
 import deezerAuth from '../auth/DeezerAuth';
 import storage from '../storage/AsyncStorage';
 import {networkConnectionHelper} from './NetworkConnectionHelper';
+import NetworkError from '../errors/NetworkError';
 
 const FAVORITE_TRACKS_KEY = 'favoriteTracks';
 
@@ -91,24 +92,26 @@ class FavoriteSongsHelper {
     }
   }
 
-  toggleSong(songInfo) {
-    this.isFavorite(songInfo.id)
-      ? this.removeSong(songInfo)
-      : this.addSong(songInfo);
+  async toggleSong(songInfo) {
+    if (this.isFavorite(songInfo.id)) {
+      await this.removeSong(songInfo);
+    } else {
+      await this.addSong(songInfo);
+    }
   }
 
   async addSong(songInfo) {
     if (!this.isFavorite(songInfo.id)) {
-      this.updateSong(songInfo, true);
       await deezerApi.addToLoved(songInfo.id);
+      this.updateSong(songInfo, true);
       this._saveTracksToLocalStorage();
     }
   }
 
   async removeSong(songInfo) {
     if (this.isFavorite(songInfo.id)) {
-      this.updateSong(songInfo, false);
       await deezerApi.removeFromLoved(songInfo.id);
+      this.updateSong(songInfo, false);
       this._saveTracksToLocalStorage();
     }
   }
@@ -207,9 +210,19 @@ class FavoriteSongsHelper {
     this._isSyncedWithServer = false;
     this._isSyncingWithServer = true;
 
-    let lovedPlaylist = await deezerApi.getPlaylist(
-      playlistsHelper.lovedPlaylistShortInfo.id,
-    );
+    let lovedPlaylist = null;
+
+    try {
+      lovedPlaylist = await deezerApi.getPlaylist(
+        playlistsHelper.lovedPlaylistShortInfo.id,
+      );
+    } catch (e) {
+      if (e instanceof NetworkError) {
+        this._isSyncingWithServer = false;
+        return;
+      }
+      throw e;
+    }
 
     let lovedSongs = lovedPlaylist.tracks.data.reverse();
 

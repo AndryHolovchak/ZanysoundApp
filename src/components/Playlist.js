@@ -14,7 +14,8 @@ class Playlist extends React.Component {
   init = async () => {
     this.id = this.props.route.params.id;
     playlistsHelper.listenPlaylistSongsChange(this.id, this.handleSongsChange);
-    playlistsHelper.loadPlaylistSongs(this.id);
+    await playlistsHelper.loadPlaylistSongs(this.id);
+    this.forceUpdate();
   };
 
   handleSongsChange = async () => {
