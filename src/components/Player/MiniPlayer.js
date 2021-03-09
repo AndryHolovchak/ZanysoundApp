@@ -72,6 +72,7 @@ class MiniPlayer extends Component {
                 showWaves={false}
                 albumModel={track.album}
                 style={styles.cover}
+                containerStyle={styles.coverContainer}
               />
               <Icon
                 onPress={this.handleLikeButtonClick}
@@ -159,11 +160,14 @@ const styles = {
   cover: {
     height: size.miniPlayerHeight,
     width: size.miniPlayerHeight,
-    marginRight: 5,
+    borderRadius: 0,
+  },
+  coverContainer: {
     borderRadius: 0,
   },
   heart: {
     color: color.primary,
+    marginLeft: 5,
   },
   info: {
     flex: 1,
@@ -172,7 +176,8 @@ const styles = {
   },
   title: {
     color: color.primaryText,
-    fontSize: 14,
+    fontSize: 13,
+    marginBottom: 3,
   },
   artist: {
     color: color.secondaryText,
@@ -187,6 +192,7 @@ const styles = {
     fontSize: 53,
     padding: 0,
     marginRight: 2,
+    color: Color(color.primary).lighten(0.1).string(),
   },
   nextButton: {
     fontSize: 20,

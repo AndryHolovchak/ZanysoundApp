@@ -85,11 +85,11 @@ class RecommendedScreen extends React.Component {
   render() {
     let songs = recommendedSongsHelper.songs;
 
-    if (recommendedSongsHelper.initFailedDueToNetworkConnection) {
-      return (
-        <ScreenPlaceholder text="Failed to load recommended songs. You are offline" />
-      );
-    }
+    // if (recommendedSongsHelper.initFailedDueToNetworkConnection) {
+    //   return (
+    //     <ScreenPlaceholder text="Failed to load recommended songs. You are offline" />
+    //   );
+    // }
 
     if (!recommendedSongsHelper.isInitialized) {
       return <LoadingIndicator text="Loading recommended tracks..." />;

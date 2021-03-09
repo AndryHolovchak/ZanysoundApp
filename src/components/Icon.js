@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, Animated} from 'react-native';
 // import * as Font from 'expo-font';
 import {StyleSheet, Text, TouchableNativeFeedback} from 'react-native';
 import {color} from '../styles';
@@ -55,6 +55,7 @@ const ICONS = {
   'plus-circle': {unicode: '\uf055'},
   'ellipsis-v': {unicode: '\uf142'},
   minus: {unicode: '\uf068'},
+  'arrow-alt-to-bottom': {unicode: '\uf34a'},
 };
 
 const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {
@@ -69,12 +70,12 @@ const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {
   if (onPress) {
     return (
       <TouchableNativeFeedback onPress={onPress}>
-        <Text style={finalStyle}>{targetIcon.unicode}</Text>
+        <Animated.Text style={finalStyle}>{targetIcon.unicode}</Animated.Text>
       </TouchableNativeFeedback>
     );
   }
 
-  return <Text style={finalStyle}>{targetIcon.unicode}</Text>;
+  return <Animated.Text style={finalStyle}>{targetIcon.unicode}</Animated.Text>;
 };
 
 const defaultStyle = StyleSheet.create({

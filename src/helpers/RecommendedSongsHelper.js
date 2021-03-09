@@ -35,25 +35,35 @@ class RecommendedSongsHelper {
   }
 
   initialize = async () => {
+    this.startInit();
+
     if (this._networkListenerAssigned) {
       return;
     }
 
-    networkConnectionHelper.listenOnOnline(() => {
-      if (this._isInitialized || this._isInitializing) {
+    networkConnectionHelper.listenOnUpdate(() => {
+      if (!networkConnectionHelper.isOnline) {
         return;
       }
 
-      this._isInitializing = true;
-
-      if (deezerAuth.isSignIn) {
-        this.completeInit();
-      } else {
-        deezerAuth.onSignIn = this.completeInit;
-      }
+      this.startInit();
     });
 
     this._networkListenerAssigned = true;
+  };
+
+  startInit = async () => {
+    if (this._isInitialized || this._isInitializing) {
+      return;
+    }
+
+    this._isInitializing = true;
+
+    if (deezerAuth.isSignIn) {
+      this.completeInit();
+    } else {
+      deezerAuth.onSignIn = this.completeInit;
+    }
   };
 
   completeInit = async () => {

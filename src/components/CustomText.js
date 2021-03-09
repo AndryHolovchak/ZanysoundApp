@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableWithoutFeedback} from 'react-native';
+import {Animated, Text, TouchableWithoutFeedback} from 'react-native';
 import {color} from '../styles';
 
 const WEIGHT_PREFIX = {

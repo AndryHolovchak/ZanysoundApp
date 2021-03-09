@@ -1,6 +1,6 @@
 import {CDNUrl} from '../consts/URLConsts';
 import ytdl from '../lib/ytdl';
-import TrackUrl from '../models/TrackUrl';
+import TrackMp3 from '../models/TrackMp3';
 import {isCycillic} from './stringUtils';
 import {getMp3Url, getFirstSearchResultId} from './youtubeUtils';
 
@@ -26,7 +26,7 @@ const getDefaultAlbumCoverUrl = (size = 68) => {
 const getUrlToMp3 = async (id, artist, title) => {
   let videoId = await getFirstSearchResultId(`${artist} - ${title} Audio}`);
   let url = await getMp3Url(videoId);
-  return new TrackUrl(url, false);
+  return new TrackMp3(url, false);
   //return new TrackUrl(trackUrl, true, response.headers.get("Expires"));
 };
 

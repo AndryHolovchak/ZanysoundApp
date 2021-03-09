@@ -17,6 +17,7 @@ import AlbumCover from '../AlbumCover';
 import {navigateToSearchRoute} from '../../utils/navigationUtils';
 import AddToPlaylistButton from '../AddToPlaylistButton';
 import TrackModalWindowButton from '../TrackModalWindowButton';
+import TrackCacheButton from '../TrackCacheButton';
 
 class Song extends React.Component {
   static defaultProps = {
@@ -106,11 +107,14 @@ class Song extends React.Component {
               />
             </View>
           </View>
-          <TrackModalWindowButton
-            track={this.props.info}
-            trackParentPlaylistId={this.props.parentPlaylistUuid}
-            style={styles.modalWindowButton}
-          />
+          <View style={styles.rightSide}>
+            <TrackCacheButton trackModel={this.props.info} />
+            <TrackModalWindowButton
+              track={this.props.info}
+              trackParentPlaylistId={this.props.parentPlaylistUuid}
+              style={styles.modalWindowButton}
+            />
+          </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -257,9 +261,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: new Color(color.secondaryText).alpha(0.9).string(),
   },
-  modalWindowButton: {
+  rightSide: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: 80,
     marginLeft: 'auto',
-    paddingHorizontal: 20,
+  },
+  modalWindowButton: {
+    marginLeft: 5,
+    paddingHorizontal: 10,
   },
 });
 

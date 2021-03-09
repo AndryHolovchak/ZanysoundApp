@@ -3,13 +3,20 @@ import {Image} from 'react-native';
 import {DefaultCoverUrl} from '../consts/URLConsts';
 import Cover from './Cover';
 
-const AlbumCover = ({albumModel, style, showWaves, pauseWaves}) => {
+const AlbumCover = ({
+  albumModel,
+  style,
+  containerStyle,
+  showWaves,
+  pauseWaves,
+}) => {
   return (
     <Cover
       showWaves={showWaves}
       pauseWaves={pauseWaves}
       src={albumModel.coverMedium || albumModel.coverBig || DefaultCoverUrl}
-      style={style}
+      imageStyle={style}
+      containerStyle={containerStyle}
     />
   );
 };

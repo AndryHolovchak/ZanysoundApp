@@ -1,3 +1,4 @@
+import ytdl from '../lib/ytdl';
 import {getAudioUrl} from '../lib/ytdl/lib/info';
 import storage from '../storage/AsyncStorage';
 
@@ -24,7 +25,7 @@ class YoutubeHelper {
     console.log(storageItem.url);
     return storageItem.url;
   };
-  _getTrackVideoId = async (trackId, title, artist) => {
+  getTrackVideoId = async (trackId, title, artist) => {
     let storageItem = await storage.load({
       key: TRACK_VIDEO_IDS_KEY,
       id: trackId.toString(),
@@ -44,7 +45,7 @@ class YoutubeHelper {
     } = params;
 
     let videoUrl;
-    let videoId = await this._getTrackVideoId(id, title, artist);
+    let videoId = await this.getTrackVideoId(id, title, artist);
 
     // if for some reason it is not possible to get the url
     // (for example, if the video is deleted) then look for a new video
@@ -52,7 +53,7 @@ class YoutubeHelper {
       videoUrl = await this._fetchVideoUrl(videoId);
     } catch (e) {
       await storage.remove({key: TRACK_VIDEO_IDS_KEY, id});
-      videoId = await this._getTrackVideoId(id, title, artist);
+      videoId = await this.getTrackVideoId(id, title, artist);
       videoUrl = await this._fetchVideoUrl(videoId);
     }
 
@@ -86,9 +87,14 @@ class YoutubeHelper {
   };
 
   _fetchVideoUrl = async (videoId) => {
-    // console.log('fetch url');
+    console.log('fetch url');
     let url = await getAudioUrl(videoId);
     return url;
+
+    // let urls = await ytdl('https://youtube.com/watch?v=' + videoId, {
+    //   filter: (i) => i.itag === 140,
+    // });
+    // return urls[0].url;
   };
   _fetchTrackVideoId = async (title, artist) => {
     // console.log('Fetch id');

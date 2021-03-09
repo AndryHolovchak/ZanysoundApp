@@ -85,9 +85,9 @@ export default class App extends React.Component {
             <Player navState={this._navState} />
           </Navigation>
         </View>
-        <Toast style={styles.toastContainer} ref={(ref) => Toast.setRef(ref)} />
         <ModalWindowSystemProvider
           ref={modalWindowSystemRef}></ModalWindowSystemProvider>
+        <Toast style={styles.toastContainer} ref={(ref) => Toast.setRef(ref)} />
       </SafeAreaProvider>
     );
   }

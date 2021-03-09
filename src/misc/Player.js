@@ -362,11 +362,17 @@ class Player {
       // await Promise.all([firstPlaceholderPromise, secondPlaceholderPromise]);
     }
 
-    let mp3UrlResponse = await mp3UrlHelper.generateUrlToMp3(
-      currentTrack.id,
-      currentTrack.artist.name,
-      currentTrack.title,
-    );
+    let trackMp3 = null;
+
+    try {
+      trackMp3 = await mp3UrlHelper.generateUrlToMp3(
+        currentTrack.id,
+        currentTrack.artist.name,
+        currentTrack.title,
+      );
+    } catch {
+      this._onPlaybackError.trigger();
+    }
 
     if (!this.trackCanBeChanged || this._currentSong !== currentTrack) {
       return;
@@ -374,20 +380,22 @@ class Player {
 
     this.trackCanBeChanged = false;
 
-    await TrackPlayer.add(
-      {
-        id: currentTrack.id.toString(),
-        url: mp3UrlResponse.url,
-        // duration: currentTrack.duration, duration from deezer and yt video is different
-        title: currentTrack.title,
-        artist: currentTrack.artist.name,
-        artwork: currentTrack.album.coverMedium,
-      },
-      '1',
-    );
-    await TrackPlayer.skip(currentTrack.id.toString());
+    if (trackMp3) {
+      await TrackPlayer.add(
+        {
+          id: currentTrack.id.toString(),
+          url: trackMp3.urlOrPath,
+          // duration: currentTrack.duration, duration from deezer and yt video is different
+          title: currentTrack.title,
+          artist: currentTrack.artist.name,
+          artwork: currentTrack.album.coverMedium,
+        },
+        '1',
+      );
+      await TrackPlayer.skip(currentTrack.id.toString());
 
-    await TrackPlayer.play();
+      await TrackPlayer.play();
+    }
 
     this._trackIsChanging = false;
     this._isMetadataLoaded = true;

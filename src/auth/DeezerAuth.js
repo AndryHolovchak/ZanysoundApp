@@ -34,6 +34,13 @@ class DeezerAuth {
       response_type: 'token',
     });
     this._authUrl = this._DEEZER_OAUTH_URL + authUrlParams;
+
+    // for test
+    // storage.save({
+    //   key: this._TOKEN_STORAGE_KEY,
+    //   id: this._TOKEN_STORAGE_ID,
+    //   data: {token: 'frXz5tgGVX89Suq63dXwPtnNZFPz8Nf52GuB2y1IE7q7nfFnvj'},
+    // });
   }
 
   _handleUrlChange = async (e) => {

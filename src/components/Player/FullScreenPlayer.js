@@ -147,6 +147,7 @@ const styles = {
     paddingHorizontal: 20,
   },
   title: {
+    marginBottom: 5,
     fontSize: 20,
     color: color.primaryText,
   },
@@ -208,16 +209,17 @@ const styles = {
   },
   prevTrackButton: {
     fontSize: 30,
-    color: color.primaryText,
+    color: color.secondaryText,
   },
   togglePlayButton: {
     fontSize: 55,
     marginHorizontal: 20,
-    color: Color(color.bg).saturate(0.5).lighten(5.5).string(),
+    color: Color(color.primary).lighten(0.1).string(),
+    // color: Color(color.bg).saturate(0.5).lighten(5.5).string(),
   },
   nextTrackButton: {
     fontSize: 30,
-    color: color.primaryText,
+    color: color.secondaryText,
   },
   activeButton: {
     color: Color(color.bg).saturate(1).lighten(5).string(),
