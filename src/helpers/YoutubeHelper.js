@@ -38,6 +38,15 @@ class YoutubeHelper {
     return storageItem.id;
   };
 
+  getTrackDownloadUrl = async (trackId, title, artist) => {
+    let videoId = await this.getTrackVideoId(trackId, title, artist);
+
+    let urls = await ytdl('https://youtube.com/watch?v=' + videoId, {
+      filter: (i) => i.itag === 18, // Only 18 itag has good download speed
+    });
+    return urls[0].url;
+  };
+
   _syncTrackVideoUrls = async (params) => {
     let {
       id, //currently is deezerId
@@ -92,7 +101,7 @@ class YoutubeHelper {
     return url;
 
     // let urls = await ytdl('https://youtube.com/watch?v=' + videoId, {
-    //   filter: (i) => i.itag === 140,
+    //   filter: (i) => i.itag === 18,
     // });
     // return urls[0].url;
   };

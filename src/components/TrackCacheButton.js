@@ -6,6 +6,8 @@ import {Icon, ICON_FAMILIES} from './Icon';
 import Color from 'color';
 import useForceUpdate from '../hooks/useForceUpdate';
 import {View} from 'react-native';
+import NetworkError from '../errors/NetworkError';
+import {showNetworkErrorToast} from '../utils/toastUtils';
 
 class TrackCacheButton extends React.Component {
   _MIN_OPACITY = 0.5;
@@ -35,7 +37,13 @@ class TrackCacheButton extends React.Component {
       return;
     }
 
-    await mp3CacheHelper.toggle(this.props.trackModel);
+    try {
+      await mp3CacheHelper.toggle(this.props.trackModel);
+    } catch (e) {
+      if (e instanceof NetworkError) {
+        showNetworkErrorToast();
+      }
+    }
   };
 
   componentDidMount() {
@@ -63,7 +71,6 @@ class TrackCacheButton extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('Unmount');
     this.unlistenCacheInit();
     this.unlistenCacheChangeStart();
     this.unlistenCacheChangeEnd();
@@ -93,12 +100,13 @@ class TrackCacheButton extends React.Component {
 const styles = StyleSheet.create({
   icon: {
     color: Color(color.secondaryText).fade(0.8).string(),
+    paddingHorizontal: 10,
   },
   cachedIcon: {
-    color: Color(color.bg).lighten(2.5).fade(0.2).string(),
+    color: Color(color.bg).lighten(5).fade(0.3).string(),
   },
   updatingIcon: {
-    color: Color(color.bg).lighten(2.5).fade(0.2).string(),
+    color: Color(color.bg).lighten(4).fade(0.2).string(),
   },
 });
 

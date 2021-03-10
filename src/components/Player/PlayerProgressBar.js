@@ -57,7 +57,7 @@ const PlayerProgressBar = ({
   }
 
   let positionToShow =
-    player.trackIsChanging || !duration
+    player.trackIsChanging || !duration || !player.isMetadataLoaded
       ? 0
       : (useTmpValue ? tmpValue : position / duration) || 0;
   let durationToShow = player.trackIsChanging ? 0 : duration || 0;

@@ -78,13 +78,15 @@ class Player extends Component {
 
   handlePlayerTogglePlay = () => this.forceUpdate();
 
-  handlePlayerPlaybackError = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Playback error',
-      text2: 'Try to play this track in a few hours',
-      visibilityTime: 2000,
-    });
+  handlePlayerPlaybackError = (trackMp3, trackModel, isCritical) => {
+    if (isCritical) {
+      Toast.show({
+        type: 'error',
+        text1: 'Playback error',
+        text2: 'Try to play this track in a few hours',
+        visibilityTime: 2000,
+      });
+    }
   };
 
   handleFavoriteStatusChange = (info) => {

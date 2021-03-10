@@ -9,7 +9,7 @@ import TrackPlayer, {
   STATE_CONNECTING,
 } from 'react-native-track-player';
 import {generateId} from '../utils/idUtils';
-
+import {mp3CacheHelper} from '../helpers/Mp3CacheHelper';
 const silenceMp3 = require('../../assets/silence.mp3');
 
 class Player {
@@ -20,6 +20,7 @@ class Player {
   _trackIsChanging = false;
   _currentSong = null;
   trackCanBeChanged = true;
+  _trackMp3 = null;
 
   get currentSong() {
     return this._currentSong;
@@ -86,8 +87,27 @@ class Player {
     this._trackPlayerListeners = [];
 
     this._trackPlayerListeners.push(
-      TrackPlayer.addEventListener('playback-error', (e) => {
-        this._onPlaybackError.trigger();
+      TrackPlayer.addEventListener('playback-error', async (e) => {
+        if (this._trackMp3?.isLocalFile) {
+          console.log('Handle error with local file');
+          mp3CacheHelper.handlePlaybackError(this._trackMp3, this._currentSong);
+          await this._playSong(this._currentSong, false);
+          console.log('Catched');
+          this._onPlaybackError.trigger(
+            null,
+            this._trackMp3,
+            this._currentSong,
+            false, //is critical?
+          );
+        } else {
+          console.log('Handle error with url');
+          this._onPlaybackError.trigger(
+            null,
+            this._trackMp3,
+            this._currentSong,
+            true, //is critical?
+          );
+        }
       }),
     );
 
@@ -302,7 +322,7 @@ class Player {
   }
 
   //This method is just a shit :)
-  _playSong = async (song) => {
+  _playSong = async (song, useMp3Cache = true) => {
     if (!this.trackCanBeChanged) {
       return;
     }
@@ -363,15 +383,26 @@ class Player {
     }
 
     let trackMp3 = null;
+    this._trackMp3 = null;
 
     try {
       trackMp3 = await mp3UrlHelper.generateUrlToMp3(
         currentTrack.id,
         currentTrack.artist.name,
         currentTrack.title,
+        useMp3Cache,
       );
+      this._trackMp3 = trackMp3;
+      console.log('There is mp3');
+      console.log(this._trackMp3.isLocalFile);
     } catch {
-      this._onPlaybackError.trigger();
+      console.log('There is error during mp3 generation');
+      this._onPlaybackError.trigger(
+        null,
+        this._trackMp3,
+        this._currentSong,
+        true,
+      );
     }
 
     if (!this.trackCanBeChanged || this._currentSong !== currentTrack) {
@@ -395,10 +426,10 @@ class Player {
       await TrackPlayer.skip(currentTrack.id.toString());
 
       await TrackPlayer.play();
+      this._isMetadataLoaded = true;
     }
 
     this._trackIsChanging = false;
-    this._isMetadataLoaded = true;
     this.trackCanBeChanged = true;
   };
 
