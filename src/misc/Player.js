@@ -88,6 +88,8 @@ class Player {
 
     this._trackPlayerListeners.push(
       TrackPlayer.addEventListener('playback-error', async (e) => {
+        console.log('There is a playback error');
+
         if (this._trackMp3?.isLocalFile) {
           console.log('Handle error with local file');
           mp3CacheHelper.handlePlaybackError(this._trackMp3, this._currentSong);

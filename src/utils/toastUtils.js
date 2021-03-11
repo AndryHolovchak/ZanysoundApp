@@ -1,4 +1,5 @@
 import Toast from 'react-native-toast-message';
+import {i18n} from '../i18n';
 
 const showErrorToast = (title, subtitle = '') => {
   Toast.show({
@@ -31,15 +32,15 @@ const showSuccessToast = (title, subtitle = '') => {
 };
 
 const showNetworkErrorToast = () => {
-  showErrorToast('Network error', 'Check your internet connection');
+  showErrorToast(i18n('no internet connection'));
 };
 
 const showOfflineModeToast = () => {
-  showInfoToast('You are offline');
+  showInfoToast(i18n('you are offline'));
 };
 
 const showOnlineModeToast = () => {
-  showSuccessToast('Connection restored');
+  showSuccessToast(i18n('connection restored'));
 };
 
 export {

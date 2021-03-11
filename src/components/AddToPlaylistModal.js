@@ -19,7 +19,12 @@ import {generateId} from '../utils/idUtils';
 import NewPlaylistModal from './NewPlaylistModal';
 import NewPlaylistButtonCover from './NewPlaylistButtonCover';
 import NetworkError from '../errors/NetworkError';
-import {showNetworkErrorToast} from '../utils/toastUtils';
+import {
+  showErrorToast,
+  showNetworkErrorToast,
+  showSuccessToast,
+} from '../utils/toastUtils';
+import {i18n} from '../i18n';
 
 class AddToPlaylistModal extends React.Component {
   constructor(props) {
@@ -48,20 +53,11 @@ class AddToPlaylistModal extends React.Component {
     }
 
     if (result.success) {
-      Toast.show({
-        text1: 'Track added',
-        visibilityTime: 1000,
-      });
+      showSuccessToast(i18n('track added'));
+      modalWindowSystemRef.current.removeCurrent();
     } else {
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: result.message,
-        visibilityTime: 1000,
-      });
+      showErrorToast(i18n('the song is already in this playlist'));
     }
-
-    modalWindowSystemRef.current.removeCurrent();
   };
 
   handleNewPlaylistPress = () => {
@@ -86,7 +82,7 @@ class AddToPlaylistModal extends React.Component {
     let playlists = playlistsHelper.getPlaylistsShortInfo();
 
     return (
-      <Modal title="Add to playlist">
+      <Modal title={i18n('add to playlist')}>
         <ScrollView style={styles.content}>
           <TouchableNativeFeedback onPress={this.handleNewPlaylistPress}>
             <View style={[styles.playlist, styles.newPlaylist]}>
@@ -96,7 +92,7 @@ class AddToPlaylistModal extends React.Component {
               <View style={styles.playlistInfo}>
                 <CustomText
                   weight={600}
-                  value="Create new"
+                  value={i18n('create a playlist')}
                   style={styles.playlistTitle}
                 />
               </View>

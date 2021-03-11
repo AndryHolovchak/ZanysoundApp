@@ -23,7 +23,7 @@ import {
   showOfflineModeToast,
   showOnlineModeToast,
 } from './src/utils/toastUtils';
-
+import {i18n} from './src/i18n';
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first track
 TrackPlayer.getDuration();

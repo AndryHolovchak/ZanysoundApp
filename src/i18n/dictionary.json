@@ -4,6 +4,11 @@
     "ru": "Плейлисты",
     "en": "Playlists"
   },
+  "playlist": {
+    "uk": "Плейлист",
+    "ru": "Плейлист",
+    "en": "playlist"
+  },
   "search": {
     "uk": "Пошук",
     "ru": "Поиск",
@@ -24,16 +29,17 @@
     "ru": "Профиль",
     "en": "Profile"
   },
-  "create playlist": {
+  "create a playlist": {
     "uk": "Створити плейлист",
     "ru": "Создать плейлист",
-    "en": "Create playlist"
+    "en": "Create a playlist"
   },
   "new playlist": {
     "uk": "Новий плейлист",
     "ru": "Новый плейлист",
     "en": "New playlist"
   },
+
   "title": {
     "uk": "Назва",
     "ru": "Название",
@@ -44,30 +50,45 @@
     "ru": "Создать",
     "en": "Create"
   },
-  "no results": {
-    "uk": "Немає результатів",
-    "ru": "Нет результатов",
-    "en": "No results"
+  "playlist created": {
+    "uk": "Плейлист створено",
+    "ru": "Плейлист создано",
+    "en": "Playlist created"
+  },
+  "there is no songs": {
+    "uk": "немає пісень",
+    "ru": "Нет песен",
+    "en": "There is no songs"
+  },
+  "no results for": {
+    "uk": "Немає результатів для",
+    "ru": "Нет результатов для",
+    "en": "No results for"
   },
   "add to playlist": {
     "uk": "Додати до плейлисту",
     "ru": "Добавить в плейлист",
     "en": "Add to playlist"
   },
-  "remove from playlist": {
+  "delete playlist": {
+    "uk": "Видалити плейлист",
+    "ru": "Удалить плейлист",
+    "en": "Delete playlist"
+  },
+  "delete from playlist": {
     "uk": "Видалити з плейлисту",
     "ru": "Удалить из плейлиста",
-    "en": "Remove from playlist"
+    "en": "Delete from playlist"
   },
   "the song is already in this playlist": {
     "uk": "Пісня вже знаходиться в цьому плейлисті",
     "ru": "Песня уже находится в этом плейлисте",
     "en": "The song is already in this playlist"
   },
-  "added": {
-    "uk": "Додано",
-    "ru": "Добавлено",
-    "en": "Added"
+  "track added": {
+    "uk": "Трек додано",
+    "ru": "Трек добавлено",
+    "en": "Track added"
   },
   "removed": {
     "uk": "Видалено",
@@ -75,8 +96,8 @@
     "en": "Removed"
   },
   "exit": {
-    "uk": "Вихід",
-    "ru": "Выход",
+    "uk": "Вийти",
+    "ru": "Выйти",
     "en": "Exit"
   },
   "yes": {
@@ -118,5 +139,45 @@
     "uk": "Недостатньо вільного місця",
     "ru": "Недостаточно свободного места",
     "en": "Not enough free space"
+  },
+  "loading": {
+    "uk": "Завантаження",
+    "ru": "Загрузка",
+    "en": "Loading"
+  },
+  "searching": {
+    "uk": "Пошук",
+    "ru": "Поиск",
+    "en": "Searching"
+  },
+  "no internet connection": {
+    "uk": "Немає інтернет з'єднання",
+    "ru": "Нет интернет соединения",
+    "en": "No internet connection"
+  },
+  "you are offline": {
+    "uk": "Ви в режимі оффлайн",
+    "ru": "Вы в режиме оффлайн",
+    "en": "You are offline"
+  },
+  "connection restored": {
+    "uk": "З'єднання відновлено",
+    "ru": "Соединение восстановлено",
+    "en": "Сonnection restored"
+  },
+  "try again": {
+    "uk": "Спробувати ще раз",
+    "ru": "Попробовать еще раз",
+    "en": "Try again"
+  },
+  "playback error": {
+    "uk": "Помилка відтворення",
+    "ru": "Ошибка воспроизведения",
+    "en": "Playback error"
+  },
+  "try again later": {
+    "uk": "Спробуйте пізніше",
+    "ru": "Попробуйте позже",
+    "en": "Try again later"
   }
 }

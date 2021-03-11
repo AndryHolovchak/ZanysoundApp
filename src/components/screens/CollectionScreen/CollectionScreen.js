@@ -7,6 +7,7 @@ import {color} from '../../../styles';
 import Color from 'color';
 import {useNavigationState} from '@react-navigation/native';
 import playlistsHelper from '../../../helpers/PlaylistsHelper';
+import {i18n} from '../../../i18n';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +41,7 @@ const CollectionScreen = ({navigation, route}) => {
             return (
               <CustomText
                 weight={600}
-                value="Playlists"
+                value={i18n('playlists')}
                 style={{fontSize: 20}}
               />
             );
@@ -60,7 +61,7 @@ const CollectionScreen = ({navigation, route}) => {
                   weight={600}
                   value={
                     playlistsHelper.getLoadedPlaylistInfo(playlistId)?.title ||
-                    'Playlist'
+                    i18n('playlist')
                   }
                   style={{fontSize: 25}}
                 />

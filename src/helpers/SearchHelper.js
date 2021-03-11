@@ -5,6 +5,7 @@ import {generateId} from '../utils/idUtils';
 import deezerApi from '../api/DeezerApi';
 import EventSystem from '../misc/EventSystem';
 import NetworkError from '../errors/NetworkError';
+import {i18n} from '../i18n';
 
 class SearchHelper {
   _SEARCH_RESULT_MAX_LENGTH = 90;
@@ -76,7 +77,7 @@ class SearchHelper {
     } catch (e) {
       if (e instanceof NetworkError) {
         this._isSearching = false;
-        this._onSearchFailed.trigger('No internet connection');
+        this._onSearchFailed.trigger(i18n('no internet connection'));
         return;
       }
       throw e;

@@ -4,8 +4,11 @@ import {StyleSheet, View} from 'react-native';
 import {color} from '../styles';
 import CustomText from './CustomText';
 import Color from 'color';
+import {i18n} from '../i18n';
 
-const LoadingIndicator = ({text = 'Loading...', containerStyle}) => {
+const defaultText = i18n('loading') + ' ...';
+
+const LoadingIndicator = ({text = defaultText, containerStyle}) => {
   return (
     <View style={[styles.container, containerStyle]}>
       <ActivityIndicator

@@ -7,7 +7,7 @@ import {color} from '../../styles';
 import Button from '../Button';
 import Color from 'color';
 import LoadingIndicator from '../LoadingIndicator';
-// const { i18n } = require("../../js/i18n");
+import {i18n} from '../../i18n';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -43,12 +43,12 @@ class ProfileScreen extends React.Component {
               <CustomText value={user.email} style={styles.email} />
             </View>
           ) : (
-            <LoadingIndicator text="Loading user info..." />
+            <LoadingIndicator text={`${i18n('loading')}...`} />
           )}
         </View>
 
         <Button
-          title="Exit"
+          title={i18n('exit')}
           buttonStyle={styles.exitButton}
           onPress={this.handleExitButtonClick}
         />

@@ -1,10 +1,16 @@
-let dictionary = require("./dictionary.json");
-let lang = navigator.language || navigator.userLanguage;
+import {NativeModules} from 'react-native';
 
-if (lang !== "uk" && lang !== "ru") {
-  lang = "en";
+const dictionary = require('./dictionary.json');
+let locale = NativeModules.I18nManager.localeIdentifier;
+
+if (locale === 'uk_UA') {
+  locale = 'uk';
+} else if (locale === 'ru_RU') {
+  locale = 'ru';
+} else {
+  locale = 'en';
 }
 
-const i18n = (key) => (dictionary[key] && dictionary[key][lang]) || "...";
+const i18n = (key) => (dictionary[key] && dictionary[key][locale]) || '...';
 
-module.exports = { i18n };
+export {i18n};

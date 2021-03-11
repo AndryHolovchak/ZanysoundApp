@@ -11,6 +11,7 @@ import searchHelper from '../../helpers/SearchHelper';
 import LoadingIndicator from '../LoadingIndicator';
 import ScreenPlaceholder from '../ScreenPlaceholder';
 import CustomText from '../CustomText';
+import {i18n} from '../../i18n';
 
 class SearchScreen extends React.Component {
   constructor(props) {
@@ -58,7 +59,7 @@ class SearchScreen extends React.Component {
           buttonStyle={styles.tryAgainButton}
           titleStyle={styles.tryAgainButtonTitle}
           onPress={this.handleTryAgainButtonPress}
-          title="Try again"
+          title={i18n('try again')}
         />
       </View>
     );
@@ -88,9 +89,9 @@ class SearchScreen extends React.Component {
         {this.state.errorMessage ? (
           this.generateErrorBlock()
         ) : searchHelper.isSearching ? (
-          <LoadingIndicator text="Searching..." />
+          <LoadingIndicator text={`${i18n('searching')} ...`} />
         ) : searchResult === null ? (
-          <ScreenPlaceholder text="Search" />
+          <ScreenPlaceholder text={i18n('search')} />
         ) : searchResult.length ? (
           <PlayerPlaylistContainer
             tracksContainerStyle={styles.playlistContainer}
@@ -100,7 +101,7 @@ class SearchScreen extends React.Component {
           />
         ) : (
           <ScreenPlaceholder
-            text={`No results for ${searchHelper.searchQuery}`}
+            text={`${i18n('no results for')} ${searchHelper.searchQuery}`}
           />
         )}
 

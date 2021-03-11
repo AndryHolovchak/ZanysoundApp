@@ -49,7 +49,6 @@ class TrackSearchInput extends React.Component {
   };
 
   handleSongSearch = (searchId, query) => {
-    console.log('Search handler');
     this.setState({inputValue: query});
     navigateToSearchRoute(query);
   };
@@ -75,7 +74,6 @@ class TrackSearchInput extends React.Component {
       queryFromRoute &&
       queryFromRoute.toLowerCase() !== searchHelperQuery?.toLowerCase()
     ) {
-      console.log('start to search');
       // this.setState({inputValue: queryFromRoute});
       searchHelper.search(queryFromRoute);
     }
@@ -98,7 +96,7 @@ class TrackSearchInput extends React.Component {
         clearIcon={() => (
           <Icon name="time" onPress={this.handleClearIconPress} />
         )}
-        placeholder="Type Here..."
+        placeholder="AC/DC"
         onChangeText={this.updateInputValue}
         value={this.state.inputValue}
         onClear={this.clearInput}

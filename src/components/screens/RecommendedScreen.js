@@ -9,6 +9,7 @@ import {View} from 'react-native';
 import LoadingIndicator from '../LoadingIndicator';
 import {networkConnectionHelper} from '../../helpers/NetworkConnectionHelper';
 import ScreenPlaceholder from '../ScreenPlaceholder';
+import {i18n} from '../../i18n';
 // const Spinner = require("../Spinner");
 // const WindowPlaceholder = require("../WindowPlaceholder/WindowPlaceholder.jsx");
 // const LoadingScreen = require("../LoadingScreen");
@@ -85,14 +86,8 @@ class RecommendedScreen extends React.Component {
   render() {
     let songs = recommendedSongsHelper.songs;
 
-    // if (recommendedSongsHelper.initFailedDueToNetworkConnection) {
-    //   return (
-    //     <ScreenPlaceholder text="Failed to load recommended songs. You are offline" />
-    //   );
-    // }
-
     if (!recommendedSongsHelper.isInitialized) {
-      return <LoadingIndicator text="Loading recommended tracks..." />;
+      return <LoadingIndicator text={`${i18n('loading')}...`} />;
     }
 
     return (

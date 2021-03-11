@@ -20,6 +20,8 @@ import {useNavigation} from '@react-navigation/native';
 import * as RootNavigation from '../../misc/RootNavigation';
 import {State} from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
+import {showErrorToast} from '../../utils/toastUtils';
+import {i18n} from '../../i18n';
 
 const MIN_HEIGHT = size.miniPlayerHeight;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -80,12 +82,7 @@ class Player extends Component {
 
   handlePlayerPlaybackError = (trackMp3, trackModel, isCritical) => {
     if (isCritical) {
-      Toast.show({
-        type: 'error',
-        text1: 'Playback error',
-        text2: 'Try to play this track in a few hours',
-        visibilityTime: 2000,
-      });
+      showErrorToast(i18n('playback error'), i18n('try again later'));
     }
   };
 

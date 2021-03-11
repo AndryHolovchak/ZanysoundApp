@@ -8,6 +8,7 @@ import playlistsHelper from '../helpers/PlaylistsHelper';
 import Toast from 'react-native-toast-message';
 import NetworkError from '../errors/NetworkError';
 import {showNetworkErrorToast} from '../utils/toastUtils';
+import {i18n} from '../i18n';
 
 class TrackModalWindow extends Component {
   constructor(props) {
@@ -39,10 +40,10 @@ class TrackModalWindow extends Component {
     }
 
     modalWindowSystemRef.current.removeCurrent();
-    Toast.show({
-      text1: 'Track removed',
-      visibilityTime: 1000,
-    });
+    // Toast.show({
+    //   text1: 'Track removed',
+    //   visibilityTime: 1000,
+    // });
   };
 
   render() {
@@ -51,13 +52,13 @@ class TrackModalWindow extends Component {
         <OptionList style={styles.optionList}>
           <OptionListItem
             icon="plus"
-            text="Add to playlist"
+            text={i18n('add to playlist')}
             onPress={this.handleAddItemPress}
           />
           {this.props.trackParentPlaylistId !== undefined ? (
             <OptionListItem
               icon="minus"
-              text="remove from current playlist"
+              text={i18n('delete from playlist')}
               onPress={this.handleRemoveItemPress}
             />
           ) : null}

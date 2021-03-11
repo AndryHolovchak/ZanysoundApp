@@ -15,7 +15,6 @@ const AddToPlaylistButton = ({targetTrack, style}) => {
       style={style}
       name="plus"
       onPress={() => {
-        console.log('press');
         setShowModal(true);
         modalWindowSystemRef.current.add(
           <AddToPlaylistModal key={modalKey} targetTrack={targetTrack} />,

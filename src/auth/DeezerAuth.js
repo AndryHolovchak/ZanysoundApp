@@ -3,6 +3,7 @@ import {getUrlParams, object2queryParams} from '../utils/urlUtils';
 import deezerApi from '../api/DeezerApi';
 import {Linking} from 'react-native';
 import storage from '../storage/AsyncStorage';
+import RNRestart from 'react-native-restart';
 
 class DeezerAuth {
   _TOKEN_STORAGE_KEY = 'dz';
@@ -110,13 +111,13 @@ class DeezerAuth {
     if (!this._isSignIn) {
       return;
     }
+    RNRestart.Restart();
 
     try {
-      console.log('Try to exit');
-      await AsyncStorage.removeItem(this._TOKEN_STORAGE_KEY);
-      console.log('Try to restart');
-
-      RNRestart.Restart();
+      // console.log('Try to exit');
+      // await AsyncStorage.removeItem(this._TOKEN_STORAGE_KEY);
+      // console.log('Try to restart');
+      // RNRestart.Restart();
     } catch {}
   };
 }

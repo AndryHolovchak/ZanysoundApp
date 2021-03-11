@@ -5,6 +5,7 @@ import {color} from '../styles';
 import Modal from './Modal';
 import Color from 'color';
 import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
+import {i18n} from '../i18n';
 
 class ConfirmationModal extends Component {
   constructor(props) {
@@ -36,12 +37,12 @@ class ConfirmationModal extends Component {
         <View style={styles.content}>
           <Button
             buttonStyle={noButtonStyle}
-            title="No"
+            title={i18n('no')}
             onPress={this.handleNoPress}
           />
           <Button
             buttonStyle={yesButtonStyle}
-            title="Yes"
+            title={i18n('yes')}
             onPress={this.handleYesPress}
           />
         </View>

@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message';
 import Modal from './Modal';
 import NetworkError from '../errors/NetworkError';
 import {showNetworkErrorToast, showSuccessToast} from '../utils/toastUtils';
+import {i18n} from '../i18n';
 
 class NewPlaylistModal extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class NewPlaylistModal extends Component {
 
       if (result.success) {
         this.setState({errorMessage: ''});
-        showSuccessToast('Playlist created');
+        //   showSuccessToast(i18n('playlist created'));
       } else {
         this.setState({errorMessage: result.message});
       }
@@ -78,7 +79,7 @@ class NewPlaylistModal extends Component {
 
   render() {
     return (
-      <Modal title="New playlist">
+      <Modal title={i18n('new playlist')}>
         <Input
           inputStyle={styles.input}
           value={this.state.inputValue}
@@ -87,13 +88,13 @@ class NewPlaylistModal extends Component {
           ref={this.input}
           placeholder="..."
           errorMessage={this.state.errorMessage}
-          label="Title"
+          label={i18n('title')}
           maxLength={playlistsHelper.TITLE_MAX_LENGTH}
           autoFocus
           blurOnSubmit
         />
         <Button
-          title="Create"
+          title={i18n('create')}
           loading={this.state.playlistIsCreating}
           onPress={this.handleButtonPress}
           containerStyle={styles.buttonContainer}

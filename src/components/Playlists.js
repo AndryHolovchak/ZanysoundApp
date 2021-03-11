@@ -18,6 +18,7 @@ import Modal from './Modal';
 import NewPlaylistModal from './NewPlaylistModal';
 import NewPlaylistButtonCover from './NewPlaylistButtonCover';
 import LoadingIndicator from './LoadingIndicator';
+import {i18n} from '../i18n';
 
 class Playlists extends React.Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class Playlists extends React.Component {
         <View style={[styles.playlistPreview, styles.createNew]}>
           <NewPlaylistButtonCover />
           <CustomText
-            value="Create new"
+            value={i18n('create a playlist')}
             weight={600}
             style={styles.createNewTitle}
           />

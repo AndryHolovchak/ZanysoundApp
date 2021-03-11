@@ -8,6 +8,7 @@ import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import ConfirmationModal from './ConfirmationModal';
 import NetworkError from '../errors/NetworkError';
 import {showNetworkErrorToast, showSuccessToast} from '../utils/toastUtils';
+import {i18n} from '../i18n';
 
 const PlaylistRemoveButton = ({target, style}) => {
   return (
@@ -15,7 +16,7 @@ const PlaylistRemoveButton = ({target, style}) => {
       onPress={async () => {
         modalWindowSystemRef.current.add(
           <ConfirmationModal
-            title="Delete playlist?"
+            title={`${i18n('delete playlist')}?`}
             secondaryButton="no"
             onYesPress={async () => {
               try {
@@ -23,7 +24,7 @@ const PlaylistRemoveButton = ({target, style}) => {
                   target.id,
                   userHelper.info.id,
                 );
-                showSuccessToast('Playlist removed');
+                // showSuccessToast('Playlist removed');
               } catch (e) {
                 if (e instanceof NetworkError) {
                   showNetworkErrorToast();

@@ -12,6 +12,7 @@ import {ActivityIndicator} from 'react-native';
 import {color} from '../../styles';
 import LoadingIndicator from '../LoadingIndicator';
 import ScreenPlaceholder from '../ScreenPlaceholder';
+import {i18n} from '../../i18n';
 
 //const LoadingScreen = require("../LoadingScreen");
 //import { i18n } from "../../i18n";
@@ -66,10 +67,8 @@ class FavoritesScreen extends React.Component {
 
     let songs = favoriteSongsHelper.getFavorite();
 
-    console.log('UPD');
-
     if (songs.length === 0) {
-      return <ScreenPlaceholder text="You have no favorite tracks" />;
+      return <ScreenPlaceholder text={i18n('the list is empty')} />;
     }
 
     return favoriteSongsHelper.isInitialized && songs.length ? (
