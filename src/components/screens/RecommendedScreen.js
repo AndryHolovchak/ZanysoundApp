@@ -10,6 +10,8 @@ import LoadingIndicator from '../LoadingIndicator';
 import {networkConnectionHelper} from '../../helpers/NetworkConnectionHelper';
 import ScreenPlaceholder from '../ScreenPlaceholder';
 import {i18n} from '../../i18n';
+import NetworkError from '../../errors/NetworkError';
+import {showNetworkErrorToast} from '../../utils/toastUtils';
 // const Spinner = require("../Spinner");
 // const WindowPlaceholder = require("../WindowPlaceholder/WindowPlaceholder.jsx");
 // const LoadingScreen = require("../LoadingScreen");
@@ -83,6 +85,21 @@ class RecommendedScreen extends React.Component {
     );
   }
 
+  handleRefresh = async (onRefreshedCallback) => {
+    try {
+      await recommendedSongsHelper.refresh();
+      this.forceUpdate();
+    } catch (e) {
+      if (e instanceof NetworkError) {
+        showNetworkErrorToast();
+      } else {
+        throw e;
+      }
+    } finally {
+      onRefreshedCallback();
+    }
+  };
+
   render() {
     let songs = recommendedSongsHelper.songs;
 
@@ -93,6 +110,7 @@ class RecommendedScreen extends React.Component {
     return (
       <View style={styles.recommendedScreen}>
         <PlayerPlaylistContainer
+          onRefresh={this.handleRefresh}
           id={this.state.playlistContainerId}
           songs={songs}
           onAllSongsLoaded={this.handleAllSongsLoaded}

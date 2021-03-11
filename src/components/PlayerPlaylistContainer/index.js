@@ -5,7 +5,7 @@ import Song from '../Song';
 import PropTypes from 'prop-types';
 import dataContainer from '../../misc/DataContainer';
 import PlayerPlaylistContainerBG from './PlayerPlaylistContainerBG';
-import {FlatList, VirtualizedList, View} from 'react-native';
+import {FlatList, VirtualizedList, View, RefreshControl} from 'react-native';
 import {color, size} from '../../styles';
 import Color from 'color';
 import SongWithNavigation from '../SongWithNavigation';
@@ -38,6 +38,8 @@ class PlayerPlaylistContainer extends React.Component {
     this.renderedSongsCount = PlayerPlaylistContainer.renderedSongsMinCount;
     this.nodeRef = React.createRef();
     this.songsNodeRef = React.createRef();
+
+    this.state = {refreshing: false};
   }
 
   getLastIndexOfRenderedSongIn = (songs) => {
@@ -123,6 +125,11 @@ class PlayerPlaylistContainer extends React.Component {
 
   keyExtractor = (item, index) => item.id.toString();
 
+  handleRefresh = () => {
+    this.setState({refreshing: true});
+    this.props.onRefresh(() => this.setState({refreshing: false}));
+  };
+
   render() {
     // if (!this.props.songs || !this.props.songs.length) {
     //   return <></>;
@@ -136,6 +143,12 @@ class PlayerPlaylistContainer extends React.Component {
       <View style={styles.playerPlaylistContainer}>
         {/* <PlayerPlaylistContainerBG id={this.props.id} /> */}
         <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
+            />
+          }
           key={this.props.id}
           onEndReached={this.props.onAllSongsLoaded}
           onEndReachedThreshold={0.7}

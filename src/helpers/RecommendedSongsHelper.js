@@ -81,14 +81,23 @@ class RecommendedSongsHelper {
     this._initializationEvent.trigger();
   };
 
-  loadNext = async () => {
+  refresh = async () => {
+    if (this._isInitialized && !this._isInitializing) {
+      await this.loadNext(true);
+    }
+  };
+
+  loadNext = async (replaceCurrent = false) => {
     if (this._songs.length >= this._MAX_NUMBER_OF_SONG) {
       return;
     }
 
     let popularJson = await deezerApi.getRecommendedTracks();
     let songModels = popularJson.map((json) => new SongModel.fromDeezer(json));
-    this._songs = concatWithoutSongDuplicates(this._songs, songModels);
+
+    this._songs = replaceCurrent
+      ? songModels
+      : concatWithoutSongDuplicates(this._songs, songModels);
 
     if (this._songs.length > this._MAX_NUMBER_OF_SONG) {
       this._songs = this._songs.slice(0, this._MAX_NUMBER_OF_SONG);
