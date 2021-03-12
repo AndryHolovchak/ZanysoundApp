@@ -16,10 +16,7 @@ class TrackModalWindow extends Component {
   }
 
   handleAddItemPress = () => {
-    if (this.props.trackParentPlaylistId === undefined) {
-      modalWindowSystemRef.current.removeCurrent();
-    }
-
+    modalWindowSystemRef.current.removeCurrent();
     modalWindowSystemRef.current.add(
       <AddToPlaylistModal targetTrack={this.props.track} />,
     );

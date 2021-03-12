@@ -7,6 +7,7 @@ import TrackPlayer, {
   STATE_PLAYING,
   STATE_READY,
   STATE_CONNECTING,
+  STATE_STOPPED,
 } from 'react-native-track-player';
 import {generateId} from '../utils/idUtils';
 import {mp3CacheHelper} from '../helpers/Mp3CacheHelper';
@@ -139,9 +140,11 @@ class Player {
 
     this._trackPlayerListeners.push(
       TrackPlayer.addEventListener('remote-stop', async () => {
-        TrackPlayer.destroy();
+        console.log('STOP');
         this._currentSong = null;
         this._onSongChange.trigger(null, this._currentSong);
+        TrackPlayer.destroy();
+        await TrackPlayer.getState(); //force init
       }),
     );
 
@@ -185,6 +188,14 @@ class Player {
       let state = await TrackPlayer.getState();
     } catch {}
 
+    // this._isMetadataLoaded = false;
+    // this._isPlaying = false;
+    // this._trackIsChanging = false;
+    // this._currentSong = null;
+    // this.trackCanBeChanged = true;
+    // this._trackMp3 = null;
+
+    console.log('INIT');
     await TrackPlayer.setupPlayer({
       playBuffer: 0.5,
       backBuffer: 0,
@@ -325,6 +336,8 @@ class Player {
 
   //This method is just a shit :)
   _playSong = async (song, useMp3Cache = true) => {
+    console.log('Start to play');
+    console.log(this._currentSong);
     if (!this.trackCanBeChanged) {
       return;
     }
@@ -338,6 +351,7 @@ class Player {
 
     //add placeholder
     if (!prevTrack) {
+      console.log('Add prev');
       await TrackPlayer.add({
         id: '-1',
         // url: silenceMp3, //TODO: use local file for prod
@@ -395,8 +409,6 @@ class Player {
         useMp3Cache,
       );
       this._trackMp3 = trackMp3;
-      console.log('There is mp3');
-      console.log(this._trackMp3.isLocalFile);
     } catch {
       console.log('There is error during mp3 generation');
       this._onPlaybackError.trigger(
@@ -414,6 +426,7 @@ class Player {
     this.trackCanBeChanged = false;
 
     if (trackMp3) {
+      console.log('Add track');
       await TrackPlayer.add(
         {
           id: currentTrack.id.toString(),
@@ -425,6 +438,7 @@ class Player {
         },
         '1',
       );
+      console.log('Skip');
       await TrackPlayer.skip(currentTrack.id.toString());
 
       await TrackPlayer.play();
