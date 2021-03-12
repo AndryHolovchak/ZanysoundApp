@@ -68,6 +68,7 @@ export default class App extends React.Component {
         </View>
       );
     }
+
     return (
       <SafeAreaProvider>
         <View style={styles.navContainer}>
