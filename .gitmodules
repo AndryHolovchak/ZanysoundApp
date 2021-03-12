@@ -1,0 +1,3 @@
+[submodule "src/lib/ytdl"] 
+  path = src/lib/ytdl
+  url = https://github.com/AndryHolovchak/react-native-ytdl.git
