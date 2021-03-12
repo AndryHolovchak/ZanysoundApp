@@ -23,6 +23,7 @@ import {
   showOfflineModeToast,
   showOnlineModeToast,
 } from './src/utils/toastUtils';
+import codePush from 'react-native-code-push';
 
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first  track
@@ -100,4 +101,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
+  installMode: codePush.InstallMode.IMMEDIATE,
+};
+
+const AppWithCodePush = codePush(codePushOptions)(App);
+
+export default AppWithCodePush;
