@@ -34,6 +34,8 @@ class PlaylistsHelper {
     this._isSyncing = false;
     this._isSynced = false;
 
+    deezerAuth.listenSignOut(this._handleSignOut);
+
     deezerAuth.onSignIn = async () => {
       //for test
       // await storage.clearMapForKey(this._STORAGE_PLAYLISTS_TRACKS_KEY);
@@ -145,6 +147,11 @@ class PlaylistsHelper {
       this._isInitialized = true;
       this._triggerInitializationListeners();
     }
+  };
+
+  _handleSignOut = async () => {
+    await storage.remove({key: this._STORAGE_PLAYLISTS_KEY});
+    await storage.clearMapForKey(this._STORAGE_PLAYLISTS_TRACKS_KEY);
   };
 
   _triggerInitializationListeners = () => {

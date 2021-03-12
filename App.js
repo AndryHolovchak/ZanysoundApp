@@ -22,6 +22,7 @@ import {networkConnectionHelper} from './src/helpers/NetworkConnectionHelper';
 import {
   showOfflineModeToast,
   showOnlineModeToast,
+  showSuccessToast,
 } from './src/utils/toastUtils';
 import codePush from 'react-native-code-push';
 
@@ -56,6 +57,11 @@ class App extends React.Component {
     deezerAuth.onSignOut = this._handleSignOut;
     deezerAuth.singInByLocalStorage();
     networkConnectionHelper.listenOnUpdate(this.handleNetworkUpdate);
+    if (deezerAuth.isSignIn) {
+      setTimeout(() => {
+        showSuccessToast('v7');
+      }, 1000);
+    }
   }
 
   render() {
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
 
 const codePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
-  installMode: codePush.InstallMode.IMMEDIATE,
+  installMode: codePush.InstallMode.ON_NEXT_RESTART,
 };
 
 const AppWithCodePush = codePush(codePushOptions)(App);

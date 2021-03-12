@@ -43,6 +43,8 @@ class UserHelper {
     this._onInitialized = new EventSystem();
     this._onSync = new EventSystem();
 
+    deezerAuth.listenSignOut(this._handleSignOut);
+
     if (!deezerAuth.isSignIn) {
       deezerAuth.onSignIn = this._startInitialization;
     } else {
@@ -98,6 +100,10 @@ class UserHelper {
     }
 
     this._onSync.trigger();
+  };
+
+  _handleSignOut = async () => {
+    await storage.remove({key: USER_INFO_STORAGE_KEY});
   };
 }
 

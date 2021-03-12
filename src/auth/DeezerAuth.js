@@ -10,11 +10,13 @@ class DeezerAuth {
   _TOKEN_STORAGE_ID = 'auth';
   _DEEZER_OAUTH_URL = 'https://connect.deezer.com/oauth/auth.php';
   _DEEZER_APP_ID = '460822';
-  _DEEZER_OAUTH_REDIR = 'https://zanysound.com/appAuthRedirect';
+  _DEEZER_OAUTH_REDIR =
+    'https://zanysound.000webhostapp.com/appAuthRedirect.html';
   _DEEZER_OAUTH_PERMS =
     'basic_access,email,manage_community,manage_library,delete_library,offline_access';
   _isSignIn = false;
   _onSignIn;
+  _onSignOut;
 
   get isSignIn() {
     return this._isSignIn;
@@ -24,8 +26,19 @@ class DeezerAuth {
     this._onSignIn.addListener(callback);
   }
 
+  listenSignOut = (callback) => {
+    this._onSignOut.push(callback);
+    return () => {
+      let index = this._onSignOut.indexOf(callback);
+      if (index !== -1) {
+        this._onSignIn.splice(index, 1);
+      }
+    };
+  };
+
   constructor() {
     this._onSignIn = new EventSystem();
+    this._onSignOut = [];
 
     let authUrlParams = object2queryParams({
       app_id: this._DEEZER_APP_ID,
@@ -111,13 +124,18 @@ class DeezerAuth {
     if (!this._isSignIn) {
       return;
     }
-    RNRestart.Restart();
 
     try {
-      // console.log('Try to exit');
-      // await AsyncStorage.removeItem(this._TOKEN_STORAGE_KEY);
-      // console.log('Try to restart');
-      // RNRestart.Restart();
+      await storage.remove({
+        key: this._TOKEN_STORAGE_KEY,
+        id: this._TOKEN_STORAGE_ID,
+      });
+
+      for (const callback of this._onSignOut) {
+        await callback();
+      }
+
+      RNRestart.Restart();
     } catch {}
   };
 }

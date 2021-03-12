@@ -48,6 +48,7 @@ class FavoriteSongsHelper {
     this._onInitialized = new EventSystem();
     this._onSync = new EventSystem();
 
+    deezerAuth.listenSignOut(this._handleSignOut);
     deezerAuth.onSignIn = async () => {
       await this._initializeUsingLocalStorage();
 
@@ -261,6 +262,10 @@ class FavoriteSongsHelper {
 
   _saveTracksToLocalStorage = async () => {
     await storage.save({key: FAVORITE_TRACKS_KEY, data: this._orderedSongs});
+  };
+
+  _handleSignOut = async () => {
+    await storage.remove({key: FAVORITE_TRACKS_KEY});
   };
 }
 
