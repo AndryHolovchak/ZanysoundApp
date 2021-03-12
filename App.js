@@ -26,7 +26,7 @@ import {
 import codePush from 'react-native-code-push';
 
 //call any method in TrackPlayer to initialize it
-//This will save time playing the first track
+//This will save time playing the first  track
 TrackPlayer.getDuration();
 
 let codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_RESUME};
