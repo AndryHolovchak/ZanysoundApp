@@ -23,17 +23,10 @@ import {
   showOfflineModeToast,
   showOnlineModeToast,
 } from './src/utils/toastUtils';
-import codePush from 'react-native-code-push';
 
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first  track
 TrackPlayer.getDuration();
-
-let codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_RESUME};
-codePush.sync({
-  updateDialog: true,
-  installMode: codePush.InstallMode.IMMEDIATE,
-});
 
 class App extends React.Component {
   constructor(props) {
@@ -107,6 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppWithCodePush = codePush(App);
-
-export default AppWithCodePush;
+export default App;
