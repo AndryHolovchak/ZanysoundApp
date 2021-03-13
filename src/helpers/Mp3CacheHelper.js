@@ -8,6 +8,7 @@ import EventSystem from '../misc/EventSystem';
 import ExtendedEvent from '../misc/ExtendedEvent';
 import {removeElement} from '../utils/arrayUtils';
 import NetworkError from '../errors/NetworkError';
+import FreeSpaceError from '../errors/FreeSpaceError';
 
 const CACHED_MP3_STORAGE_KEY = 'cachedMp3';
 const ACTIONS = {ADD: 0, REMOVE: 1};
@@ -101,15 +102,21 @@ class Mp3CacheHelper {
     //   trackModel.artist.name,
     //   trackModel.title,
     // );
+
+    let downloadUrl = null;
+
     try {
-      let downloadUrl = await youtubeHelper.getTrackDownloadUrl(
+      downloadUrl = await youtubeHelper.getTrackDownloadUrl(
         trackModel.id,
         trackModel.title,
         trackModel.artist.name,
       );
+    } catch (e) {
+      throw new NetworkError();
+    }
+    console.log('Start');
 
-      console.log('Start');
-
+    try {
       await RNFS.downloadFile({
         fromUrl: downloadUrl,
         toFile: this.generateMp3Path(trackModel.id),
@@ -121,8 +128,9 @@ class Mp3CacheHelper {
         },
       }).promise;
     } catch {
-      throw new NetworkError();
+      throw new FreeSpaceError();
     }
+
     console.log('End');
     await storage.save({
       key: CACHED_MP3_STORAGE_KEY,

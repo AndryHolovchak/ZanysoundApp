@@ -8,6 +8,7 @@ import Button from '../Button';
 import Color from 'color';
 import LoadingIndicator from '../LoadingIndicator';
 import {i18n} from '../../i18n';
+import codePush from 'react-native-code-push';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -46,7 +47,6 @@ class ProfileScreen extends React.Component {
             <LoadingIndicator text={`${i18n('loading')}...`} />
           )}
         </View>
-
         <Button
           title={i18n('exit')}
           buttonStyle={styles.exitButton}

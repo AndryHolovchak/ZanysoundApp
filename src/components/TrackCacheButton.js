@@ -7,7 +7,9 @@ import Color from 'color';
 import useForceUpdate from '../hooks/useForceUpdate';
 import {View} from 'react-native';
 import NetworkError from '../errors/NetworkError';
-import {showNetworkErrorToast} from '../utils/toastUtils';
+import {showErrorToast, showNetworkErrorToast} from '../utils/toastUtils';
+import FreeSpaceError from '../errors/FreeSpaceError';
+import {i18n} from '../i18n';
 
 class TrackCacheButton extends React.Component {
   _MIN_OPACITY = 0.5;
@@ -42,6 +44,10 @@ class TrackCacheButton extends React.Component {
     } catch (e) {
       if (e instanceof NetworkError) {
         showNetworkErrorToast();
+      } else if (e instanceof FreeSpaceError) {
+        showErrorToast(i18n('not enough free space'));
+      } else {
+        throw e;
       }
     }
   };

@@ -12,6 +12,7 @@ import TrackPlayer, {
 import {generateId} from '../utils/idUtils';
 import {mp3CacheHelper} from '../helpers/Mp3CacheHelper';
 const silenceMp3 = require('../../assets/silence.mp3');
+import deezerAuth from '../auth/DeezerAuth';
 
 class Player {
   _isRepeatOneModeOn = false;
@@ -78,6 +79,8 @@ class Player {
     this._onPlaylistChange = new ExtendedEvent();
     this._onPlaybackError = new ExtendedEvent();
     this._trackPlayerListeners = [];
+
+    deezerAuth.listenSignOut(this._handleSignOut);
   }
 
   setEventListeners = () => {
@@ -144,7 +147,7 @@ class Player {
         this._currentSong = null;
         this._onSongChange.trigger(null, this._currentSong);
         TrackPlayer.destroy();
-        await TrackPlayer.getState(); //force init
+        // await TrackPlayer.getState(); //force init
       }),
     );
 
@@ -184,17 +187,12 @@ class Player {
   };
 
   _init = async () => {
-    try {
-      let state = await TrackPlayer.getState();
-    } catch {}
-
     // this._isMetadataLoaded = false;
     // this._isPlaying = false;
     // this._trackIsChanging = false;
     // this._currentSong = null;
     // this.trackCanBeChanged = true;
     // this._trackMp3 = null;
-
     console.log('INIT');
     await TrackPlayer.setupPlayer({
       playBuffer: 0.5,
@@ -352,11 +350,14 @@ class Player {
     //add placeholder
     if (!prevTrack) {
       console.log('Add prev');
+      await TrackPlayer.getDuration();
+      await this._init();
+
       await TrackPlayer.add({
         id: '-1',
-        // url: silenceMp3, //TODO: use local file for prod
-        url:
-          'https://drive.google.com/uc?export=download&id=1Tr30mBslt3cFj5GuO-lo0gj3FoLccEe5',
+        url: silenceMp3, //TODO: use local file for prod
+        // url:
+        //   'https://drive.google.com/uc?export=download&id=1Tr30mBslt3cFj5GuO-lo0gj3FoLccEe5',
         // 'https://drive.google.com/uc?export=download&id=1Lf2Ih4FL_lbD6NFL7qUKgvrzAhwZ_z2j', // works in both cases
         // 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',// works in both cases
         duration: 0,
@@ -366,9 +367,9 @@ class Player {
       });
       await TrackPlayer.add({
         id: '1',
-        // url: silenceMp3, //TODO: use local file for prod
-        url:
-          'https://drive.google.com/uc?export=download&id=1Tr30mBslt3cFj5GuO-lo0gj3FoLccEe5',
+        url: silenceMp3, //TODO: use local file for prod
+        // url:
+        //   'https://drive.google.com/uc?export=download&id=1Tr30mBslt3cFj5GuO-lo0gj3FoLccEe5',
         // 'https://drive.google.com/uc?export=download&id=1Lf2Ih4FL_lbD6NFL7qUKgvrzAhwZ_z2j', // works in both cases
         //  'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // works in both cases
         duration: 0,
@@ -478,6 +479,10 @@ class Player {
 
   _handleHtmlAudioEmptied = () => {
     this._onSongChange(null);
+  };
+
+  _handleSignOut = () => {
+    TrackPlayer.destroy();
   };
 }
 export default new Player();

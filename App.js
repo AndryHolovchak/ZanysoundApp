@@ -28,7 +28,7 @@ import codePush from 'react-native-code-push';
 
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first  track
-TrackPlayer.getDuration();
+//TrackPlayer.getDuration();
 
 class App extends React.Component {
   constructor(props) {
@@ -57,11 +57,6 @@ class App extends React.Component {
     deezerAuth.onSignOut = this._handleSignOut;
     deezerAuth.singInByLocalStorage();
     networkConnectionHelper.listenOnUpdate(this.handleNetworkUpdate);
-    if (deezerAuth.isSignIn) {
-      setTimeout(() => {
-        showSuccessToast('v7');
-      }, 1000);
-    }
   }
 
   render() {

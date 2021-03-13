@@ -11,6 +11,6 @@ if (locale === 'uk_UA') {
   locale = 'en';
 }
 
-const i18n = (key) => (dictionary[key] && dictionary[key][locale]) || '...';
+const i18n = (key) => (dictionary[key] && dictionary[key][locale]) || key;
 
 export {i18n};
