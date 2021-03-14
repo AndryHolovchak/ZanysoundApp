@@ -410,7 +410,7 @@ class Player {
         useMp3Cache,
       );
       this._trackMp3 = trackMp3;
-    } catch {
+    } catch (e) {
       console.log('There is error during mp3 generation');
       this._onPlaybackError.trigger(
         null,

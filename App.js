@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, View, AppState, StyleSheet} from 'react-native';
+import {Text, View, AppState, StyleSheet} from 'react-native';
 import deezerAuth from './src/auth/DeezerAuth';
 import useForceUpdate from './src/hooks/useForceUpdate';
 import Navigation from './src/components/Navigation';
@@ -25,7 +25,10 @@ import {
   showSuccessToast,
 } from './src/utils/toastUtils';
 import codePush from 'react-native-code-push';
-
+import WindowHelper from './src/helpers/WindowHelper';
+import {Button} from 'react-native-elements';
+import Color from 'color';
+import {Icon} from './src/components/Icon';
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first  track
 //TrackPlayer.getDuration();
@@ -62,10 +65,12 @@ class App extends React.Component {
   render() {
     if (!deezerAuth.isSignIn) {
       return (
-        <View>
+        <View style={styles.welcomeScreen}>
           <Button
+            buttonStyle={styles.signInButton}
             title="Sign in using Deezer"
             onPress={deezerAuth.signInByPopup}
+            icon={() => <Icon name="deezer" style={styles.signInButtonIcon} />}
           />
         </View>
       );
@@ -96,6 +101,26 @@ class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  welcomeScreen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.bg,
+  },
+  signInButton: {
+    maxWidth: '80%',
+    minWidth: 200,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    backgroundColor: Color(color.primary).saturate(0.4).string(),
+    color: color.secondaryText,
+  },
+  signInButtonIcon: {
+    marginRight: 7,
+    padding: 0,
+    fontSize: 23,
+    color: Color(color.bg).lighten(1).string(),
+  },
   navContainer: {
     flex: 1,
     zIndex: -1,

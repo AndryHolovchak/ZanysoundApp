@@ -144,10 +144,12 @@ class PlayerPlaylistContainer extends React.Component {
         {/* <PlayerPlaylistContainerBG id={this.props.id} /> */}
         <FlatList
           refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.handleRefresh}
-            />
+            this.props.onRefresh ? (
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh}
+              />
+            ) : null
           }
           key={this.props.id}
           onEndReached={this.props.onAllSongsLoaded}

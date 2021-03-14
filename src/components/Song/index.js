@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
 
   mainInfo: {
     alignItems: 'center',
-    width: '100%',
+    flex: 2,
     marginLeft: 10,
     fontWeight: '500',
     overflow: 'hidden',

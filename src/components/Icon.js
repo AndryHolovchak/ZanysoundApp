@@ -36,6 +36,7 @@ const FAMILIES_STYLE = StyleSheet.create({
 const ICONS = {
   deezer: {
     unicode: '\ue077',
+    family: ICON_FAMILIES.brands,
   },
   heart: {unicode: '\uf004'},
   search: {unicode: '\uf002'},
@@ -62,7 +63,7 @@ const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {
   let targetIcon = ICONS[name];
   let finalStyle = StyleSheet.flatten([
     defaultStyle.text,
-    FAMILIES_STYLE[family],
+    FAMILIES_STYLE[targetIcon.family || family],
     defaultStyle.text,
     StyleSheet.create({userStyle: style}).userStyle,
   ]);
