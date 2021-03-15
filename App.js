@@ -29,6 +29,7 @@ import WindowHelper from './src/helpers/WindowHelper';
 import {Button} from 'react-native-elements';
 import Color from 'color';
 import {Icon} from './src/components/Icon';
+import {i18n} from './src/i18n';
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first  track
 //TrackPlayer.getDuration();
@@ -68,7 +69,8 @@ class App extends React.Component {
         <View style={styles.welcomeScreen}>
           <Button
             buttonStyle={styles.signInButton}
-            title="Sign in using Deezer"
+            containerStyle={styles.signInButtonContainer}
+            title={i18n('sign in using Deezer')}
             onPress={deezerAuth.signInByPopup}
             icon={() => <Icon name="deezer" style={styles.signInButtonIcon} />}
           />
@@ -105,18 +107,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: color.bg,
+    backgroundColor: Color(color.bg).lighten(0.4).string(),
+  },
+  signInButtonContainer: {
+    elevation: 5,
   },
   signInButton: {
     maxWidth: '80%',
     minWidth: 200,
+    minHeight: 60,
     paddingHorizontal: 15,
     paddingVertical: 10,
     backgroundColor: Color(color.primary).saturate(0.4).string(),
     color: color.secondaryText,
   },
   signInButtonIcon: {
-    marginRight: 7,
+    marginRight: 15,
     padding: 0,
     fontSize: 23,
     color: Color(color.bg).lighten(1).string(),
