@@ -10,6 +10,8 @@ target 'ZanysoundApp' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'react-native-track-player', :path => '../node_modules/react-native-track-player'
+
   target 'ZanysoundAppTests' do
     inherit! :complete
     # Pods for testing
