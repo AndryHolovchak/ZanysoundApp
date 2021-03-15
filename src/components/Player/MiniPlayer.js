@@ -158,9 +158,10 @@ const styles = {
     alignItems: 'center',
   },
   cover: {
-    height: size.miniPlayerHeight,
-    width: size.miniPlayerHeight,
-    borderRadius: 0,
+    height: size.miniPlayerHeight * 0.9,
+    width: size.miniPlayerHeight * 0.9,
+    borderRadius: 2,
+    marginLeft: 2,
   },
   coverContainer: {
     borderRadius: 0,
