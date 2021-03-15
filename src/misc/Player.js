@@ -332,7 +332,7 @@ class Player {
     return this._isPlaying && !this._trackIsChanging;
   }
 
-  //This method is just a shit :)
+  //This method  is just a shit :)
   _playSong = async (song, useMp3Cache = true) => {
     console.log('Start to play');
     console.log(this._currentSong);
