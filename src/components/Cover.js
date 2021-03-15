@@ -40,9 +40,9 @@ class Cover extends Component {
   };
 
   startWaves = () => {
-    this.startWaveAnim(this.firstWaveScale, 350, 0, 1);
-    this.startWaveAnim(this.secondWaveScale, 200, 0, 1);
-    this.startWaveAnim(this.thirdWaveScale, 150, 0, 1);
+    this.startWaveAnim(this.firstWaveScale, 400, 0, 1);
+    this.startWaveAnim(this.secondWaveScale, 250, 0, 1);
+    this.startWaveAnim(this.thirdWaveScale, 200, 0, 1);
 
     if (this.wavesAreHiden) {
       this.startShowWaves();

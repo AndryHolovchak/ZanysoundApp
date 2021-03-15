@@ -184,5 +184,10 @@
     "uk": "Недостатньо вільного місця",
     "ru": "Недостаточно свободного места",
     "en": "Not enough free space"
+  },
+  "sign in using Deezer": {
+    "uk": "Увійти за допомогою Deezer",
+    "ru": "Войти с помощью Deezer",
+    "en": "Sign in using Deezer"
   }
 }
