@@ -11,7 +11,7 @@ import LikeButton from '../LikeButton';
 import {navigateToSearchRoute} from '../../utils/navigationUtils';
 import AddToPlaylistButton from '../AddToPlaylistButton';
 import TrackModalWindowButton from '../TrackModalWindowButton';
-
+import TrackCacheButton from '../TrackCacheButton';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 class FullScreenPlayer extends Component {
@@ -65,11 +65,16 @@ class FullScreenPlayer extends Component {
               style={styles.artist}
             />
           </View>
-          <View style={styles.trackAction}>
-            <LikeButton targetTrack={track} style={styles.likeButton} />
+          <View style={styles.trackActions}>
+            <LikeButton targetTrack={track} style={styles.trackActionItem} />
+            <TrackCacheButton
+              trackModel={track}
+              style={styles.trackActionItem}
+              key={track.instanceId}
+            />
             <TrackModalWindowButton
               track={track}
-              style={styles.trackModalWindowButton}
+              style={styles.trackActionItem}
             />
           </View>
         </View>
@@ -155,24 +160,21 @@ const styles = {
     fontSize: 13,
     color: color.secondaryText,
   },
-  trackAction: {
+  trackActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    minWidth: 180,
+    height: 50,
     marginTop: 20,
     padding: 1,
     borderRadius: 5,
     elevation: 5,
     backgroundColor: Color(color.bg).lighten(1.3).string(),
   },
-  likeButton: {
-    paddingHorizontal: 10,
+  trackActionItem: {
     fontSize: 23,
-  },
-  trackModalWindowButton: {
-    // paddingHorizontal: 10,
-    fontSize: 23,
-    marginLeft: 20,
+    paddingHorizontal: 20,
   },
   coverContainer: {
     //shadow start
@@ -222,9 +224,11 @@ const styles = {
     color: color.secondaryText,
   },
   activeButton: {
-    color: Color(color.bg).saturate(1).lighten(5).string(),
+    padding: 10,
+    color: Color(color.bg).saturate(0.5).lighten(5).string(),
   },
   inactiveButton: {
+    padding: 10,
     color: Color(color.secondaryText).fade(0.6).string(),
   },
 };

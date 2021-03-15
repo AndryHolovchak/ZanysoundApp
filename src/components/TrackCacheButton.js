@@ -95,6 +95,7 @@ class TrackCacheButton extends React.Component {
             styles.icon,
             isCached ? styles.cachedIcon : null,
             isUpdating ? styles.updatingIcon : null,
+            this.props.style,
           ])}
           family={isCached ? ICON_FAMILIES.solid : ICON_FAMILIES.light}
         />
