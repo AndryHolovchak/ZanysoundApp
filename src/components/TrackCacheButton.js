@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   cachedIcon: {
-    color: Color(color.bg).lighten(5).fade(0.3).string(),
+    color: Color(color.bg).saturate(0.5).lighten(4.7).fade(0.2).string(),
   },
   updatingIcon: {
     color: Color(color.bg).lighten(4).fade(0.2).string(),
