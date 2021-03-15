@@ -12,6 +12,14 @@ target 'ZanysoundApp' do
 
   pod 'react-native-track-player', :path => '../node_modules/react-native-track-player'
 
+  pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
+  pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
   target 'ZanysoundAppTests' do
     inherit! :complete
     # Pods for testing
