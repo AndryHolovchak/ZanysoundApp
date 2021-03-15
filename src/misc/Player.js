@@ -351,6 +351,7 @@ class Player {
     if (!prevTrack) {
       console.log('Add prev');
       await TrackPlayer.getDuration();
+
       // await this._init();
 
       await TrackPlayer.add({
