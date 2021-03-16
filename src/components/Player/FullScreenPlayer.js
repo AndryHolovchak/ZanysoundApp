@@ -12,7 +12,9 @@ import {navigateToSearchRoute} from '../../utils/navigationUtils';
 import AddToPlaylistButton from '../AddToPlaylistButton';
 import TrackModalWindowButton from '../TrackModalWindowButton';
 import TrackCacheButton from '../TrackCacheButton';
-const WINDOW_WIDTH = Dimensions.get('window').width;
+import WindowHelper from '../../helpers/WindowHelper';
+
+const WINDOW_WIDTH = WindowHelper.width;
 
 class FullScreenPlayer extends Component {
   handleSuffleButtonClick = () => {
@@ -126,34 +128,40 @@ class FullScreenPlayer extends Component {
   }
 }
 
+const COVER_SIZE = Math.min(
+  WindowHelper.width * 0.95,
+  WindowHelper.height * 0.4,
+);
+
 const styles = {
   fullScreenPlayer: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingBottom: size.navigationHeight + 30,
+    paddingBottom: size.navigationHeight + 10,
     backgroundColor: Color(color.bg).lighten(0.6).string(),
   },
   album: {
     alignItems: 'center',
+    // backgroundColor: 'red',
   },
   albumTitle: {
-    marginTop: 10,
+    marginTop: 2,
     paddingHorizontal: 20,
     color: Color(color.primaryText).darken(0.1).string(),
     fontSize: 15,
   },
   track: {
     alignItems: 'center',
+    // backgroundColor: 'green',
   },
   trackInfo: {
     alignItems: 'center',
     paddingHorizontal: 20,
   },
   title: {
-    marginBottom: 5,
-    fontSize: 20,
+    fontSize: 18,
     color: color.primaryText,
   },
   artist: {
@@ -165,8 +173,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-around',
     minWidth: 180,
-    height: 50,
-    marginTop: 20,
+    height: 42,
+    marginTop: 15,
     padding: 1,
     borderRadius: 5,
     elevation: 5,
@@ -185,19 +193,20 @@ const styles = {
     },
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
-    elevation: 10,
+    elevation: 15,
     overflow: 'visible',
     borderRadius: 0,
     //shadow end
   },
   cover: {
-    width: WINDOW_WIDTH * 0.95,
-    height: WINDOW_WIDTH * 0.95,
+    width: COVER_SIZE,
+    height: COVER_SIZE,
     borderRadius: 8,
   },
   controls: {
     alignItems: 'center',
     width: '100%',
+    // backgroundColor: 'blue',
   },
   playbackControls: {
     flexDirection: 'row',

@@ -22,9 +22,10 @@ import {State} from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
 import {showErrorToast} from '../../utils/toastUtils';
 import {i18n} from '../../i18n';
+import WindowHelper from '../../helpers/WindowHelper';
 
 const MIN_HEIGHT = size.miniPlayerHeight;
-const WINDOW_HEIGHT = Dimensions.get('window').height;
+const WINDOW_HEIGHT = WindowHelper.height;
 
 class Player extends Component {
   constructor(props) {
