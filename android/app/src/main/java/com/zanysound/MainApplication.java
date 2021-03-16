@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.guichaguri.trackplayer.TrackPlayer;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
