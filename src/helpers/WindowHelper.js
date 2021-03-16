@@ -7,7 +7,7 @@ class WindowHelper {
   constructor() {
     this._window = Dimensions.get('window');
     this._screen = Dimensions.get('screen');
-    this._statusBarHeight = StatusBar.statusBarHeight || 24;
+    this._statusBarHeight = 0;
     this._width = this._window.width;
     this._height = this._window.height - this._statusBarHeight;
   }

@@ -130,7 +130,7 @@ class FullScreenPlayer extends Component {
 
 const COVER_SIZE = Math.min(
   WindowHelper.width * 0.95,
-  WindowHelper.height * 0.4,
+  WindowHelper.height * 0.5,
 );
 
 const styles = {
