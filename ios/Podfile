@@ -3,14 +3,24 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'ZanysoundApp' do
+target 'Zanysound' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
-  target 'ZanysoundAppTests' do
+  pod 'react-native-track-player', :path => '../node_modules/react-native-track-player'
+
+  pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
+  pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
+  target 'ZanysoundTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -25,10 +35,10 @@ target 'ZanysoundApp' do
   end
 end
 
-target 'ZanysoundApp-tvOS' do
-  # Pods for ZanysoundApp-tvOS
+target 'Zanysound-tvOS' do
+  # Pods for Zanysound-tvOS
 
-  target 'ZanysoundApp-tvOSTests' do
+  target 'Zanysound-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

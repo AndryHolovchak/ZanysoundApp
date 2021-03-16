@@ -95,6 +95,7 @@ class TrackCacheButton extends React.Component {
             styles.icon,
             isCached ? styles.cachedIcon : null,
             isUpdating ? styles.updatingIcon : null,
+            this.props.style,
           ])}
           family={isCached ? ICON_FAMILIES.solid : ICON_FAMILIES.light}
         />
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   cachedIcon: {
-    color: Color(color.bg).lighten(5).fade(0.3).string(),
+    color: Color(color.bg).saturate(0.5).lighten(4.7).fade(0.2).string(),
   },
   updatingIcon: {
     color: Color(color.bg).lighten(4).fade(0.2).string(),
