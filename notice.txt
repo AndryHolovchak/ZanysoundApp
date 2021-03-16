@@ -1,0 +1,4 @@
+    // "@react-native-async-storage/async-storage": "github:react-native-async-storage/async-storage",
+frwpleDt8bNcogNsw1joqxnmDL9G1kTM3BklzMNtROJxYDJfs2
+codePush:
+    appcenter codepush release-react -a <your username>/<your app name> s-d <your deployment>
