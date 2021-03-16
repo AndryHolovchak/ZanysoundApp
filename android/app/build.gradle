@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.zanysoundapp"
+        applicationId "com.zanysound"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

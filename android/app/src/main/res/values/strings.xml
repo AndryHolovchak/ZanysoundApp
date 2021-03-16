@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">ZanysoundApp</string>
+    <string name="app_name">Zanysound</string>
     <string moduleConfig="true" name="CodePushDeploymentKey">7e7mWou6INPycexGNAVku2sV2hIZhisasUReB</string>
 </resources>

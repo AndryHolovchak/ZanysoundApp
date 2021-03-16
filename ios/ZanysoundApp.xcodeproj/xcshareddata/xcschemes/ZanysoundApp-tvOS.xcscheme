@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "ZanysoundApp-tvOS.app"
-               BlueprintName = "ZanysoundApp-tvOS"
-               ReferencedContainer = "container:ZanysoundApp.xcodeproj">
+               BuildableName = "Zanysound-tvOS.app"
+               BlueprintName = "Zanysound-tvOS"
+               ReferencedContainer = "container:Zanysound.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "ZanysoundApp-tvOSTests.xctest"
-               BlueprintName = "ZanysoundApp-tvOSTests"
-               ReferencedContainer = "container:ZanysoundApp.xcodeproj">
+               BuildableName = "Zanysound-tvOSTests.xctest"
+               BlueprintName = "Zanysound-tvOSTests"
+               ReferencedContainer = "container:Zanysound.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "ZanysoundApp-tvOS.app"
-            BlueprintName = "ZanysoundApp-tvOS"
-            ReferencedContainer = "container:ZanysoundApp.xcodeproj">
+            BuildableName = "Zanysound-tvOS.app"
+            BlueprintName = "Zanysound-tvOS"
+            ReferencedContainer = "container:Zanysound.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "ZanysoundApp-tvOS.app"
-            BlueprintName = "ZanysoundApp-tvOS"
-            ReferencedContainer = "container:ZanysoundApp.xcodeproj">
+            BuildableName = "Zanysound-tvOS.app"
+            BlueprintName = "Zanysound-tvOS"
+            ReferencedContainer = "container:Zanysound.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
