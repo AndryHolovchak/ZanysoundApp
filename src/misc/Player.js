@@ -98,7 +98,6 @@ class Player {
           console.log('Handle error with local file');
           mp3CacheHelper.handlePlaybackError(this._trackMp3, this._currentSong);
           await this._playSong(this._currentSong, false);
-          console.log('Catched');
           this._onPlaybackError.trigger(
             null,
             this._trackMp3,
@@ -143,7 +142,6 @@ class Player {
 
     this._trackPlayerListeners.push(
       TrackPlayer.addEventListener('remote-stop', async () => {
-        console.log('STOP');
         this._currentSong = null;
         this._onSongChange.trigger(null, this._currentSong);
         TrackPlayer.destroy();
@@ -193,7 +191,6 @@ class Player {
     // this._currentSong = null;
     // this.trackCanBeChanged = true;
     // this._trackMp3 = null;
-    console.log('INIT');
     await TrackPlayer.setupPlayer({
       playBuffer: 0.5,
       backBuffer: 0,
@@ -334,8 +331,6 @@ class Player {
 
   //This method  is just a shit :)
   _playSong = async (song, useMp3Cache = true) => {
-    console.log('Start to play');
-    console.log(this._currentSong);
     if (!this.trackCanBeChanged) {
       return;
     }
@@ -349,7 +344,6 @@ class Player {
 
     //add placeholder
     if (!prevTrack) {
-      console.log('Add prev');
       await TrackPlayer.getDuration();
       await this._init();
 
@@ -427,7 +421,6 @@ class Player {
     this.trackCanBeChanged = false;
 
     if (trackMp3) {
-      console.log('Add track');
       await TrackPlayer.add(
         {
           id: currentTrack.id.toString(),
@@ -439,7 +432,6 @@ class Player {
         },
         '1',
       );
-      console.log('Skip');
       await TrackPlayer.skip(currentTrack.id.toString());
 
       await TrackPlayer.play();

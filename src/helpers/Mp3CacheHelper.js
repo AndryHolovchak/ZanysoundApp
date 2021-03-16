@@ -36,7 +36,6 @@ class Mp3CacheHelper {
     }
 
     // await storage.clearMapForKey(CACHED_MP3_STORAGE_KEY);
-    console.log('!!!CLEAR!!!');
     let dirItems = await RNFS.readDir(RNFS.DocumentDirectoryPath);
 
     for (const item of dirItems) {
@@ -49,7 +48,6 @@ class Mp3CacheHelper {
   handlePlaybackError = (trackMp3, trackModel) => {
     if (trackMp3?.isLocalFile) {
       this._update(trackModel, ACTIONS.REMOVE);
-      console.log('Remove invalid mp3 item from cache');
     }
   };
 
@@ -114,7 +112,6 @@ class Mp3CacheHelper {
     } catch (e) {
       throw new NetworkError();
     }
-    console.log('Start');
 
     try {
       await RNFS.downloadFile({
@@ -131,7 +128,6 @@ class Mp3CacheHelper {
       throw new FreeSpaceError();
     }
 
-    console.log('End');
     await storage.save({
       key: CACHED_MP3_STORAGE_KEY,
       id: trackModel.id,

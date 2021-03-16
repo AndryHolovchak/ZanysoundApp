@@ -61,12 +61,10 @@ class DeezerAuth {
     let urlParams = getUrlParams(e.url);
 
     if (!urlParams['isAuthRedir']) {
-      console.log('is not the auth redir');
       return;
     }
 
     let token = urlParams['d_t'] == 'undefined' ? undefined : urlParams['d_t'];
-    console.log('from popup ' + token);
     Linking.removeEventListener('url', this._handleUrlChange);
     await storage.save({
       key: this._TOKEN_STORAGE_KEY,
@@ -111,7 +109,6 @@ class DeezerAuth {
       tokenFromStorage = null;
     }
 
-    console.log('from local: ' + tokenFromStorage);
     deezerApi.token = tokenFromStorage;
     this._isSignIn = !!tokenFromStorage;
 

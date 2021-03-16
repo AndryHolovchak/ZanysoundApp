@@ -186,7 +186,6 @@ class FavoriteSongsHelper {
     try {
       favoriteTracks = await storage.load({key: FAVORITE_TRACKS_KEY});
     } catch {
-      console.log('Favorite tracks: There is no favorite tracks in storage');
       this._isInitialized = true;
       this._onInitialized.trigger();
       return;
@@ -200,8 +199,6 @@ class FavoriteSongsHelper {
       this._songs[trackInfo.id] = trackInfo;
       this._notifyListeners(trackInfo, true);
     }
-
-    console.log('Favorite tracks: Initialized using storage');
 
     this._isInitialized = true;
     this._onInitialized.trigger();
@@ -256,7 +253,6 @@ class FavoriteSongsHelper {
 
     this._isSyncedWithServer = true;
     this._isSyncingWithServer = false;
-    console.log('Favorite tracks: Synced with server');
     this._onSync.trigger();
   };
 
