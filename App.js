@@ -30,6 +30,7 @@ import {Button} from 'react-native-elements';
 import Color from 'color';
 import {Icon} from './src/components/Icon';
 import {i18n} from './src/i18n';
+import {SafeAreaView} from 'react-native';
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first  track
 //TrackPlayer.getDuration();
