@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'ZanysoundApp' do
+target 'Zanysound' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
@@ -20,7 +20,7 @@ target 'ZanysoundApp' do
 
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
-  target 'ZanysoundAppTests' do
+  target 'ZanysoundTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -35,10 +35,10 @@ target 'ZanysoundApp' do
   end
 end
 
-target 'ZanysoundApp-tvOS' do
-  # Pods for ZanysoundApp-tvOS
+target 'Zanysound-tvOS' do
+  # Pods for Zanysound-tvOS
 
-  target 'ZanysoundApp-tvOSTests' do
+  target 'Zanysound-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
