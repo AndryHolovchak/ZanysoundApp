@@ -173,7 +173,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-around',
     minWidth: 180,
-    height: 42,
+    height: 45,
     marginTop: 15,
     padding: 1,
     borderRadius: 5,
@@ -223,7 +223,7 @@ const styles = {
     color: color.secondaryText,
   },
   togglePlayButton: {
-    fontSize: 55,
+    fontSize: 50,
     marginHorizontal: 20,
     color: Color(color.primary).lighten(0.1).string(),
     // color: Color(color.bg).saturate(0.5).lighten(5.5).string(),
