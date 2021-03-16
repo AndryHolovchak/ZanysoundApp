@@ -136,7 +136,7 @@ const COVER_SIZE = Math.min(
 const styles = {
   fullScreenPlayer: {
     flex: 1,
-    paddingTop: WindowHelper.statusBarHeight,
+    paddingTop: WindowHelper.statusBarHeight + 5,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: size.navigationHeight + 10,
