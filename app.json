@@ -1,4 +1,6 @@
 {
-  "name": "ZanysoundApp",
-  "displayName": "ZanysoundApp"
+  "name": "Zanysound",
+  "displayName": "Zanysound",
+  "orientation": "portrait",
+  "backgroundColor": "#aa5e75"
 }

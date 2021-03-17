@@ -74,7 +74,6 @@ class PlaylistsHelper {
       let playlists = await storage.load({key: this._STORAGE_PLAYLISTS_KEY});
       this._playlistsShortInfo = playlists || this._playlistsShortInfo;
     } catch {
-      console.log('Playlists: There is no playlists info in storage');
       this._isInitialized = true;
       this._triggerInitializationListeners();
       return;
@@ -102,7 +101,6 @@ class PlaylistsHelper {
     }
 
     this._isInitialized = true;
-    console.log('Playlists: Initialized using storage');
     this._triggerInitializationListeners();
   };
 
@@ -136,7 +134,6 @@ class PlaylistsHelper {
       .sort((a, b) => b.creationTime - a.creationTime);
 
     this._savePlaylistsInfoToStorage();
-    console.log('Playlists: Synced with server');
 
     this._isSynced = true;
     this._isSyncing = false;
@@ -280,8 +277,6 @@ class PlaylistsHelper {
       key: this._STORAGE_PLAYLISTS_KEY,
       data: this._playlistsShortInfo,
     });
-
-    console.log('Playlists: info saved');
   };
 
   _savePlaylistTracksToStorage = async (playlistId) => {
@@ -293,13 +288,6 @@ class PlaylistsHelper {
         tracks: this._playlistsTracks[playlistId].tracks,
       },
     });
-
-    console.log(
-      'Playlists: track saved for ' +
-        playlistId +
-        ', length = ' +
-        this._playlistsTracks[playlistId].tracks.length,
-    );
   };
 
   listenInitalization = (callback) => {

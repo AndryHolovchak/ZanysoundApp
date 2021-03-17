@@ -72,12 +72,10 @@ class UserHelper {
       let itemFromStorage = await storage.load({key: USER_INFO_STORAGE_KEY});
       this._info = UserModel.parse(itemFromStorage.info);
     } catch {
-      console.log('User: There is no user info in storage');
       return;
     }
 
     this._isInitialized = true;
-    console.log('User: Initialized using storage');
     this._onInitialized.trigger();
   };
 
@@ -92,7 +90,6 @@ class UserHelper {
     this._isSyncingWithServer = false;
 
     await storage.save({key: USER_INFO_STORAGE_KEY, data: {info: this._info}});
-    console.log('User: Synced with server');
 
     if (!this._isInitialized) {
       this._isInitialized = true;

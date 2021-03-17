@@ -22,7 +22,6 @@ class YoutubeHelper {
         artist,
       },
     });
-    console.log(storageItem.url);
     return storageItem.url;
   };
   getTrackVideoId = async (trackId, title, artist) => {
@@ -96,7 +95,6 @@ class YoutubeHelper {
   };
 
   _fetchVideoUrl = async (videoId) => {
-    console.log('fetch url');
     let url = await getAudioUrl(videoId);
     return url;
 

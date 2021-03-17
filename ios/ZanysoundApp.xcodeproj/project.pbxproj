@@ -7,15 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* ZanysoundAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ZanysoundAppTests.m */; };
+		00E356F31AD99517003FC87E /* ZanysoundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ZanysoundTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* ZanysoundAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ZanysoundAppTests.m */; };
+		2DCD954D1E0B4F2C00145EB5 /* ZanysoundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ZanysoundTests.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		565474CDD3044D9A82D80E03 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57A32D73C69C4E4A93B2CBCC /* AntDesign.ttf */; };
+		888F0EED4E334BF4AFAF7BE2 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 731B48502FB44AE2B40CFF37 /* Entypo.ttf */; };
+		400E84A79CA148B68F19DFFB /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADAB362B92A7470DA1EF0FB6 /* EvilIcons.ttf */; };
+		3AB95510511643E19DD8D30B /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6C0D10DCD114EFD944E615A /* Feather.ttf */; };
+		C739F2463EF347F9A941162C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B7CFB94C7E848DB82B7044C /* FontAwesome.ttf */; };
+		0412173AF538475591B6CB92 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B57F98FEC124F8F822032DC /* FontAwesome5_Brands.ttf */; };
+		56D77E527BFE46AFA6DEA914 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3948C7414FEE4F98A925FEC3 /* FontAwesome5_Regular.ttf */; };
+		08116CA5C96D4FB78C23A42C /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F16F0D8CBD25467F88B8C22B /* FontAwesome5_Solid.ttf */; };
+		58C42DD18FDC438494A6CCAA /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB4C4927815F4D33B312F3F1 /* Fontisto.ttf */; };
+		005682CA32614EBA8D0910B3 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEA48126232A4EFB8AB16B8A /* Foundation.ttf */; };
+		59F09F69CE2A463CBD92DE32 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A00E42AE25F4EBA822F56EF /* Ionicons.ttf */; };
+		3F1F955C4CCF4B078B8496F2 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8FCDF8726AF42408542F2B6 /* MaterialCommunityIcons.ttf */; };
+		EF6B75D6AD9B4DF5952EF1F3 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE901032438646378E8F0B53 /* MaterialIcons.ttf */; };
+		248BCC5620D445E589783C7D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE906A8D243340C3B6A945D0 /* Octicons.ttf */; };
+		1D00981BAC8D4D779A2F4312 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 386467B2270C455BBB8771DD /* SimpleLineIcons.ttf */; };
+		7137710E1C5748B582D6BE09 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FFAE5B697264738B7CEA816 /* Zocial.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,33 +40,49 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = ZanysoundApp;
+			remoteInfo = Zanysound;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "ZanysoundApp-tvOS";
+			remoteInfo = "Zanysound-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* ZanysoundAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZanysoundAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* ZanysoundTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZanysoundTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* ZanysoundAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZanysoundAppTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* ZanysoundApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZanysoundApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ZanysoundApp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ZanysoundApp/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ZanysoundApp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ZanysoundApp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ZanysoundApp/main.m; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* ZanysoundApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ZanysoundApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* ZanysoundApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ZanysoundApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ZanysoundApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* ZanysoundTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZanysoundTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Zanysound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zanysound.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Zanysound/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Zanysound/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Zanysound/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Zanysound/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Zanysound/main.m; sourceTree = "<group>"; };
+		2D02E47B1E0B4A5D006451C7 /* Zanysound-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zanysound-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* Zanysound-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Zanysound-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Zanysound/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		57A32D73C69C4E4A93B2CBCC /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		731B48502FB44AE2B40CFF37 /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ADAB362B92A7470DA1EF0FB6 /* EvilIcons.ttf */ = {isa = PBXFileReference; name = "EvilIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D6C0D10DCD114EFD944E615A /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4B7CFB94C7E848DB82B7044C /* FontAwesome.ttf */ = {isa = PBXFileReference; name = "FontAwesome.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5B57F98FEC124F8F822032DC /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Brands.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3948C7414FEE4F98A925FEC3 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Regular.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F16F0D8CBD25467F88B8C22B /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Solid.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CB4C4927815F4D33B312F3F1 /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BEA48126232A4EFB8AB16B8A /* Foundation.ttf */ = {isa = PBXFileReference; name = "Foundation.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5A00E42AE25F4EBA822F56EF /* Ionicons.ttf */ = {isa = PBXFileReference; name = "Ionicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C8FCDF8726AF42408542F2B6 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BE901032438646378E8F0B53 /* MaterialIcons.ttf */ = {isa = PBXFileReference; name = "MaterialIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CE906A8D243340C3B6A945D0 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		386467B2270C455BBB8771DD /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5FFAE5B697264738B7CEA816 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,13 +117,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* ZanysoundAppTests */ = {
+		00E356EF1AD99517003FC87E /* ZanysoundTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* ZanysoundAppTests.m */,
+				00E356F21AD99517003FC87E /* ZanysoundTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = ZanysoundAppTests;
+			path = ZanysoundTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -102,7 +134,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* ZanysoundApp */ = {
+		13B07FAE1A68108700A75B9A /* Zanysound */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -113,7 +145,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = ZanysoundApp;
+			name = Zanysound;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -135,11 +167,12 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* ZanysoundApp */,
+				13B07FAE1A68108700A75B9A /* Zanysound */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* ZanysoundAppTests */,
+				00E356EF1AD99517003FC87E /* ZanysoundTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				6A6E93CF2EF148BE93DF5897 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -149,20 +182,44 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* ZanysoundApp.app */,
-				00E356EE1AD99517003FC87E /* ZanysoundAppTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* ZanysoundApp-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* ZanysoundApp-tvOSTests.xctest */,
+				13B07F961A680F5B00A75B9A /* Zanysound.app */,
+				00E356EE1AD99517003FC87E /* ZanysoundTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* Zanysound-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* Zanysound-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6A6E93CF2EF148BE93DF5897 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				57A32D73C69C4E4A93B2CBCC /* AntDesign.ttf */,
+				731B48502FB44AE2B40CFF37 /* Entypo.ttf */,
+				ADAB362B92A7470DA1EF0FB6 /* EvilIcons.ttf */,
+				D6C0D10DCD114EFD944E615A /* Feather.ttf */,
+				4B7CFB94C7E848DB82B7044C /* FontAwesome.ttf */,
+				5B57F98FEC124F8F822032DC /* FontAwesome5_Brands.ttf */,
+				3948C7414FEE4F98A925FEC3 /* FontAwesome5_Regular.ttf */,
+				F16F0D8CBD25467F88B8C22B /* FontAwesome5_Solid.ttf */,
+				CB4C4927815F4D33B312F3F1 /* Fontisto.ttf */,
+				BEA48126232A4EFB8AB16B8A /* Foundation.ttf */,
+				5A00E42AE25F4EBA822F56EF /* Ionicons.ttf */,
+				C8FCDF8726AF42408542F2B6 /* MaterialCommunityIcons.ttf */,
+				BE901032438646378E8F0B53 /* MaterialIcons.ttf */,
+				CE906A8D243340C3B6A945D0 /* Octicons.ttf */,
+				386467B2270C455BBB8771DD /* SimpleLineIcons.ttf */,
+				5FFAE5B697264738B7CEA816 /* Zocial.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* ZanysoundAppTests */ = {
+		00E356ED1AD99517003FC87E /* ZanysoundTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ZanysoundAppTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ZanysoundTests" */;
 			buildPhases = (
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
@@ -173,14 +230,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = ZanysoundAppTests;
-			productName = ZanysoundAppTests;
-			productReference = 00E356EE1AD99517003FC87E /* ZanysoundAppTests.xctest */;
+			name = ZanysoundTests;
+			productName = ZanysoundTests;
+			productReference = 00E356EE1AD99517003FC87E /* ZanysoundTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* ZanysoundApp */ = {
+		13B07F861A680F5B00A75B9A /* Zanysound */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ZanysoundApp" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Zanysound" */;
 			buildPhases = (
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -192,14 +249,14 @@
 			);
 			dependencies = (
 			);
-			name = ZanysoundApp;
-			productName = ZanysoundApp;
-			productReference = 13B07F961A680F5B00A75B9A /* ZanysoundApp.app */;
+			name = Zanysound;
+			productName = Zanysound;
+			productReference = 13B07F961A680F5B00A75B9A /* Zanysound.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* ZanysoundApp-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* Zanysound-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ZanysoundApp-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Zanysound-tvOS" */;
 			buildPhases = (
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
@@ -211,14 +268,14 @@
 			);
 			dependencies = (
 			);
-			name = "ZanysoundApp-tvOS";
-			productName = "ZanysoundApp-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* ZanysoundApp-tvOS.app */;
+			name = "Zanysound-tvOS";
+			productName = "Zanysound-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* Zanysound-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* ZanysoundApp-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* Zanysound-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ZanysoundApp-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Zanysound-tvOSTests" */;
 			buildPhases = (
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
@@ -229,9 +286,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "ZanysoundApp-tvOSTests";
-			productName = "ZanysoundApp-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* ZanysoundApp-tvOSTests.xctest */;
+			name = "Zanysound-tvOSTests";
+			productName = "Zanysound-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* Zanysound-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -260,7 +317,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ZanysoundApp" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Zanysound" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -273,10 +330,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* ZanysoundApp */,
-				00E356ED1AD99517003FC87E /* ZanysoundAppTests */,
-				2D02E47A1E0B4A5D006451C7 /* ZanysoundApp-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* ZanysoundApp-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* Zanysound */,
+				00E356ED1AD99517003FC87E /* ZanysoundTests */,
+				2D02E47A1E0B4A5D006451C7 /* Zanysound-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* Zanysound-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -295,6 +352,22 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				565474CDD3044D9A82D80E03 /* AntDesign.ttf in Resources */,
+				888F0EED4E334BF4AFAF7BE2 /* Entypo.ttf in Resources */,
+				400E84A79CA148B68F19DFFB /* EvilIcons.ttf in Resources */,
+				3AB95510511643E19DD8D30B /* Feather.ttf in Resources */,
+				C739F2463EF347F9A941162C /* FontAwesome.ttf in Resources */,
+				0412173AF538475591B6CB92 /* FontAwesome5_Brands.ttf in Resources */,
+				56D77E527BFE46AFA6DEA914 /* FontAwesome5_Regular.ttf in Resources */,
+				08116CA5C96D4FB78C23A42C /* FontAwesome5_Solid.ttf in Resources */,
+				58C42DD18FDC438494A6CCAA /* Fontisto.ttf in Resources */,
+				005682CA32614EBA8D0910B3 /* Foundation.ttf in Resources */,
+				59F09F69CE2A463CBD92DE32 /* Ionicons.ttf in Resources */,
+				3F1F955C4CCF4B078B8496F2 /* MaterialCommunityIcons.ttf in Resources */,
+				EF6B75D6AD9B4DF5952EF1F3 /* MaterialIcons.ttf in Resources */,
+				248BCC5620D445E589783C7D /* Octicons.ttf in Resources */,
+				1D00981BAC8D4D779A2F4312 /* SimpleLineIcons.ttf in Resources */,
+				7137710E1C5748B582D6BE09 /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +462,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* ZanysoundAppTests.m in Sources */,
+				00E356F31AD99517003FC87E /* ZanysoundTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,7 +488,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* ZanysoundAppTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* ZanysoundTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,12 +497,12 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* ZanysoundApp */;
+			target = 13B07F861A680F5B00A75B9A /* Zanysound */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* ZanysoundApp-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* Zanysound-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -443,7 +516,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = ZanysoundAppTests/Info.plist;
+				INFOPLIST_FILE = ZanysoundTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -453,7 +526,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZanysoundApp.app/ZanysoundApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zanysound.app/Zanysound";
 			};
 			name = Debug;
 		};
@@ -462,7 +535,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = ZanysoundAppTests/Info.plist;
+				INFOPLIST_FILE = ZanysoundTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -472,7 +545,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZanysoundApp.app/ZanysoundApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zanysound.app/Zanysound";
 			};
 			name = Release;
 		};
@@ -483,7 +556,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = ZanysoundApp/Info.plist;
+				INFOPLIST_FILE = Zanysound/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -491,7 +564,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ZanysoundApp;
+				PRODUCT_NAME = Zanysound;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -504,7 +577,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = ZanysoundApp/Info.plist;
+				INFOPLIST_FILE = Zanysound/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -512,7 +585,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ZanysoundApp;
+				PRODUCT_NAME = Zanysound;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -530,14 +603,14 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ZanysoundApp-tvOS/Info.plist";
+				INFOPLIST_FILE = "Zanysound-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ZanysoundApp-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Zanysound-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -557,14 +630,14 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ZanysoundApp-tvOS/Info.plist";
+				INFOPLIST_FILE = "Zanysound-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ZanysoundApp-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Zanysound-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -583,17 +656,17 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ZanysoundApp-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "Zanysound-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ZanysoundApp-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Zanysound-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZanysoundApp-tvOS.app/ZanysoundApp-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zanysound-tvOS.app/Zanysound-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
@@ -609,17 +682,17 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ZanysoundApp-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "Zanysound-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ZanysoundApp-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Zanysound-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZanysoundApp-tvOS.app/ZanysoundApp-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zanysound-tvOS.app/Zanysound-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -740,7 +813,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ZanysoundAppTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ZanysoundTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -749,7 +822,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ZanysoundApp" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Zanysound" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -758,7 +831,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ZanysoundApp-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Zanysound-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -767,7 +840,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ZanysoundApp-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Zanysound-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -776,7 +849,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ZanysoundApp" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Zanysound" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
