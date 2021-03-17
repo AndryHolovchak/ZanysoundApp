@@ -153,9 +153,9 @@ android {
         }
         release {
             storeFile file('zanysound.keystore')
-            storePassword System.env.keystorePwd
-            keyAlias System.env.keystoreAlias
-            keyPassword System.env.keystoreAliasPwd
+            storePassword "rTy85zzKq"
+            keyAlias "zanysoundAlias"
+            keyPassword "rTy85zzKq"
         }   
     }
     buildTypes {
@@ -163,8 +163,6 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
