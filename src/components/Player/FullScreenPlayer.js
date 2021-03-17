@@ -173,7 +173,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-around',
     minWidth: 180,
-    height: 45,
+    height: 46,
     marginTop: 15,
     padding: 1,
     borderRadius: 5,
@@ -181,7 +181,7 @@ const styles = {
     backgroundColor: Color(color.bg).lighten(1.3).string(),
   },
   trackActionItem: {
-    fontSize: 23,
+    fontSize: 21,
     paddingHorizontal: 20,
   },
   coverContainer: {
