@@ -35,8 +35,14 @@ class DeezerApi {
       throw new NetworkError('Network error');
     }
 
-    let json = await response.json();
-    return json;
+    try {
+      let json = await response.json();
+      return json;
+    } catch {
+      let body = await response.body;
+      console.log(body);
+      throw new NetworkError('Network error');
+    }
   };
 
   getUserInfo = async () => {

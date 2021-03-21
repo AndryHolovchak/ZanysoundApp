@@ -11,7 +11,9 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import {generateId} from '../utils/idUtils';
 import {mp3CacheHelper} from '../helpers/Mp3CacheHelper';
-const silenceMp3 = require('../../assets/silence.mp3');
+const silenceMp3A = require('../../assets/silence1.mp3');
+const silenceMp3B = require('../../assets/silence2.mp3');
+
 import deezerAuth from '../auth/DeezerAuth';
 
 class Player {
@@ -342,14 +344,19 @@ class Player {
     this._isMetadataLoaded = false;
     this._onSongChange.trigger(null, currentTrack);
 
+    this._can;
+
+    // this.trackCanBeChanged = false;
+
     //add placeholder
     if (!prevTrack) {
+      this.trackCanBeChanged = false;
       await TrackPlayer.getDuration();
       await this._init();
 
       await TrackPlayer.add({
         id: '-1',
-        url: silenceMp3, //TODO: use local file for prod
+        url: silenceMp3A, //TODO: use local file for prod
         // url:
         //   'https://drive.google.com/uc?export=download&id=1Tr30mBslt3cFj5GuO-lo0gj3FoLccEe5',
         // 'https://drive.google.com/uc?export=download&id=1Lf2Ih4FL_lbD6NFL7qUKgvrzAhwZ_z2j', // works in both cases
@@ -359,9 +366,10 @@ class Player {
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
       });
+
       await TrackPlayer.add({
         id: '1',
-        url: silenceMp3, //TODO: use local file for prod
+        url: silenceMp3B, //TODO: use local file for prod
         // url:
         //   'https://drive.google.com/uc?export=download&id=1Tr30mBslt3cFj5GuO-lo0gj3FoLccEe5',
         // 'https://drive.google.com/uc?export=download&id=1Lf2Ih4FL_lbD6NFL7qUKgvrzAhwZ_z2j', // works in both cases
@@ -371,11 +379,15 @@ class Player {
         artist: currentTrack.artist.name,
         artwork: currentTrack.album.coverMedium,
       });
+
+      this.trackCanBeChanged = true;
     }
     //use placeholder
     else {
-      TrackPlayer.skip('-1'); //await
-      TrackPlayer.play(); //await
+      await TrackPlayer.skip('-1'); //await
+
+      await TrackPlayer.play(); //await
+
       let firstPlaceholderPromise = TrackPlayer.updateMetadataForTrack('-1', {
         title: currentTrack.title,
         artist: currentTrack.artist.name,
@@ -393,16 +405,21 @@ class Player {
       // await Promise.all([firstPlaceholderPromise, secondPlaceholderPromise]);
     }
 
+    // this.trackCanBeChanged = true;
+
     let trackMp3 = null;
     this._trackMp3 = null;
 
     try {
+      console.log('before generate');
+
       trackMp3 = await mp3UrlHelper.generateUrlToMp3(
         currentTrack.id,
         currentTrack.artist.name,
         currentTrack.title,
         useMp3Cache,
       );
+      console.log('after generate');
       this._trackMp3 = trackMp3;
     } catch (e) {
       console.log('There is error during mp3 generation');
@@ -421,6 +438,7 @@ class Player {
     this.trackCanBeChanged = false;
 
     if (trackMp3) {
+      console.log('Before add');
       await TrackPlayer.add(
         {
           id: currentTrack.id.toString(),
@@ -432,9 +450,16 @@ class Player {
         },
         '1',
       );
-      await TrackPlayer.skip(currentTrack.id.toString());
+      console.log('After add');
 
+      console.log('Before skip');
+      await TrackPlayer.skip(currentTrack.id.toString());
+      console.log('After skip');
+
+      console.log('Before play');
       await TrackPlayer.play();
+      console.log('After play');
+
       this._isMetadataLoaded = true;
     }
 
