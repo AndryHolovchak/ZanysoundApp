@@ -1,6 +1,6 @@
 import Color from 'color';
 
-const bg = '#17171f';
+const bg = '#17171f'; //'#17171f';
 const primary = '#aa5e75';
 const secondary = 'rbg(12, 12, 12)';
 const primaryText = '#e6e6e6';
