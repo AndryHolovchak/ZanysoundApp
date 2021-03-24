@@ -139,7 +139,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: size.navigationHeight + 10,
-    backgroundColor: Color(color.bg).saturate(0.5).lighten(0.8).string(),
+    backgroundColor: Color(color.bg).lighten(0.6).string(),
   },
   album: {
     alignItems: 'center',
