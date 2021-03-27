@@ -57,6 +57,7 @@ const ICONS = {
   'ellipsis-v': {unicode: '\uf142'},
   minus: {unicode: '\uf068'},
   'arrow-alt-to-bottom': {unicode: '\uf34a'},
+  'sign-in': {unicode: '\uf090'},
 };
 
 const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {

@@ -28,7 +28,7 @@ import codePush from 'react-native-code-push';
 import WindowHelper from './src/helpers/WindowHelper';
 import {Button} from 'react-native-elements';
 import Color from 'color';
-import {Icon} from './src/components/Icon';
+import {Icon, ICON_FAMILIES} from './src/components/Icon';
 import {i18n} from './src/i18n';
 import {SafeAreaView} from 'react-native';
 //call any method in TrackPlayer to initialize it
@@ -71,9 +71,16 @@ class App extends React.Component {
           <Button
             buttonStyle={styles.signInButton}
             containerStyle={styles.signInButtonContainer}
-            title={i18n('sign in using Deezer')}
+            title={i18n('Sign in using \n Deezer, Google or Facebook')}
+            titleStyle={styles.singInButtonTitle}
             onPress={deezerAuth.signInByPopup}
-            icon={() => <Icon name="deezer" style={styles.signInButtonIcon} />}
+            icon={() => (
+              <Icon
+                name="sign-in"
+                family={ICON_FAMILIES.solid}
+                style={styles.signInButtonIcon}
+              />
+            )}
           />
         </View>
       );
@@ -117,16 +124,20 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
     minWidth: 200,
     minHeight: 60,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
+    maxWidth: 300,
     paddingVertical: 10,
     backgroundColor: Color(color.primary).saturate(0.4).string(),
-    color: color.secondaryText,
+  },
+  singInButtonTitle: {
+    color: color.primaryText,
   },
   signInButtonIcon: {
-    marginRight: 15,
     padding: 0,
     fontSize: 23,
-    color: Color(color.bg).lighten(1).string(),
+    // marginLeft: 10,
+    marginRight: 10,
+    color: '#2b2b2b',
   },
   navContainer: {
     flex: 1,

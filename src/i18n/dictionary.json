@@ -125,10 +125,10 @@
     "ru": "Список пуст",
     "en": "the list is empty"
   },
-  "log in using deezer": {
-    "uk": "Увійти за допомогою Deezer",
-    "ru": "Войти с помощью deezer",
-    "en": "Log in using Deezer"
+  "Sign in using \n Deezer, Google or Facebook": {
+    "uk": "Увійти за допомогою \n Deezer, Google або Facebook",
+    "ru": "Войти с помощью \n Deezer, Google или Facebook",
+    "en": "Sign in using \n Deezer, Google or Facebook"
   },
   "it's for free": {
     "uk": "Це безкоштовно",
