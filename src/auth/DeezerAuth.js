@@ -10,8 +10,7 @@ class DeezerAuth {
   _TOKEN_STORAGE_ID = 'auth';
   _DEEZER_OAUTH_URL = 'https://connect.deezer.com/oauth/auth.php';
   _DEEZER_APP_ID = '460822';
-  _DEEZER_OAUTH_REDIR =
-    'https://zanysound.000webhostapp.com/appAuthRedirect.html';
+  _DEEZER_OAUTH_REDIR = 'https://andryholovchak.github.io/redirect/redirect';
   _DEEZER_OAUTH_PERMS =
     'basic_access,email,manage_community,manage_library,delete_library,offline_access';
   _isSignIn = false;
