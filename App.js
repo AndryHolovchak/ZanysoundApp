@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color(color.secondaryColor).lighten(0.4).string(),
+    backgroundColor: Color(color.secondary).lighten(0.4).string(),
   },
   signInButtonContainer: {
     elevation: 5,

@@ -109,14 +109,7 @@ class SearchScreen extends React.Component {
         )}
 
         <TrackSearchInput
-          style={StyleSheet.flatten([
-            styles.trackSearchInput,
-            {
-              borderColor: Color(this.context.getPrimaryColor())
-                .fade(0.3)
-                .string(),
-            },
-          ])}
+          style={styles.trackSearchInput}
           navigation={this.props.navigation}
           route={this.props.route}
         />
@@ -135,12 +128,9 @@ const styles = StyleSheet.create({
   trackSearchInput: {
     position: 'absolute',
     top: 0,
-    left: '3%',
-    width: '94%',
+    left: 0,
+    width: '100%',
     height: TrackSearchInput.HEIGHT,
-    borderWidth: 0,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
   },
   playlistContainer: {
     paddingTop: TrackSearchInput.HEIGHT,
