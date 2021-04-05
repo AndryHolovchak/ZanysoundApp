@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Animated, Image, Dimensions} from 'react-native';
+import {View, Animated, Image, StyleSheet} from 'react-native';
 import Color from 'color';
 import {color, size} from '../../styles';
 import player from '../../misc/Player';
@@ -13,11 +13,13 @@ import AddToPlaylistButton from '../AddToPlaylistButton';
 import TrackModalWindowButton from '../TrackModalWindowButton';
 import TrackCacheButton from '../TrackCacheButton';
 import WindowHelper from '../../helpers/WindowHelper';
-import theme from '../../misc/Theme';
+import {ThemeContext} from '../Theme';
 
 const WINDOW_WIDTH = WindowHelper.width;
 
 class FullScreenPlayer extends Component {
+  static contextType = ThemeContext;
+
   handleSuffleButtonClick = () => {
     player.toggleShuffleMode();
     this.forceUpdate();
@@ -99,10 +101,18 @@ class FullScreenPlayer extends Component {
                 onPress={() => player.playPrevious()}
                 style={styles.prevTrackButton}
               />
+
               <Icon
                 name={player.isPlaying ? 'pause-circle' : 'play-circle'}
                 onPress={() => player.togglePlay()}
-                style={styles.togglePlayButton}
+                style={StyleSheet.flatten([
+                  styles.togglePlayButton,
+                  {
+                    color: Color(this.context.getPrimaryColor())
+                      .lighten(0.1)
+                      .string(),
+                  },
+                ])}
                 family={ICON_FAMILIES.solid}
               />
               <Icon
@@ -140,7 +150,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: size.navigationHeight + 10,
-    backgroundColor: Color(theme.secondaryColor).lighten(0.6).string(),
+    backgroundColor: Color(color.secondary).lighten(0.6).string(),
   },
   album: {
     alignItems: 'center',
@@ -178,7 +188,7 @@ const styles = {
     padding: 1,
     borderRadius: 5,
     elevation: 5,
-    backgroundColor: Color(theme.secondaryColor).lighten(1.3).string(),
+    backgroundColor: Color(color.secondary).lighten(1.3).string(),
   },
   trackActionItem: {
     fontSize: 21,
@@ -225,8 +235,6 @@ const styles = {
   togglePlayButton: {
     fontSize: 50,
     marginHorizontal: 20,
-    color: Color(theme.primaryColor).lighten(0.1).string(),
-    // color: Color(color.bg).saturate(0.5).lighten(5.5).string(),
   },
   nextTrackButton: {
     fontSize: 30,
@@ -234,7 +242,7 @@ const styles = {
   },
   activeButton: {
     padding: 10,
-    color: Color(theme.secondaryColor).saturate(0.5).lighten(5).string(),
+    color: Color(color.secondary).saturate(0.5).lighten(5).string(),
   },
   inactiveButton: {
     padding: 10,

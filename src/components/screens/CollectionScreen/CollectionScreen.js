@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import Playlists from '../../Playlists';
 import Playlist from '../../Playlist';
@@ -8,20 +8,18 @@ import Color from 'color';
 import {useNavigationState} from '@react-navigation/native';
 import playlistsHelper from '../../../helpers/PlaylistsHelper';
 import {i18n} from '../../../i18n';
-import theme from '../../../misc/Theme';
+import {ThemeContext} from '../../Theme';
 
 const Stack = createStackNavigator();
 
 const screenOptions = {
   headerStyle: {
-    backgroundColor: Color(theme.secondaryColor).lighten(0.8).string(),
+    backgroundColor: Color(color.secondary).lighten(0.8).string(),
     borderBottomWidth: 1,
-    borderBottomColor: Color(theme.primaryColor).fade(0.8).string(),
     elevation: 20,
   },
 
   headerTintColor: color.secondaryText,
-  headerPressColorAndroid: Color(theme.primaryColor).fade(0.7).string(),
   headerTitleAlign: 'center',
   cardOverlayEnabled: true,
   gestureEnabled: true,
@@ -30,6 +28,16 @@ const screenOptions = {
 
 const CollectionScreen = ({navigation, route}) => {
   const state = useNavigationState((state) => state);
+  const themeContext = useContext(ThemeContext);
+
+  screenOptions.headerStyle.borderBottomColor = Color(
+    themeContext.getPrimaryColor(),
+  )
+    .fade(0.8)
+    .string();
+  screenOptions.headerPressColorAndroid = Color(themeContext.getPrimaryColor())
+    .fade(0.7)
+    .string();
 
   return (
     <Stack.Navigator headerMode="screen">

@@ -6,9 +6,11 @@ import Modal from './Modal';
 import Color from 'color';
 import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import {i18n} from '../i18n';
-import theme from '../misc/Theme';
+import {ThemeContext} from './Theme';
 
 class ConfirmationModal extends Component {
+  static contextType = ThemeContext;
+
   constructor(props) {
     super(props);
   }
@@ -24,8 +26,9 @@ class ConfirmationModal extends Component {
   };
 
   render() {
-    let noButtonStyle = [styles.button];
-    let yesButtonStyle = [styles.button];
+    let buttonBgStyle = {backgroundColor: this.context.getPrimaryColor()};
+    let noButtonStyle = [styles.button, buttonBgStyle];
+    let yesButtonStyle = [styles.button, buttonBgStyle];
 
     if (this.props.secondaryButton === 'yes') {
       yesButtonStyle.push(styles.secondaryButton);
@@ -59,11 +62,10 @@ const styles = {
     width: '100%',
   },
   button: {
-    backgroundColor: theme.primaryColor,
     width: 100,
   },
   secondaryButton: {
-    backgroundColor: Color(theme.secondaryColor).lighten(2).string(),
+    backgroundColor: Color(color.secondary).lighten(2).string(),
   },
 };
 

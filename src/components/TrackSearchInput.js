@@ -10,10 +10,11 @@ import {View} from 'react-native';
 import PlayerPlaylistContainer from './PlayerPlaylistContainer';
 import {navigateToSearchRoute} from '../utils/navigationUtils';
 import {removeExtraSpaces} from '../utils/stringUtils';
-import theme from '../misc/Theme';
+import {ThemeContext} from './Theme';
 
 class TrackSearchInput extends React.Component {
   static HEIGHT = 40;
+  static contextType = ThemeContext;
 
   constructor(props) {
     super(props);
@@ -84,11 +85,13 @@ class TrackSearchInput extends React.Component {
     return (
       <SearchBar
         autoFocus={searchHelper.searchResult?.length ? true : false}
+        autoCorrect={false}
         returnKeyType="search"
         onSubmitEditing={this.handleSearchIconPress}
         containerStyle={[styles.searchBar, this.props.style]}
-        inputContainerStyle={styles.inputContainer}
+        inputContainerStyle={[styles.inputContainer]}
         inputStyle={styles.input}
+        trackStyle={{borderRadius: 0, borderWidth: 0}}
         showLoading={true}
         ref={(elem) => (this.input = elem)}
         searchIcon={() => (
@@ -109,15 +112,12 @@ class TrackSearchInput extends React.Component {
 const styles = StyleSheet.create({
   searchBar: {
     padding: 0,
-    backgroundColor: null,
-    // elevation: 30,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
+    height: TrackSearchInput.HEIGHT,
   },
   inputContainer: {
     width: '100%',
-    height: TrackSearchInput.HEIGHT,
-    backgroundColor: Color(theme.secondaryColor).lighten(0.7).string(),
+    height: '100%',
+    backgroundColor: Color(color.secondary).lighten(1.2).string(),
   },
   input: {},
 });

@@ -12,9 +12,11 @@ import LoadingIndicator from '../LoadingIndicator';
 import ScreenPlaceholder from '../ScreenPlaceholder';
 import CustomText from '../CustomText';
 import {i18n} from '../../i18n';
-import theme from '../../misc/Theme';
+import {ThemeContext} from '../Theme';
 
 class SearchScreen extends React.Component {
+  static contextType = ThemeContext;
+
   constructor(props) {
     super(props);
 
@@ -107,7 +109,14 @@ class SearchScreen extends React.Component {
         )}
 
         <TrackSearchInput
-          style={styles.trackSearchInput}
+          style={StyleSheet.flatten([
+            styles.trackSearchInput,
+            {
+              borderColor: Color(this.context.getPrimaryColor())
+                .fade(0.3)
+                .string(),
+            },
+          ])}
           navigation={this.props.navigation}
           route={this.props.route}
         />
@@ -126,9 +135,12 @@ const styles = StyleSheet.create({
   trackSearchInput: {
     position: 'absolute',
     top: 0,
-    left: 0,
-    width: '100%',
+    left: '3%',
+    width: '94%',
     height: TrackSearchInput.HEIGHT,
+    borderWidth: 0,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
   },
   playlistContainer: {
     paddingTop: TrackSearchInput.HEIGHT,
@@ -151,7 +163,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   tryAgainButton: {
-    backgroundColor: Color(theme.secondaryColor).lighten(3).string(),
+    backgroundColor: Color(color.secondary).lighten(3).string(),
     width: 200,
     height: 40,
     maxWidth: '100%',

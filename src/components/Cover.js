@@ -3,12 +3,14 @@ import {StyleSheet, Image, View, Animated, Easing} from 'react-native';
 import {color} from '../styles';
 import Color from 'color';
 import BezierEasing from 'bezier-easing';
-import theme from '../misc/Theme';
+import {ThemeContext} from './Theme';
 
 class Cover extends Component {
   static defaultProps = {
     showWaves: false,
   };
+
+  static contextType = ThemeContext;
 
   constructor(props) {
     super(props);
@@ -91,6 +93,8 @@ class Cover extends Component {
   }
 
   render() {
+    let waveBgStyle = {backgroundColor: this.context.getPrimaryColor()};
+
     return (
       <View style={[styles.container, this.props.containerStyle]}>
         <Image
@@ -104,6 +108,7 @@ class Cover extends Component {
             <Animated.View
               style={[
                 styles.wave,
+                waveBgStyle,
                 styles.firstWave,
                 {
                   opacity: this.waveOpacity,
@@ -114,6 +119,7 @@ class Cover extends Component {
             <Animated.View
               style={[
                 styles.wave,
+                waveBgStyle,
                 styles.secondWave,
                 {
                   opacity: this.waveOpacity,
@@ -124,6 +130,7 @@ class Cover extends Component {
             <Animated.View
               style={[
                 styles.wave,
+                waveBgStyle,
                 styles.thirdWave,
                 {
                   opacity: this.waveOpacity,
@@ -163,7 +170,6 @@ const styles = StyleSheet.create({
     height: '50%',
     borderRadius: 10,
     elevation: 10,
-    backgroundColor: theme.primaryColor,
   },
   secondWave: {
     marginLeft: 5,

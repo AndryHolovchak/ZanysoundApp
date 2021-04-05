@@ -1,16 +1,23 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, View, TouchableNativeFeedback} from 'react-native';
 import Color from 'color';
 import {color} from '../../styles';
 import {Icon} from '../Icon';
 import CustomText from '../CustomText';
-import theme from '../../misc/Theme';
+import {ThemeContext} from '../Theme';
 
 const OptionListItem = ({icon, text, onPress}) => {
+  const themeContext = useContext(ThemeContext);
   return (
     <TouchableNativeFeedback onPress={onPress}>
       <View style={styles.item}>
-        <Icon name={icon} style={styles.icon} />
+        <Icon
+          name={icon}
+          style={StyleSheet.flatten([
+            styles.icon,
+            {color: themeContext.getPrimaryColor()},
+          ])}
+        />
         <CustomText value={text} weight={500} style={styles.text} />
       </View>
     </TouchableNativeFeedback>
@@ -29,7 +36,6 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 30,
     padding: 0,
-    color: theme.primaryColor,
   },
   text: {
     marginLeft: 15,

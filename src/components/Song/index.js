@@ -18,7 +18,7 @@ import {navigateToSearchRoute} from '../../utils/navigationUtils';
 import AddToPlaylistButton from '../AddToPlaylistButton';
 import TrackModalWindowButton from '../TrackModalWindowButton';
 import TrackCacheButton from '../TrackCacheButton';
-import theme from '../../misc/Theme';
+import {ThemeContext} from '../Theme';
 
 class Song extends React.Component {
   static defaultProps = {
@@ -28,6 +28,8 @@ class Song extends React.Component {
     titleStyle: {},
     artistStyle: {},
   };
+
+  static contextType = ThemeContext;
 
   constructor(props) {
     super(props);
@@ -76,8 +78,12 @@ class Song extends React.Component {
     let artistFinalStyle = [styles.artist];
 
     if (isCurrentSong) {
-      titleFinalStyle.push(styles.playingSongText);
-      artistFinalStyle.push(styles.playingSongText);
+      const playinstSongTextStyle = {
+        color: Color(this.context.getPrimaryColor()).lighten(0.2).string(),
+      };
+
+      titleFinalStyle.push(playinstSongTextStyle);
+      artistFinalStyle.push(playinstSongTextStyle);
     }
 
     titleFinalStyle = StyleSheet.flatten(titleFinalStyle);
@@ -85,7 +91,12 @@ class Song extends React.Component {
 
     return (
       <TouchableWithoutFeedback onPress={this.handleClick}>
-        <View style={[styles.song, this.props.style]}>
+        <View
+          style={[
+            styles.song,
+            {borderLeftColor: this.context.getPrimaryColor()},
+            this.props.style,
+          ]}>
           <LikeButton targetTrack={this.props.info} />
           <View style={styles.info}>
             <View style={styles.coverContainer}>
@@ -222,17 +233,13 @@ const styles = StyleSheet.create({
 
     borderLeftWidth: 1,
     borderStyle: 'solid',
-    borderLeftColor: theme.primaryColor,
   },
-  playingSongText: {
-    color: Color(theme.primaryColor).lighten(0.2).string(),
-  },
-  heart: {
-    paddingRight: 12,
-    paddingVertical: 9,
-    fontSize: 19,
-    color: theme.primaryColor,
-  },
+  // heart: {
+  //   paddingRight: 12,
+  //   paddingVertical: 9,
+  //   fontSize: 19,
+  //   color: theme.primaryColor,
+  // },
   info: {
     flexDirection: 'row',
     alignItems: 'center',

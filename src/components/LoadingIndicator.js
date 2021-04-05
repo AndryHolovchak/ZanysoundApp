@@ -1,19 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {ActivityIndicator} from 'react-native';
 import {StyleSheet, View} from 'react-native';
 import {color} from '../styles';
 import CustomText from './CustomText';
 import Color from 'color';
 import {i18n} from '../i18n';
-import theme from '../misc/Theme';
+import {ThemeContext} from './Theme';
 
 const defaultText = i18n('loading') + ' ...';
 
 const LoadingIndicator = ({text = defaultText, containerStyle}) => {
+  const themeContext = useContext(ThemeContext);
+
   return (
     <View style={[styles.container, containerStyle]}>
       <ActivityIndicator
-        color={theme.primaryColor}
+        color={themeContext.getPrimaryColor()}
         size="large"
         style={styles.activityIndicator}
       />

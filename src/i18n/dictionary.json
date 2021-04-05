@@ -189,5 +189,20 @@
     "uk": "Увійти за допомогою Deezer",
     "ru": "Войти с помощью Deezer",
     "en": "Sign in using Deezer"
+  },
+  "main color": {
+    "uk": "Основний колір",
+    "ru": "Основной цвет",
+    "en": "Main color"
+  },
+  "apply": {
+    "uk": "Застосувати",
+    "ru": "Применить",
+    "en": "Apply"
+  },
+  "default": {
+    "uk": "Стандартний",
+    "ru": "Стандартный",
+    "en": "Default"
   }
 }

@@ -12,9 +12,11 @@ import Modal from './Modal';
 import NetworkError from '../errors/NetworkError';
 import {showNetworkErrorToast, showSuccessToast} from '../utils/toastUtils';
 import {i18n} from '../i18n';
-import theme from '../misc/Theme';
+import {ThemeContext} from './Theme';
 
 class NewPlaylistModal extends Component {
+  static contextType = ThemeContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -99,9 +101,13 @@ class NewPlaylistModal extends Component {
           loading={this.state.playlistIsCreating}
           onPress={this.handleButtonPress}
           containerStyle={styles.buttonContainer}
-          buttonStyle={styles.button}
+          buttonStyle={{backgroundColor: this.context.getPrimaryColor()}}
           titleStyle={styles.buttonTitle}
-          disabledStyle={styles.disabledButtonStyle}
+          disabledStyle={{
+            backgroundColor: Color(this.context.getPrimaryColor())
+              .fade(0.5)
+              .string(),
+          }}
           disabled={
             !playlistsHelper.validateTitle(this.state.inputValue).success
           }
@@ -119,12 +125,6 @@ const styles = {
     width: '80%',
     maxWidth: 200,
     marginTop: 15,
-  },
-  button: {
-    backgroundColor: theme.primaryColor,
-  },
-  disabledButtonStyle: {
-    backgroundColor: Color(theme.primaryColor).fade(0.5).string(),
   },
   buttonTitle: {
     color: color.primaryText,

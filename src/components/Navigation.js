@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -7,7 +7,7 @@ import {color, size} from '../styles';
 import Color from 'color';
 import {View} from 'react-native';
 import {navigationRef} from '../misc/RootNavigation';
-import theme from '../misc/Theme';
+import {ThemeContext} from './Theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,10 +21,10 @@ const SCREEN_ICONS = {
 
 const tabBarOptions = {
   showLabel: false,
-  activeTintColor: theme.primaryColor,
+
   inactiveTintColor: Color(color.secondaryText).fade(0.2).rgb().string(),
   style: {
-    backgroundColor: Color(theme.secondaryColor).lighten(0.3).string(),
+    backgroundColor: Color(color.secondary).lighten(0.3).string(),
     height: size.navigationHeight,
     // borderTopWidth: 0,
     position: 'relative',
@@ -49,18 +49,22 @@ const screenOptions = ({route}) => ({
 });
 
 const Navigation = ({screens, initSceneName, children, onStateChange}) => {
+  const themeContext = useContext(ThemeContext);
   return (
     <NavigationContainer
       onStateChange={onStateChange}
       ref={navigationRef}
       theme={{
         colors: {
-          background: theme.secondaryColor,
+          background: color.secondary,
         },
       }}>
       <Tab.Navigator
         screenOptions={screenOptions}
-        tabBarOptions={tabBarOptions}
+        tabBarOptions={{
+          ...tabBarOptions,
+          activeTintColor: themeContext.getPrimaryColor(),
+        }}
         initialRouteName={initSceneName}>
         {Object.keys(screens).map((name) => (
           <Tab.Screen key={name} name={name} component={screens[name]} />

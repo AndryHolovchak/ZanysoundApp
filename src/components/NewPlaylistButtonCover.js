@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
-import theme from '../misc/Theme';
 import {color} from '../styles';
 import {Icon, ICON_FAMILIES} from './Icon';
+import {ThemeContext} from './Theme';
 
 const NewPlaylistButtonCover = ({containerStyle, iconStyle}) => {
+  const themeContext = useContext(ThemeContext);
   return (
     <View style={[styles.container, containerStyle]}>
       <Icon
         name="plus"
         family={ICON_FAMILIES.light}
-        style={StyleSheet.flatten([styles.icon, iconStyle])}
+        style={StyleSheet.flatten([
+          styles.icon,
+          {color: themeContext.getPrimaryColor()},
+          iconStyle,
+        ])}
       />
     </View>
   );
@@ -27,7 +32,6 @@ const styles = {
   },
   icon: {
     fontSize: 30,
-    color: theme.primaryColor,
   },
 };
 

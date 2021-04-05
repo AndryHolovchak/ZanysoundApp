@@ -15,10 +15,14 @@ import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 import {BlurView} from '@react-native-community/blur';
 import AlbumCover from '../AlbumCover';
 import PlayerProgressBar from './PlayerProgressBar';
-import theme from '../../misc/Theme';
+import {ThemeContext} from '../Theme';
+import {StyleSheet} from 'react-native';
 
 class MiniPlayer extends Component {
   static HEIGHT = 55;
+
+  static contextType = ThemeContext;
+
   constructor(props) {
     super(props);
   }
@@ -81,7 +85,10 @@ class MiniPlayer extends Component {
                 family={
                   isTrackFavorite ? ICON_FAMILIES.solid : ICON_FAMILIES.light
                 }
-                style={styles.heart}
+                style={StyleSheet.flatten([
+                  styles.heart,
+                  {color: this.context.getPrimaryColor()},
+                ])}
               />
             </View>
 
@@ -102,7 +109,14 @@ class MiniPlayer extends Component {
               <Icon
                 name={player.isPlaying ? 'pause-circle' : 'play-circle'}
                 onPress={() => player.togglePlay()}
-                style={styles.togglePlayButton}
+                style={StyleSheet.flatten([
+                  styles.togglePlayButton,
+                  {
+                    color: Color(this.context.getPrimaryColor())
+                      .lighten(0.1)
+                      .string(),
+                  },
+                ])}
                 family={ICON_FAMILIES.duotone}
               />
               <Icon
@@ -129,10 +143,7 @@ const styles = {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: Color(theme.secondaryColor)
-      .lighten(0.2)
-      .fade(0.16)
-      .string(),
+    backgroundColor: Color(color.secondary).lighten(0.2).fade(0.16).string(),
   },
   miniPlayer: {
     position: 'relative',
@@ -171,7 +182,6 @@ const styles = {
     borderRadius: 0,
   },
   heart: {
-    color: theme.primaryColor,
     marginLeft: 5,
   },
   info: {
@@ -197,7 +207,6 @@ const styles = {
     fontSize: 53,
     padding: 0,
     marginRight: 2,
-    color: Color(theme.primaryColor).lighten(0.1).string(),
   },
   nextButton: {
     fontSize: 20,

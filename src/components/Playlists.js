@@ -19,7 +19,7 @@ import NewPlaylistModal from './NewPlaylistModal';
 import NewPlaylistButtonCover from './NewPlaylistButtonCover';
 import LoadingIndicator from './LoadingIndicator';
 import {i18n} from '../i18n';
-import theme from '../misc/Theme';
+import {ThemeContext} from './Theme';
 
 class Playlists extends React.Component {
   constructor(props) {
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: Color(theme.secondaryColor).lighten(0.2).string(),
+    backgroundColor: Color(color.secondary).lighten(0.2).string(),
   },
 
   createNewTitle: {

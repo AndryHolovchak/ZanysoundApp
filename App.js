@@ -31,12 +31,14 @@ import Color from 'color';
 import {Icon, ICON_FAMILIES} from './src/components/Icon';
 import {i18n} from './src/i18n';
 import {SafeAreaView} from 'react-native';
-import theme from './src/misc/Theme';
+import {ThemeContext, ThemeProvider} from './src/components/Theme';
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first  track
 //TrackPlayer.getDuration();
 
 class App extends React.Component {
+  static contextType = ThemeContext;
+
   constructor(props) {
     super(props);
     this._navState = null;
@@ -63,7 +65,6 @@ class App extends React.Component {
     deezerAuth.onSignOut = this._handleSignOut;
     deezerAuth.singInByLocalStorage();
     networkConnectionHelper.listenOnUpdate(this.handleNetworkUpdate);
-    theme.listenChange(() => this.forceUpdate());
   }
 
   render() {
@@ -71,7 +72,14 @@ class App extends React.Component {
       return (
         <View style={styles.welcomeScreen}>
           <Button
-            buttonStyle={styles.signInButton}
+            buttonStyle={[
+              styles.signInButton,
+              {
+                backgroundColor: Color(this.context.getPrimaryColor())
+                  .saturate(0.4)
+                  .string(),
+              },
+            ]}
             containerStyle={styles.signInButtonContainer}
             title={i18n('Sign in using \n Deezer, Google or Facebook')}
             titleStyle={styles.singInButtonTitle}
@@ -117,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color(theme.secondaryColor).lighten(0.4).string(),
+    backgroundColor: Color(color.secondaryColor).lighten(0.4).string(),
   },
   signInButtonContainer: {
     elevation: 5,
@@ -129,7 +137,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     maxWidth: 300,
     paddingVertical: 10,
-    backgroundColor: Color(theme.primaryColor).saturate(0.4).string(),
   },
   singInButtonTitle: {
     color: color.primaryText,
@@ -152,6 +159,12 @@ const codePushOptions = {
   installMode: codePush.InstallMode.ON_NEXT_RESTART,
 };
 
-const AppWithCodePush = codePush(codePushOptions)(App);
+const AppWithTheme = (props) => (
+  <ThemeProvider>
+    <App {...props} />
+  </ThemeProvider>
+);
 
-export default AppWithCodePush;
+const AppWithCodePushAndTheme = codePush(codePushOptions)(AppWithTheme);
+
+export default AppWithCodePushAndTheme;

@@ -3,18 +3,21 @@ import {View, Image} from 'react-native';
 import userHelper from '../../helpers/UserHelper';
 import deezerAuth from '../../auth/DeezerAuth';
 import CustomText from '../CustomText';
-import {color} from '../../styles';
+import {color, size} from '../../styles';
 import Button from '../Button';
 import Color from 'color';
 import LoadingIndicator from '../LoadingIndicator';
+import {ThemeContext} from '../Theme';
 import {i18n} from '../../i18n';
-import codePush from 'react-native-code-push';
-import theme from '../../misc/Theme';
+import {StyleSheet} from 'react-native';
+import AccentColorPicker from '../AccentColorPicker';
+import {ScrollView} from 'react-native';
 
 class ProfileScreen extends React.Component {
+  static contextType = ThemeContext;
+
   constructor(props) {
     super(props);
-
     userHelper.onInitialized = () => this.forceUpdate();
     userHelper.onSync = () => this.forceUpdate();
 
@@ -27,12 +30,15 @@ class ProfileScreen extends React.Component {
     deezerAuth.signOut();
   };
 
+  handleApplyAccentColorPress = () => {
+    this.context.changePrimaryColor(this.state.pickedColor);
+  };
+
   render() {
     let user = userHelper.info;
-
     return (
       <View style={styles.profileScreen}>
-        <View style={styles.colorThemePickerContainer}></View>
+        <AccentColorPicker />
         <View style={styles.userInfo}>
           {userHelper.isInitialized ? (
             <View style={styles.userInfoInner}>
@@ -48,12 +54,12 @@ class ProfileScreen extends React.Component {
           ) : (
             <LoadingIndicator text={`${i18n('loading')}...`} />
           )}
+          <Button
+            title={i18n('exit')}
+            buttonStyle={styles.exitButton}
+            onPress={this.handleExitButtonClick}
+          />
         </View>
-        <Button
-          title={i18n('exit')}
-          buttonStyle={styles.exitButton}
-          onPress={this.handleExitButtonClick}
-        />
       </View>
     );
   }
@@ -64,38 +70,40 @@ const styles = {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
+    paddingBottom: size.miniPlayerHeight,
   },
-  colorThemePickerContainer: {
-    backgroundColor: Color(theme.secondaryColor).lighten(2).string(),
-    padding: 10,
-    borderRadius: 2,
-  },
+
   userInfo: {
     maxHeight: '80%',
   },
   userInfoInner: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 30,
-    borderRadius: 5,
-    backgroundColor: Color(theme.secondaryColor).lighten(0.6).string(),
-    marginBottom: 40,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    backgroundColor: Color(color.secondary).lighten(0.6).string(),
   },
   avatar: {
-    width: 96,
-    height: 96,
+    width: 48,
+    height: 48,
     borderRadius: 2,
   },
   name: {
-    fontSize: 25,
+    fontSize: 18,
   },
   email: {
-    fontSize: 13,
+    fontSize: 12,
     color: color.secondaryText,
-    marginBottom: 50,
   },
   exitButton: {
     minWidth: 250,
+    paddingVertical: 5,
+    // backgroundColor: '#9c545499',
+    borderWidth: 1,
+    borderColor: '#a13838',
+    backgroundColor: '0000',
   },
 };
 
