@@ -29,9 +29,15 @@ class ThemeProvider extends React.Component {
   _init = async () => {
     let storageHasNewPrimaryColor = false;
 
-    let primaryColorFromStorage = await storage.load({
-      key: primaryColorStorageKey,
-    });
+    let primaryColorFromStorage;
+
+    try {
+      primaryColorFromStorage = await storage.load({
+        key: primaryColorStorageKey,
+      });
+    } catch {
+      primaryColorFromStorage = null;
+    }
 
     if (primaryColorFromStorage && !this._primaryColor) {
       this._primaryColor = primaryColorFromStorage;
