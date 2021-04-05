@@ -354,7 +354,7 @@ class Player {
       await TrackPlayer.getDuration();
       await this._init();
 
-      await TrackPlayer.add({
+      TrackPlayer.add({
         id: '-1',
         url: silenceMp3A, //TODO: use local file for prod
         // url:
@@ -367,7 +367,7 @@ class Player {
         artwork: currentTrack.album.coverMedium,
       });
 
-      await TrackPlayer.add({
+      TrackPlayer.add({
         id: '1',
         url: silenceMp3B, //TODO: use local file for prod
         // url:
