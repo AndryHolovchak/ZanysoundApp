@@ -12,6 +12,7 @@ import LoadingIndicator from '../LoadingIndicator';
 import ScreenPlaceholder from '../ScreenPlaceholder';
 import CustomText from '../CustomText';
 import {i18n} from '../../i18n';
+import theme from '../../misc/Theme';
 
 class SearchScreen extends React.Component {
   constructor(props) {
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   tryAgainButton: {
-    backgroundColor: Color(color.bg).lighten(3).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(3).string(),
     width: 200,
     height: 40,
     maxWidth: '100%',

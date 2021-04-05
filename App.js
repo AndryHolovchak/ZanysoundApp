@@ -31,6 +31,7 @@ import Color from 'color';
 import {Icon, ICON_FAMILIES} from './src/components/Icon';
 import {i18n} from './src/i18n';
 import {SafeAreaView} from 'react-native';
+import theme from './src/misc/Theme';
 //call any method in TrackPlayer to initialize it
 //This will save time playing the first  track
 //TrackPlayer.getDuration();
@@ -62,6 +63,7 @@ class App extends React.Component {
     deezerAuth.onSignOut = this._handleSignOut;
     deezerAuth.singInByLocalStorage();
     networkConnectionHelper.listenOnUpdate(this.handleNetworkUpdate);
+    theme.listenChange(() => this.forceUpdate());
   }
 
   render() {
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color(color.bg).lighten(0.4).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.4).string(),
   },
   signInButtonContainer: {
     elevation: 5,
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     maxWidth: 300,
     paddingVertical: 10,
-    backgroundColor: Color(color.primary).saturate(0.4).string(),
+    backgroundColor: Color(theme.primaryColor).saturate(0.4).string(),
   },
   singInButtonTitle: {
     color: color.primaryText,

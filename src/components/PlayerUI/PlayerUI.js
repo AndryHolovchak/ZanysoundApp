@@ -6,6 +6,7 @@ import {Icon, ICON_FAMILIES} from '../Icon';
 import {PlayerProgressBar} from '../Player/PlayerProgressBar';
 import Song from '../Song';
 import Color from 'color';
+import theme from '../../misc/Theme';
 
 class PlayerUI extends Component {
   constructor(props) {
@@ -98,7 +99,7 @@ class PlayerUI extends Component {
 const styles = StyleSheet.create({
   song: {
     paddingVertical: 3,
-    backgroundColor: Color(color.bg).lighten(0.55).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.55).string(),
     borderRadius: 8,
     borderLeftColor: 'transparent',
   },
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   togglePlayButton: {
     marginHorizontal: 25,
     fontSize: 34,
-    color: color.primary,
+    color: theme.primaryColor,
   },
   inactiveButton: {
     opacity: 0.2,

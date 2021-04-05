@@ -23,6 +23,7 @@ import Toast from 'react-native-toast-message';
 import {showErrorToast} from '../../utils/toastUtils';
 import {i18n} from '../../i18n';
 import WindowHelper from '../../helpers/WindowHelper';
+import theme from '../../misc/Theme';
 
 const MIN_HEIGHT = size.miniPlayerHeight;
 const WINDOW_HEIGHT = WindowHelper.height;
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
   },
   largePlayer: {
     flex: 1,
-    backgroundColor: Color(color.bg).lighten(0.5).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.5).string(),
   },
 });
 

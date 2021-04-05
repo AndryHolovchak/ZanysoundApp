@@ -12,6 +12,7 @@ import Modal from './Modal';
 import NetworkError from '../errors/NetworkError';
 import {showNetworkErrorToast, showSuccessToast} from '../utils/toastUtils';
 import {i18n} from '../i18n';
+import theme from '../misc/Theme';
 
 class NewPlaylistModal extends Component {
   constructor(props) {
@@ -120,10 +121,10 @@ const styles = {
     marginTop: 15,
   },
   button: {
-    backgroundColor: color.primary,
+    backgroundColor: theme.primaryColor,
   },
   disabledButtonStyle: {
-    backgroundColor: Color(color.primary).fade(0.5).string(),
+    backgroundColor: Color(theme.primaryColor).fade(0.5).string(),
   },
   buttonTitle: {
     color: color.primaryText,

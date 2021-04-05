@@ -6,6 +6,7 @@ import Modal from './Modal';
 import Color from 'color';
 import {modalWindowSystemRef} from '../misc/ModalWindowSystemRef';
 import {i18n} from '../i18n';
+import theme from '../misc/Theme';
 
 class ConfirmationModal extends Component {
   constructor(props) {
@@ -58,11 +59,11 @@ const styles = {
     width: '100%',
   },
   button: {
-    backgroundColor: color.primary,
+    backgroundColor: theme.primaryColor,
     width: 100,
   },
   secondaryButton: {
-    backgroundColor: Color(color.bg).lighten(2).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(2).string(),
   },
 };
 

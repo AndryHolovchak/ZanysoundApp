@@ -8,19 +8,20 @@ import Color from 'color';
 import {useNavigationState} from '@react-navigation/native';
 import playlistsHelper from '../../../helpers/PlaylistsHelper';
 import {i18n} from '../../../i18n';
+import theme from '../../../misc/Theme';
 
 const Stack = createStackNavigator();
 
 const screenOptions = {
   headerStyle: {
-    backgroundColor: Color(color.bg).lighten(0.8).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.8).string(),
     borderBottomWidth: 1,
-    borderBottomColor: Color(color.primary).fade(0.8).string(),
+    borderBottomColor: Color(theme.primaryColor).fade(0.8).string(),
     elevation: 20,
   },
 
   headerTintColor: color.secondaryText,
-  headerPressColorAndroid: Color(color.primary).fade(0.7).string(),
+  headerPressColorAndroid: Color(theme.primaryColor).fade(0.7).string(),
   headerTitleAlign: 'center',
   cardOverlayEnabled: true,
   gestureEnabled: true,

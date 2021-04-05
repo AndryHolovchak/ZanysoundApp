@@ -4,6 +4,7 @@ import Color from 'color';
 import {color} from '../../styles';
 import {Icon} from '../Icon';
 import CustomText from '../CustomText';
+import theme from '../../misc/Theme';
 
 const OptionListItem = ({icon, text, onPress}) => {
   return (
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 30,
     padding: 0,
-    color: color.primary,
+    color: theme.primaryColor,
   },
   text: {
     marginLeft: 15,

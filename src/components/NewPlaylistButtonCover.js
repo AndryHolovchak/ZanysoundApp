@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
+import theme from '../misc/Theme';
 import {color} from '../styles';
 import {Icon, ICON_FAMILIES} from './Icon';
 
@@ -26,7 +27,7 @@ const styles = {
   },
   icon: {
     fontSize: 30,
-    color: color.primary,
+    color: theme.primaryColor,
   },
 };
 

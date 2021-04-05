@@ -3,6 +3,7 @@ import {StyleSheet, Image, View, Animated, Easing} from 'react-native';
 import {color} from '../styles';
 import Color from 'color';
 import BezierEasing from 'bezier-easing';
+import theme from '../misc/Theme';
 
 class Cover extends Component {
   static defaultProps = {
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     height: '50%',
     borderRadius: 10,
     elevation: 10,
-    backgroundColor: color.primary,
+    backgroundColor: theme.primaryColor,
   },
   secondWave: {
     marginLeft: 5,

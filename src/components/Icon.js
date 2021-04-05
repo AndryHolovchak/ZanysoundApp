@@ -58,6 +58,7 @@ const ICONS = {
   minus: {unicode: '\uf068'},
   'arrow-alt-to-bottom': {unicode: '\uf34a'},
   'sign-in': {unicode: '\uf090'},
+  cog: {unicode: '\uf013'},
 };
 
 const Icon = ({name, family = ICON_FAMILIES.regular, style = {}, onPress}) => {

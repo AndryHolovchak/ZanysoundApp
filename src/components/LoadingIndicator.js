@@ -5,6 +5,7 @@ import {color} from '../styles';
 import CustomText from './CustomText';
 import Color from 'color';
 import {i18n} from '../i18n';
+import theme from '../misc/Theme';
 
 const defaultText = i18n('loading') + ' ...';
 
@@ -12,7 +13,7 @@ const LoadingIndicator = ({text = defaultText, containerStyle}) => {
   return (
     <View style={[styles.container, containerStyle]}>
       <ActivityIndicator
-        color={color.primary}
+        color={theme.primaryColor}
         size="large"
         style={styles.activityIndicator}
       />

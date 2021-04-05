@@ -9,6 +9,7 @@ import Color from 'color';
 import LoadingIndicator from '../LoadingIndicator';
 import {i18n} from '../../i18n';
 import codePush from 'react-native-code-push';
+import theme from '../../misc/Theme';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class ProfileScreen extends React.Component {
 
     return (
       <View style={styles.profileScreen}>
+        <View style={styles.colorThemePickerContainer}></View>
         <View style={styles.userInfo}>
           {userHelper.isInitialized ? (
             <View style={styles.userInfoInner}>
@@ -61,7 +63,12 @@ const styles = {
   profileScreen: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+  },
+  colorThemePickerContainer: {
+    backgroundColor: Color(theme.secondaryColor).lighten(2).string(),
+    padding: 10,
+    borderRadius: 2,
   },
   userInfo: {
     maxHeight: '80%',
@@ -71,7 +78,7 @@ const styles = {
     justifyContent: 'center',
     padding: 30,
     borderRadius: 5,
-    backgroundColor: Color(color.bg).lighten(0.6).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.6).string(),
     marginBottom: 40,
   },
   avatar: {

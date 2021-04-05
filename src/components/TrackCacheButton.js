@@ -10,6 +10,7 @@ import NetworkError from '../errors/NetworkError';
 import {showErrorToast, showNetworkErrorToast} from '../utils/toastUtils';
 import FreeSpaceError from '../errors/FreeSpaceError';
 import {i18n} from '../i18n';
+import theme from '../misc/Theme';
 
 class TrackCacheButton extends React.Component {
   _MIN_OPACITY = 0.5;
@@ -110,10 +111,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   cachedIcon: {
-    color: Color(color.bg).saturate(0.5).lighten(4.7).fade(0.2).string(),
+    color: Color(theme.secondaryColor)
+      .saturate(0.5)
+      .lighten(4.7)
+      .fade(0.2)
+      .string(),
   },
   updatingIcon: {
-    color: Color(color.bg).lighten(4).fade(0.2).string(),
+    color: Color(theme.secondaryColor).lighten(4).fade(0.2).string(),
   },
 });
 

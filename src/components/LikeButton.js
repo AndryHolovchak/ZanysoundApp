@@ -6,6 +6,7 @@ import {Icon, ICON_FAMILIES} from './Icon';
 import Color from 'color';
 import NetworkError from '../errors/NetworkError';
 import {showErrorToast, showNetworkErrorToast} from '../utils/toastUtils';
+import theme from '../misc/Theme';
 
 const LikeButton = ({targetTrack, style}) => {
   let isFavorite = favoriteSongsHelper.isFavorite(targetTrack.id);
@@ -34,7 +35,7 @@ const styles = {
     paddingRight: 12,
     paddingVertical: 9,
     fontSize: 19,
-    color: color.primary,
+    color: theme.primaryColor,
   },
 };
 

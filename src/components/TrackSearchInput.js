@@ -10,6 +10,7 @@ import {View} from 'react-native';
 import PlayerPlaylistContainer from './PlayerPlaylistContainer';
 import {navigateToSearchRoute} from '../utils/navigationUtils';
 import {removeExtraSpaces} from '../utils/stringUtils';
+import theme from '../misc/Theme';
 
 class TrackSearchInput extends React.Component {
   static HEIGHT = 40;
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '100%',
     height: TrackSearchInput.HEIGHT,
-    backgroundColor: Color(color.bg).lighten(0.7).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.7).string(),
   },
   input: {},
 });

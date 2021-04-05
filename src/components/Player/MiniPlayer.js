@@ -15,6 +15,7 @@ import favoriteSongsHelper from '../../helpers/FavoriteSongsHelper';
 import {BlurView} from '@react-native-community/blur';
 import AlbumCover from '../AlbumCover';
 import PlayerProgressBar from './PlayerProgressBar';
+import theme from '../../misc/Theme';
 
 class MiniPlayer extends Component {
   static HEIGHT = 55;
@@ -128,7 +129,10 @@ const styles = {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: Color(color.bg).lighten(0.2).fade(0.16).string(),
+    backgroundColor: Color(theme.secondaryColor)
+      .lighten(0.2)
+      .fade(0.16)
+      .string(),
   },
   miniPlayer: {
     position: 'relative',
@@ -167,7 +171,7 @@ const styles = {
     borderRadius: 0,
   },
   heart: {
-    color: color.primary,
+    color: theme.primaryColor,
     marginLeft: 5,
   },
   info: {
@@ -193,7 +197,7 @@ const styles = {
     fontSize: 53,
     padding: 0,
     marginRight: 2,
-    color: Color(color.primary).lighten(0.1).string(),
+    color: Color(theme.primaryColor).lighten(0.1).string(),
   },
   nextButton: {
     fontSize: 20,

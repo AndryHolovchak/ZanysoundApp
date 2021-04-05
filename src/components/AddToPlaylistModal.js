@@ -25,6 +25,7 @@ import {
   showSuccessToast,
 } from '../utils/toastUtils';
 import {i18n} from '../i18n';
+import theme from '../misc/Theme';
 
 class AddToPlaylistModal extends React.Component {
   constructor(props) {
@@ -135,7 +136,7 @@ const styles = {
     maxHeight: windowHelper.height * 0.6,
     borderRadius: 5,
     elevation: 10,
-    backgroundColor: Color(color.bg).lighten(0.9).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.9).string(),
   },
   newPlaylistButtonContainer: {
     width: 40,

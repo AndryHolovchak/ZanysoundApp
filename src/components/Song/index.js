@@ -18,6 +18,7 @@ import {navigateToSearchRoute} from '../../utils/navigationUtils';
 import AddToPlaylistButton from '../AddToPlaylistButton';
 import TrackModalWindowButton from '../TrackModalWindowButton';
 import TrackCacheButton from '../TrackCacheButton';
+import theme from '../../misc/Theme';
 
 class Song extends React.Component {
   static defaultProps = {
@@ -221,16 +222,16 @@ const styles = StyleSheet.create({
 
     borderLeftWidth: 1,
     borderStyle: 'solid',
-    borderLeftColor: color.primary,
+    borderLeftColor: theme.primaryColor,
   },
   playingSongText: {
-    color: Color(color.primary).lighten(0.2).string(),
+    color: Color(theme.primaryColor).lighten(0.2).string(),
   },
   heart: {
     paddingRight: 12,
     paddingVertical: 9,
     fontSize: 19,
-    color: color.primary,
+    color: theme.primaryColor,
   },
   info: {
     flexDirection: 'row',

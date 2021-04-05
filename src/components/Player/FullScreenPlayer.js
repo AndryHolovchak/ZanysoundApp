@@ -13,6 +13,7 @@ import AddToPlaylistButton from '../AddToPlaylistButton';
 import TrackModalWindowButton from '../TrackModalWindowButton';
 import TrackCacheButton from '../TrackCacheButton';
 import WindowHelper from '../../helpers/WindowHelper';
+import theme from '../../misc/Theme';
 
 const WINDOW_WIDTH = WindowHelper.width;
 
@@ -139,7 +140,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: size.navigationHeight + 10,
-    backgroundColor: Color(color.bg).lighten(0.6).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.6).string(),
   },
   album: {
     alignItems: 'center',
@@ -177,7 +178,7 @@ const styles = {
     padding: 1,
     borderRadius: 5,
     elevation: 5,
-    backgroundColor: Color(color.bg).lighten(1.3).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(1.3).string(),
   },
   trackActionItem: {
     fontSize: 21,
@@ -224,7 +225,7 @@ const styles = {
   togglePlayButton: {
     fontSize: 50,
     marginHorizontal: 20,
-    color: Color(color.primary).lighten(0.1).string(),
+    color: Color(theme.primaryColor).lighten(0.1).string(),
     // color: Color(color.bg).saturate(0.5).lighten(5.5).string(),
   },
   nextTrackButton: {
@@ -233,7 +234,7 @@ const styles = {
   },
   activeButton: {
     padding: 10,
-    color: Color(color.bg).saturate(0.5).lighten(5).string(),
+    color: Color(theme.secondaryColor).saturate(0.5).lighten(5).string(),
   },
   inactiveButton: {
     padding: 10,

@@ -7,6 +7,7 @@ import {color, size} from '../styles';
 import Color from 'color';
 import {View} from 'react-native';
 import {navigationRef} from '../misc/RootNavigation';
+import theme from '../misc/Theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,15 +16,15 @@ const SCREEN_ICONS = {
   search: 'search',
   favorites: 'heart',
   recommended: 'fire',
-  profile: 'user',
+  profile: 'cog',
 };
 
 const tabBarOptions = {
   showLabel: false,
-  activeTintColor: color.primary,
+  activeTintColor: theme.primaryColor,
   inactiveTintColor: Color(color.secondaryText).fade(0.2).rgb().string(),
   style: {
-    backgroundColor: Color(color.bg).lighten(0.3).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.3).string(),
     height: size.navigationHeight,
     // borderTopWidth: 0,
     position: 'relative',
@@ -54,7 +55,7 @@ const Navigation = ({screens, initSceneName, children, onStateChange}) => {
       ref={navigationRef}
       theme={{
         colors: {
-          background: color.bg,
+          background: theme.secondaryColor,
         },
       }}>
       <Tab.Navigator

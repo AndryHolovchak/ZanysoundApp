@@ -7,6 +7,7 @@ import {TouchableWithoutFeedback} from 'react-native';
 import windowHelper from '../helpers/WindowHelper';
 import CustomText from './CustomText';
 import {StyleSheet} from 'react-native';
+import theme from '../misc/Theme';
 
 class Modal extends React.Component {
   constructor(props) {
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     minHeight: 30,
     padding: 20,
     borderRadius: 5,
-    backgroundColor: Color(color.bg).lighten(0.5).string(),
+    backgroundColor: Color(theme.secondaryColor).lighten(0.5).string(),
     elevation: 5,
   },
   titleContainer: {
